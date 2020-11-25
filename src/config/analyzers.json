@@ -1,0 +1,10 @@
+[
+    "SERVER",
+    "X-ASPNET-VERSION",
+    "X-ASPNETMVC-VERSION",
+    "X-POWERED-BY",
+    "ERRORS_PAGE",
+    "ETAG",
+    "FEATURE_POLICY",
+    "HTTP_VERSION"
+]

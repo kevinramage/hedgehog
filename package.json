@@ -1,0 +1,33 @@
+{
+  "name": "security",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node dist/main.js",
+    "sslProtocol": "tsc && node dist/server/sslProtocol/sslProtocolProgram",
+    "portsListener": "tsc && node dist/server/port/portsListenerProgram",
+    "generateDoc": "npx typedoc --out doc src",
+    "tslint": "npx tslint --project .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kevin RAMAGE",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/commander": "^2.12.2",
+    "@types/http-proxy-middleware": "^0.19.3",
+    "@types/node": "^14.14.7",
+    "@types/uuid": "^8.3.0",
+    "@types/yaml": "^1.9.7",
+    "tslint": "^6.1.3",
+    "typedoc": "^0.19.2",
+    "typescript": "^4.0.5"
+  },
+  "dependencies": {
+    "commander": "^6.2.0",
+    "http-mitm-proxy": "^0.9.0",
+    "http-proxy-middleware": "^1.0.6",
+    "uuid": "^8.3.1",
+    "yaml": "^1.10.0"
+  }
+}

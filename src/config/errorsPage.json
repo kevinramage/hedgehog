@@ -1,0 +1,36 @@
+[
+{
+    "name": "tomcat",
+    "regex": "<title>.*404.*<\\/title>.*h1,\\s*h2,\\s*h3,\\s*b\\s*{color:white;background-color:#525D76;}.*<body><h1>.*<\\/h1><hr.*><p><b>.*<\\/b>.*<\\/p>.*<h3>.*<\\/h3><\\/body>"
+},
+{
+    "name": "apache",
+    "regex": "<html><head><title>404 Not Found<\\/title><\\/head><body><h1>Not Found<\\/h1><p>The requested URL was not found on this server\\.<\\/p><\\/body><\\/html>"
+},
+{
+    "name": "nginx",
+    "regex": "<html><head><title>404 Not Found<\/title><\/head><body><center><h1>404 Not Found<\/h1><\/center><hr><center>nginx.*<\/center>.*<\/body><\/html>"
+},
+{
+    "name": "glassfish",
+    "regex": "H1\\s*{font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:22px;}.*<body><h1>HTTP Status 404 - <\\/h1><hr\\/><p><b>type<\\/b> Status report<\\/p><p><b>message<\\/b><\\/p><p><b>description<\\/b>The requested resource is not available.<\\/p><hr\\/><h3>.*<\\/h3><\\/body>"
+},
+{
+    "name": "wildfly",
+    "regex": "<html><head><title>Error<\/title><\/head><body>404 - Not Found<\/body><\/html>"
+},
+{
+    "name": "jetty",
+    "version": "<= 9.3",
+    "regex": "<html><head><meta.*><title>Error 404 <\/title><\/head><body><h2>HTTP ERROR: 404<\/h2><p>Problem accessing.*Reason:<pre>\\s*Not Found<\/pre><\/p><hr\\s*\/><a href=.*>Powered by Jetty.*<\/a><hr\/><\/body><\/html>"
+},
+{
+    "name": "jetty",
+    "version": ">= 9.4",
+    "regex": "<html><head><meta.*\/><title>Error 404 Not Found<\/title><\/head><body><h2>HTTP ERROR 404 Not Found<\/h2><table><tr><th>URI:<\/th><td>.*<\/td><\/tr><tr><th>STATUS:<\/th><td>404<\/td><\/tr><tr><th>MESSAGE:<\/th><td>Not Found<\/td><\/tr><tr><th>SERVLET:<\/th><td>-<\/td><\/tr><\/table><hr><a href=.*>Powered by Jetty.*<\/a><hr\/><\/body><\/html>"
+},
+{
+    "name": "aspnet",
+    "regex": "<html>\\s*<head>\\s*<title>The resource cannot be found.<\/title>.*<body bgcolor=.*>\\s*<span><h1>Server Error in .*<hr .*><\/h1>\\s*<h2>\\s*<i>The resource cannot be found.<\/i> <\/h2><\/span>\\s*<font.*>\\s*<b>\\s*Description: <\/b>HTTP 404. The resource you are looking for \\(or one of its dependencies\\) could have been removed, had its name changed, or is temporarily unavailable. &nbsp;Please review the following URL and make sure that it is spelled correctly.\\s*<br><br>\\s*<b> Requested URL:\\s*<\/b>\/.*<br><br>\\s*<hr.*>\\s*<b>Version Information:<\/b>&nbsp;Microsoft \\.NET Framework Version:.*<\/font>"
+}
+]

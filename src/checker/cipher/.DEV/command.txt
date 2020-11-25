@@ -1,0 +1,16 @@
+docker build . -t image
+docker run -d -p 443:443 image
+docker exec -it 3f3bf86d4c0d bash
+
+apt-get update
+apt-get install vim
+cd conf/extra
+
+vi httpd-ssl.conf
+
+Update SSLProtocol
+SSLProtocol all -SSLv3 -TLSv1.2
+SSLProxyProtocol all -SSLv3 -TLSv1.2
+(all -SSLv3 -TLSv1 -TLSv1.1)
+
+apachectl -k graceful

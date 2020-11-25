@@ -1,0 +1,16 @@
+OK - Analyze the server header and determine the technology version ^(?<product>[a-z|A-Z|0-9|\.|\-|_|\s]+)(?<version>\/([0-9]+(\.[0-9]+)*))?
+OK - Analyze the x-powered-header header and determine the technology version
+OK - Add warning to data manager (distinct don't add if same request(method+path))
+OK - Initialize tests file with common path fuzzing
+OK - If a php technology added, add a php path fuzzing to test file
+- Initialize an attack system from a host load tests file and execute program linked
+- Create fuzzing system for common paths
+- Create fuzzing system for php paths
+- Créer une nouvelle notion de defect
+- Créer une nouvelle notion de composant
+- Mettre en place le composant login
+- Créer un analyzer sur l'authentification sur un protocole non sécurisé qui déclenche un risque
+- Créer un analyzer qui analyse la présence de frame, iframe, applet, object et qui n'est pas protégé par une instruction xframe + csp + xcsp
+- Créer un analyzer qui detecte les failles de type sniff MIME type
+- Créer un analyzer qui detecte les failles de type same site
+- Créer une notion de check list

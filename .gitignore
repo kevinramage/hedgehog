@@ -1,0 +1,5 @@
+sessions
+node_modules
+dist
+data
+.http-mitm-proxy
