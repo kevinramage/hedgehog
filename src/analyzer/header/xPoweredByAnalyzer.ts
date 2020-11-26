@@ -20,16 +20,16 @@ export class XPoweredByAnalyzer implements IAnalyzer {
     public analyze(context: Context): void {
         if ( context && context.response ) {
             const serverHeader = context.response.getHeader(HEADER_NAME.XPOWEREDBY);
-            if ( serverHeader && serverHeader.value ) {
+            if (serverHeader && serverHeader.value) {
                 const serverValue = serverHeader.value as string;
-                if ( serverValue && serverValue.trim() != "") {
+                if (serverValue && serverValue.trim() !== "") {
 
                     // Detect product version
                     const productVersion = VersionUtils.detectVersion(serverValue.trim());
 
                     // Add warning
-                    var warning;
-                    if ( productVersion.version != "" ) {
+                    let warning;
+                    if (productVersion.version !== "") {
                         warning = new Warning(WARNING_TYPE.PRODUCTVERSION_INFOS_DIVULGATION, WARNING_NAME.XPOWEREDBY_HEADER, WARNING_SEVERITY.MAJOR, serverValue);
                     } else {
                         warning = new Warning(WARNING_TYPE.PRODUCT_INFOS_DIVULGATION, WARNING_NAME.XPOWEREDBY_HEADER, WARNING_SEVERITY.MINOR, serverValue);

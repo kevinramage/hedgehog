@@ -17,14 +17,14 @@ export class XAspNetMvcVersionAnalyzer implements IAnalyzer {
      * @param context query context
      */
     public analyze(context: Context): void {
-        if ( context && context.response ) {
+        if (context && context.response) {
             const serverHeader = context.response.getHeader(HEADER_NAME.XASPNETMVCVERSION);
-            if ( serverHeader && serverHeader.value ) {
+            if (serverHeader && serverHeader.value) {
                 const serverValue = serverHeader.value as string;
-                if ( serverValue && serverValue.trim() != "") {
+                if (serverValue && serverValue.trim() !== "") {
                     const regex = /[0-9]+\.[0-9]+/g;
-                    var warning;
-                    if ( serverValue.match(regex) ) {
+                    let warning;
+                    if (serverValue.match(regex)) {
                         warning = new Warning(WARNING_TYPE.PRODUCTVERSION_INFOS_DIVULGATION, WARNING_NAME.XASPNETMVCVERSION_HEADER, WARNING_SEVERITY.MAJOR, serverValue);
                     } else {
                         warning = new Warning(WARNING_TYPE.PRODUCT_INFOS_DIVULGATION, WARNING_NAME.XASPNETMVCVERSION_HEADER, WARNING_SEVERITY.MINOR, serverValue);

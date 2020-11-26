@@ -10,10 +10,10 @@ export class StringUtils {
      * @param keywords keywords to search
      * @returns return true if one of keywords find, false else
      */
-    static containsOneOf(expression: string, keywords : Array<string>) : boolean {
-        var result : boolean = false;
+    static containsOneOf(expression: string, keywords : string[]) : boolean {
+        let result : boolean = false;
         keywords.forEach(k => {
-            if ( expression.includes(k)) {
+            if (expression.includes(k)) {
                 result = true;
                 return;
             }
@@ -21,16 +21,16 @@ export class StringUtils {
         return result;
     }
 
-    static equalsOneOf(expression: string, keywords : Array<string>) : boolean {
-        var result : boolean = false;
+    static equalsOneOf(expression: string, keywords : string[]) : boolean {
+        let result : boolean = false;
         keywords.forEach(k => {
-            if ( expression == k ) {
+            if (expression === k) {
                 result = true;
                 return;
             }
         });
         return result;
-    }    
+    }
 
     /**
      * Fill a string with specific character x times
@@ -39,8 +39,8 @@ export class StringUtils {
      * @returns a new string filled
      */
     static fill (character: string, length: number) : string {
-        var result = "";
-        for (var i = 0; i < length; i++) {
+        let result = "";
+        for (let i = 0; i < length; i++) {
             result += character;
         }
         return result;

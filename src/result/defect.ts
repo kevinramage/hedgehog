@@ -16,17 +16,19 @@ export class Defect {
     }
 
     public static exists(defect: Defect, defects: Defect[]) {
-        return defects.find(t => { return t.test == defect.test && t._path == defect.path; }) != undefined;
+        return defects.find(t => { return t.test === defect.test && t._path === defect.path; }) !== undefined;
     }
 
     public static load(content: string) {
         const defects : Defect[] = [];
         try {
             const data = JSON.parse(content) as any[];
-            data.forEach(t => { 
+            data.forEach(t => {
                 defects.push(new Defect(t.test, t.path, t.expected, t.actual));
             });
-        } catch (ex) {}
+        } catch (ex) {
+            /// TODO Handling error
+        }
 
         return defects;
     }

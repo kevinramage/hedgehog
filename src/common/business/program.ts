@@ -47,7 +47,7 @@ export class Program {
         const values : { [ key: string ] : string } = {};
         this._args.forEach((arg) => {
             const descriptor = Object.getOwnPropertyDescriptor(program, arg.name);
-            if ( descriptor ) {
+            if (descriptor) {
                 values[arg.name] = descriptor.value;
             }
         });

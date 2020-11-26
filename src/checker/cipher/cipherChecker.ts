@@ -45,14 +45,13 @@ export class CipherChecker implements IChecker {
      * @param cipher cipher to check
      */
     private runQuery(cipher: string) {
-        const instance = this;
         return new Promise<void>((resolve) => {
-            var responseSent = false;
+            let responseSent = false;
             const errorHandler = (err: any) => { 
                 if ( !responseSent ) {
                     responseSent = true;
                     console.error(format("%s => KO (%s)", cipher, err.code)); 
-                    if ( err.code != "ERR_SSL_NO_CIPHER_MATCH" ) {
+                    if ( err.code !== "ERR_SSL_NO_CIPHER_MATCH" ) {
                         //
                     }
                     resolve();
@@ -61,8 +60,8 @@ export class CipherChecker implements IChecker {
             const completeRequest = () => { console.info(format("%s => OK", cipher)); }
             const abortRequest = () => { console.info(format("%s => Timeout", cipher)); }
             try {
-                var code = "";
-                const options : https.RequestOptions = { hostname: instance._host, port: instance._port, path: "/", ciphers: cipher, timeout: 50000 };
+                let code = "";
+                const options : https.RequestOptions = { hostname: this._host, port: this._port, path: "/", ciphers: cipher, timeout: 50000 };
                 const request = https.request(options, (res) => { 
                     res.on("error", errorHandler );
                     res.on("data", (chunk) => {

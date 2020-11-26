@@ -18,10 +18,10 @@ export class RequestUtil {
         return new Promise<Response>((resolve, reject) => {
 
             // Handlers
-            var code = "";
+            let code = "";
             const onDataReceived = (chunk: any) => { code += chunk; }
-            const onErrorReceived = (err: any) => { reject(err); } 
-            
+            const onErrorReceived = (err: any) => { reject(err); }
+
             // Create request
             const options : https.RequestOptions = { host: request.host, port: request.port, method: request.method, path: request.path};
             const req = https.request(options, (res) => {
@@ -34,15 +34,15 @@ export class RequestUtil {
                 res.on("data", onDataReceived);
                 res.on("error", onErrorReceived);
                 res.on("end", async() => {
-                    
+
                     // Add response to session
-                    var response = RequestUtil.convertIncomingMessage(res, code);
+                    let response = RequestUtil.convertIncomingMessage(res, code);
                     Session.instance.addResponse(response);
 
                     // Manage follow redirect
-                    if ( NumberUtils.equalsOneOf(response.status, [301, 302, 303]) && response.location && redirectLoop < Options.instance.MAX_REDIRECT ) {
+                    if (NumberUtils.equalsOneOf(response.status, [301, 302, 303]) && response.location && redirectLoop < Options.instance.MAX_REDIRECT) {
                         const url = PathUtils.getPathFromUrl(response.location);
-                        if ( url ) {
+                        if (url) {
                             request.path = url;
                             request.cleanHeaders();
                             response = await RequestUtil.sendRequest(request, redirectLoop + 1);
@@ -52,18 +52,18 @@ export class RequestUtil {
                         }
                     } else {
                         resolve(response);
-                    } 
+                    }
                 })
             });
             req.on("error", onErrorReceived);
-            
+
             // Headers
             request.headers.forEach((header) => {
                 req.setHeader(header.key, header.value);
             });
 
             // Body
-            if ( request.body ) {
+            if (request.body) {
                 req.write(request.body);
             }
 
@@ -83,8 +83,8 @@ export class RequestUtil {
 
     private static updateRequestInfos(request: Request, clientRequest: ClientRequest) {
         clientRequest.getHeaderNames().forEach((headerName) => {
-            if ( !request.getHeader(headerName) ) {
-                var headerValue = clientRequest.getHeader(headerName) as string | string[];
+            if (!request.getHeader(headerName)) {
+                const headerValue = clientRequest.getHeader(headerName) as string | string[];
                 request.addHeader(headerName, headerValue);
             }
         });

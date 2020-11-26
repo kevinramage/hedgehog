@@ -16,9 +16,9 @@ export class ETagAnalyzer implements IAnalyzer {
      * @param context query context
      */
     public analyze(context: Context): void {
-        if ( context && context.response ) {
+        if (context && context.response) {
             const headerValue = context.response.eTag;
-            if ( headerValue && headerValue.trim() != "" ) {
+            if (headerValue && headerValue.trim() !== "") {
 
                 // Add warning
                 const warning = new Warning(WARNING_TYPE.DATA_EXPOSURE, WARNING_NAME.ETAG_HEADER, WARNING_SEVERITY.WARNING, headerValue);

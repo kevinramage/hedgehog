@@ -21,34 +21,33 @@ export class RequestSystem implements ISystem {
     }
 
     public async run() {
-        const instance = this;
         return new Promise<void>((resolve) => {
 
             // Write user request
-            instance._report.writeRequest(instance);
+            this._report.writeRequest(this);
 
             // Send request
             this.sendRequest().then(async response => {
 
                 // Define context
-                const context = instance.defineContext(response);
+                const context = this.defineContext(response);
 
                 // Execute processors & analyzers
                 try {
-                    await instance.executeProcessors(context);
-                    instance.executeAnalyzers(context);
+                    await this.executeProcessors(context);
+                    this.executeAnalyzers(context);
 
                 } catch (err) {
-
+                    /// TODO
                 }
 
                 // Write report
-                instance._report.writeSummary(instance);
+                this._report.writeSummary(this);
 
                 resolve();
 
             }).catch((err) => {
-
+                /// TODO
             });
         });
     }

@@ -25,7 +25,7 @@ export class Session {
     }
 
     private init() {
-        if ( !existsSync("sessions") ) {
+        if (!existsSync("sessions")) {
             mkdirSync("sessions");
         }
         this.createSession();
@@ -49,7 +49,7 @@ export class Session {
     }
 
     private writeRequest(request: Request) {
-        var content = format("%s %s HTTP/1.1\n", request.method, request.path);
+        let content = format("%s %s HTTP/1.1\n", request.method, request.path);
         request.headers.forEach(header => {
             content += format("%s: %s\n", header.key, header.value);
         });
@@ -63,7 +63,7 @@ export class Session {
     }
 
     private showResponse(response: Response) {
-        var content = format(">>> Response\ncode: %d\n", response.status);
+        let content = format(">>> Response\ncode: %d\n", response.status);
         response.headers.forEach(header => {
             content += format("%s: %s\n", header.key, header.value);
         });
@@ -74,14 +74,14 @@ export class Session {
 
     public addWarning(warning: Warning) {
         this._warnings.push(warning);
-        var content = "";
-        if ( warning.request ) {
+        let content = "";
+        if (warning.request) {
             content += format("%s %s\n", warning.request.method, warning.request.path);
         }
         content += format("Severity: %s\n", warning.severity);
         content += format("Type: %s\n", warning.type);
         content += format("Name: %s\n", warning.name);
-        if ( warning.details != "") {
+        if (warning.details !== "") {
             content += format("Details: %s\n", warning.details);
         }
         content += format("%s\n", Session.SEPARATOR);
@@ -118,7 +118,7 @@ export class Session {
     }
 
     public static get instance() {
-        if ( !Session._instance ) {
+        if (!Session._instance) {
             Session._instance = new Session();
         }
         return Session._instance;

@@ -16,14 +16,14 @@ export class PrettyPrint {
 
     private printHeader(result: Result) {
         this.printLine("---------------------------------");
-        this.printLine(" - " + result.name );
+        this.printLine(" - " + result.name);
         this.printLine("---------------------------------");
     }
 
     private printSummary(result: Result) {
         for (const [key, value] of Object.entries(result)) {
-            if ( key != "name" && key != "items") {
-                if ( key != "errorMessage" && value != "" ) {
+            if (key !== "name" && key !== "items") {
+                if (key !== "errorMessage" && value !== "") {
                     this.printLine(format("%s: '%s'", key, value));
                 }
             }
@@ -33,21 +33,21 @@ export class PrettyPrint {
     }
 
     private printDetails(result: Result) {
-        result.items.forEach(item => { 
+        result.items.forEach(item => {
             this.printItemDetails(item);
         });
     }
 
     private printItemDetails(resultItem: ResultItem) {
         for (const [key, value] of Object.entries(resultItem)) {
-            if ( key != "errorMessage" && value != "" ) {
+            if (key !== "errorMessage" && value !== "") {
                 this.printLine(format("   %s: '%s'", key, value));
             }
         }
         this.printLine("");
     }
 
-    private printLine(line: String) {
+    private printLine(line: string) {
         console.info(line);
     }
 }

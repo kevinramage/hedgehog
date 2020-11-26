@@ -10,8 +10,10 @@ export class PHPFuzingProgram extends Program {
     protected async execute() {
         return new Promise<void>(async (resolve) => {
             const argv = process.argv;
-            const fuzzing = new PHPFuzzing(argv[0], Number.parseInt(argv[1]));
-            await fuzzing.run();
+            if (argv && argv.length >= 2) {
+                const fuzzing = new PHPFuzzing(argv[0], Number.parseInt(argv[1], 10));
+                await fuzzing.run();
+            }
             resolve();
         });
     }

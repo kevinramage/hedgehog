@@ -14,15 +14,15 @@ export class SiteTreeViewPage {
     }
 
     private includePathItem(path: string) {
-        const subPage = this._subPages.find(page => { return page.path == this.getSubPathItems(path)[0]; });
+        const subPage = this._subPages.find(page => { return page.path === this.getSubPathItems(path)[0]; });
         const subPath = "/" + this.getSubPathItems(path).slice(1).join("/");
 
         // Page found
-        if ( subPage ) {
+        if (subPage) {
             subPage.includePath(subPath);
 
         // Add new page
-        } else if ( this.getSubPathItems(path).length > 0 ) {
+        } else if (this.getSubPathItems(path).length > 0) {
             const newSubPage = new SiteTreeViewPage(this.getSubPathItems(path)[0]);
             newSubPage.includePath(subPath);
             this._subPages.push(newSubPage);
@@ -30,13 +30,13 @@ export class SiteTreeViewPage {
     }
 
     public getSubPathItems(path: string) {
-        return path.split("/").filter(p => { return p != "" });
+        return path.split("/").filter(p => { return p !== "" });
     }
 
     public toTree(tab: string) {
-        const newTab = (this.path == "" ? "" : "    ");
-        var content = "";
-        if ( this.path != "" ) {
+        const newTab = (this.path === "" ? "" : "    ");
+        let content = "";
+        if (this.path !== "") {
             content += format("%s|___%s\n", tab, this.path);
         }
         this.subPages.forEach(page => {

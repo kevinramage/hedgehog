@@ -26,12 +26,13 @@ export class PortListenerChecker implements IChecker {
         throw new Error("Method not implemented.");
     }
 
+    /*
     check() {
         return new Promise<PortListenerResultItem>((resolve) => {
             const result = new PortListenerResultItem();
             result.host = this._host;
             result.port = this._port;
-            var responseProvided = false;
+            let responseProvided = false;
             const socket = net.connect(this._port, this._host);
             socket.on("connect", () => {
                 responseProvided = true;
@@ -46,6 +47,7 @@ export class PortListenerChecker implements IChecker {
             });
         });       
     }
+    */
 
     public static fromArgs(content: string) {
         return null;

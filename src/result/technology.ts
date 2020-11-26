@@ -8,17 +8,19 @@ export class Technology {
     }
 
     public static exists(technology: Technology, technologies: Technology[]) {
-        return technologies.find(t => { return t.name == technology.name; }) != undefined;
+        return technologies.find(t => { return t.name === technology.name; }) !== undefined;
     }
 
     public static load(content: string) {
         const technologies : Technology[] = [];
         try {
             const data = JSON.parse(content) as any[];
-            data.forEach(t => { 
+            data.forEach(t => {
                 technologies.push(new Technology(t.name, t.version));
             });
-        } catch (ex) {}
+        } catch (ex) {
+            /// TODO Handling error
+        }
 
         return technologies;
     }

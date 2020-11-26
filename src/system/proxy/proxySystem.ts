@@ -10,7 +10,7 @@ import { Session } from "../../result/session";
 import { format } from "util";
 import { DataManager } from "../../result/dataManager";
 
-const PROXY_IGNORE_HOSTS = require("../../config/proxyIgnoreHosts.json");
+import PROXY_IGNORE_HOSTS = require("../../config/proxyIgnoreHosts.json");
 
 export class ProxySystem implements ISystem {
 
@@ -23,20 +23,19 @@ export class ProxySystem implements ISystem {
         this._port = port;
         this._report = new ProxyReport();
     }
-    
+
     public run() {
-        const instance = this;
         return new Promise<void>(async (resolve) => {
 
             // Write report user request
-            instance._report.writeRequest(instance);
+            this._report.writeRequest(this);
 
             // Instance data manager
-            DataManager.instance.init(instance.host);
+            DataManager.instance.init(this.host);
 
             // Run proxy manager
-            const proxyManager = new ProxyManager(instance.port);
-            proxyManager.onResponseReceived(instance.manageRequest.bind(instance));
+            const proxyManager = new ProxyManager(this.port);
+            proxyManager.onResponseReceived(this.manageRequest.bind(this));
             await proxyManager.run();
             resolve();
         });
@@ -46,14 +45,14 @@ export class ProxySystem implements ISystem {
 
         const ignoreHostList = PROXY_IGNORE_HOSTS as string[];
 
-        if ( request.host == this.host ) {
+        if (request.host === this.host) {
 
             // Update data manager port if required
-            if ( !DataManager.instance.port ) { DataManager.instance.port = request.port; }
+            if (!DataManager.instance.port) { DataManager.instance.port = request.port; }
 
             // Get warning count before process
             const warningCount = Session.instance.warningCount;
-            
+
             // Analyze requests
             const context = new Context(request, response);
             Analyzers.instance.run(context);
@@ -61,8 +60,8 @@ export class ProxySystem implements ISystem {
             // Write a new step to report
             const currentWarningCount = Session.instance.warningCount;
             this._report.changeStep(format("Request %s - New warning: %d", request.path, currentWarningCount - warningCount));
-        
-        } else if ( !ignoreHostList.includes(request.host)) {
+
+        } else if (!ignoreHostList.includes(request.host)) {
             /// TODO Log ?
         }
     }

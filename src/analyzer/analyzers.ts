@@ -91,7 +91,7 @@ export class Analyzers {
      * Get unique instance
      */
     public static get instance() {
-        if ( !Analyzers._instance ) {
+        if (!Analyzers._instance) {
             Analyzers._instance = new Analyzers();
         }
         return Analyzers._instance;

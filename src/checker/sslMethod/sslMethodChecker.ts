@@ -56,8 +56,7 @@ export class SSLMethodChecker implements IChecker {
     */
 
     private runQuery(sslProtocol: string) {
-        const instance = this;
-        var sendResponse = false;
+        let sendResponse = false;
         return new Promise<SSLProtocolCheckItem>((resolve) => {
 
             // Create check item
@@ -66,8 +65,8 @@ export class SSLMethodChecker implements IChecker {
 
             // Request options
             const options : https.RequestOptions = {
-                hostname: instance._host,
-                port: instance._port,
+                hostname: this._host,
+                port: this._port,
                 method: "GET",
                 path: "/",
                 secureProtocol: sslProtocol,
@@ -75,12 +74,12 @@ export class SSLMethodChecker implements IChecker {
             };
 
             // Create request
-            var request;
+            let request;
             try {
-                var code = "";
+                let code = "";
                 request = https.request(options, (res) => {
                 res.on("error", (err: any) => {
-                    if ( !sendResponse ) {
+                    if (!sendResponse) {
                         sendResponse = true;
                         checkItem.status = CHECKITEM_STATUS.ERROR;
                         checkItem.errorMessage = err.code;
@@ -96,9 +95,9 @@ export class SSLMethodChecker implements IChecker {
                 });
             });
 
-            request.on("error", (err: any) => { 
+            request.on("error", (err: any) => {
                 console.error(err.code);
-                if ( !sendResponse ) {
+                if (!sendResponse) {
                     sendResponse = true;
                     checkItem.status = CHECKITEM_STATUS.ERROR;
                     checkItem.errorMessage = err.code;
@@ -106,22 +105,22 @@ export class SSLMethodChecker implements IChecker {
                 }
             });
 
-            
+
             } catch (err) {
-                if ( err && err.code == "ERR_TLS_INVALID_PROTOCOL_METHOD" ) {
+                if (err && err.code === "ERR_TLS_INVALID_PROTOCOL_METHOD") {
                     checkItem.status = CHECKITEM_STATUS.NOT_SUPPORTED;
                     resolve(checkItem);
                 } else {
-                    if ( !sendResponse ) {
+                    if (!sendResponse) {
                         sendResponse = true;
                         checkItem.status = CHECKITEM_STATUS.ERROR;
                         checkItem.errorMessage = err.code;
                         resolve(checkItem);
                     }
                 }
-            } 
+            }
 
-            if ( request ) {
+            if (request) {
                 request.end();
             }
         });
@@ -158,32 +157,21 @@ export class SSLProtocolCheckItem extends ResultItem {
     }
 
     public static mergeProtocols(items: SSLProtocolCheckItem[]) {
-        return items.filter(i => { return i.status == CHECKITEM_STATUS.SUPPORTED; })
+        return items.filter(i => { return i.status === CHECKITEM_STATUS.SUPPORTED; })
             .map(i => { return i.SSLMethod; })
             .join(", ")
     }
 }
 
-export module CHECKITEM_STATUS {
+export namespace CHECKITEM_STATUS {
     export const ERROR = "ERROR";
     export const SUPPORTED = "SUPPORTED";
     export const NOT_SUPPORTED = "NOT_SUPPORTED";
 }
 
-export module SSL_METHOD {
-    export const SSLv3_server_method = "SSLv3_server_method";
-    export const SSLv3_client_method = "SSLv3_client_method";
-    export const SSLv3_method = "SSLv3_method";
-    export const TLSv1_server_method = "TLSv1_server_method";
-    export const TLSv1_client_method = "TLSv1_client_method";
-    export const TLSv1_method = "TLSv1_method";
-    export const TLSv1_1_server_method = "TLSv1_1_server_method";
-    export const TLSv1_1_client_method = "TLSv1_1_client_method";
-    export const TLSv1_1_method = "TLSv1_1_method";
-    export const TLSv1_2_server_method = "TLSv1_2_server_method";
-    export const TLSv1_2_client_method = "TLSv1_2_client_method";
-    export const TLSv1_2_method = "TLSv1_2_method";
-    export const TLS_server_method = "TLS_server_method";
-    export const TLS_client_method = "TLS_client_method";
-    export const TLS_method = "TLS_method";
+export namespace SSL_METHOD {
+    export const SSLV3 = "SSLv3_method";
+    export const TLSV1 = "TLSv1_method";
+    export const TLSV1_1 = "TLSv1_1_method";
+    export const TLSV1_2 = "TLSv1_2_method";
 }

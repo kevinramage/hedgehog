@@ -4,7 +4,7 @@ import { Session } from "../session";
 import { ProxySystem } from "../../system/proxy/proxySystem";
 
 export class ProxyReport extends Report {
-    
+
     writeRequest(proxy: ProxySystem) {
         console.info(Report.SEPARATOR);
         console.info("                PROXY");

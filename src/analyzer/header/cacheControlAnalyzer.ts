@@ -19,9 +19,9 @@ export class CacheControlAnalyzer implements IAnalyzer {
      * @param context query context
      */
     public analyze(context: Context): void {
-        if ( context && context.response ) {
+        if (context && context.response) {
             const headerValue = context.response.cacheControl;
-            if ( headerValue && !StringUtils.containsOneOf(headerValue.toLowerCase(), ["private", "no-store"])) {
+            if (headerValue && !StringUtils.containsOneOf(headerValue.toLowerCase(), ["private", "no-store"])) {
 
                 // Add warning
                 const warning = new Warning(WARNING_TYPE.DATA_EXPOSURE, WARNING_NAME.CACHECONTROL_HEADER, WARNING_SEVERITY.WARNING, headerValue);

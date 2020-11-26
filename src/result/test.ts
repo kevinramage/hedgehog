@@ -8,19 +8,21 @@ export class Test {
     }
 
     public static exists(test: Test, tests: Test[]) {
-        return tests.find(t => { 
-            return t.programName == test.programName && t.args == test.args; 
-        }) != undefined;
+        return tests.find(t => {
+            return t.programName === test.programName && t.args === test.args;
+        }) !== undefined;
     }
 
     public static load(content: string) {
         const tests : Test[] = [];
         try {
             const data = JSON.parse(content) as any[];
-            data.forEach(t => { 
+            data.forEach(t => {
                 tests.push(new Test(t.programName, t.args));
             });
-        } catch (ex) {}
+        } catch (ex) {
+            /// TODO Handling error
+        }
 
         return tests;
     }

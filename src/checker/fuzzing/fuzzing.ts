@@ -32,8 +32,7 @@ export class Fuzzing implements IChecker {
      * Run the execution of the checker
      */
     public async run() {
-        const instance = this;
-        const promises = instance._paths.map(p => { return instance.runRequest(p); })
+        const promises = this._paths.map(p => { return this.runRequest(p); })
         await Promise.all(promises);
     }
 
@@ -42,18 +41,17 @@ export class Fuzzing implements IChecker {
      * @param path path to test
      */
     public runRequest(path: string) {
-        const instance = this;
         return new Promise<void>(async (resolve) => {
             try {
-                const request = new Request(instance._host, instance._port, REQUEST_METHODS.GET, path);
+                const request = new Request(this._host, this._port, REQUEST_METHODS.GET, path);
                 const response = await request.send();
-                if ( !NumberUtils.equalsOneOf(response.status as number, instance._expectedStatus)) {
+                if ( !NumberUtils.equalsOneOf(response.status as number, this._expectedStatus)) {
                     console.info(format("Path: %s, Code: %d => not expected", path, response.status));
-                    instance.addDefect(path, response.status + "");
+                    this.addDefect(path, response.status + "");
                 }
             } catch (err) {
                 console.info("Path: %s, Error: %s => not expected", path, err.code);
-                instance.addDefect(path, err.code ? err.code : err);
+                this.addDefect(path, err.code ? err.code : err);
             }
             resolve();
         });

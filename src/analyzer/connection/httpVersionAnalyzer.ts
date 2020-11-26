@@ -18,9 +18,9 @@ export class HttpVersionAnalyzer implements IAnalyzer {
      */
     public analyze(context: Context): void {
         const nonSecureHttpVersion = NONSECURE_HTTPVERSION as string[];
-        if ( context && context.request && context.request.httpVersion ) {
+        if (context && context.request && context.request.httpVersion) {
             const httpVersion = context.request.httpVersion.trim();
-            if ( nonSecureHttpVersion.includes(httpVersion) ) {
+            if (nonSecureHttpVersion.includes(httpVersion)) {
                 this.addWarning(httpVersion);
             }
         } else {

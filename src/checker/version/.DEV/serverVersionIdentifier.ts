@@ -27,10 +27,9 @@ export class ServerVersionIdentifier {
     }
 
     identify() {
-        const instance = this;
         return new Promise<Result>((resolve, reject) => {
-            instance.runQuery().then(res => {
-                resolve(instance.analyzeResponse(res));
+            this.runQuery().then(res => {
+                resolve(this.analyzeResponse(res));
             }).catch((err) => {
                 const result = new Result();
                 result.host = this._host;
@@ -42,19 +41,18 @@ export class ServerVersionIdentifier {
     }
 
     runQuery() {
-        const instance = this;
         return new Promise<string>((resolve, reject) => {
-            var code = "", req;
+            let code = "", req;
 
             // Handlers
             const onReceivedData = (chunk: any) => { code += chunk };
-            const onEnd = () => { /*console.info(code);*/ resolve(code); };
+            const onEnd = () => { resolve(code); };
             const onError = (err: Error) => { reject(err); }
 
             // Request options
             const options : http.RequestOptions = {
-                hostname: instance._host,
-                port: instance._port,
+                hostname: this._host,
+                port: this._port,
                 method: "GET",
                 path: "/errorPath"
             }
@@ -90,7 +88,7 @@ export class ServerVersionIdentifier {
             return {
                 serverType: e.name,
                 serverVersion: e.version,
-                sourceCodeMatches: match != null
+                sourceCodeMatches: match !== null
             } as ITest
         });
         const serverIdentified = tests.find(t => { return t.sourceCodeMatches });
@@ -124,7 +122,7 @@ export class Result {
     }
 
     toString() {
-        var content;
+        let content;
 
         if ( this.error ) {
             content = { host: this.host, port: this.port, ssl: this.ssl, error: this.error };

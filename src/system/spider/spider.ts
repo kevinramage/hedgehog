@@ -19,39 +19,36 @@ export class Spider implements ISystem {
     }
 
     public run() {
-        const instance = this;
         return new Promise<void>(async (resolve) => {
 
             // Write user request
-            instance._report.writeRequest(instance);
+            this._report.writeRequest(this);
 
             // Run spider
-            const spiderQuery = new SpiderQuery(instance.host, instance._port, "/");
+            const spiderQuery = new SpiderQuery(this.host, this._port, "/");
             spiderQuery.siteTreeView = new SiteTreeView();
             await spiderQuery.run();
 
             // Run sub queries
             spiderQuery.subQueries.forEach((query) => { query.knownUrls = spiderQuery.knownUrls; });
-            await instance.runDepth(spiderQuery.subQueries, 1);
+            await this.runDepth(spiderQuery.subQueries, 1);
 
             // Tree
             Session.instance.assignSiteTreeView(spiderQuery.siteTreeView);
-            //const content = spiderQuery.siteTreeView.toTree();
-            
+
             // Write summary
-            instance._report.writeSummary(instance);
+            this._report.writeSummary(this);
 
             resolve();
         });
     }
 
     private runDepth(spiderQueries: SpiderQuery[], depth: number) {
-        const instance = this;
         this._report.changeStep("Navigate to a depth of " + depth);
         return new Promise<void>((resolve) => {
 
             // Check depth
-            if ( depth < this.maxDepth ) {
+            if (depth < this.maxDepth) {
 
                 // Run queries
                 const promises = spiderQueries.map((spiderQuery) => {
@@ -61,13 +58,13 @@ export class Spider implements ISystem {
 
                     //  Prepare next run
                     const subQueries = spiderQueries.map((query) => { return query.subQueries })
-                        .reduce((a, b) => { return a.concat(b);});
+                        .reduce((a, b) => { return a.concat(b); });
                     const knownUrls =  spiderQueries.map((query) => { return query.knownUrls; })
-                        .reduce((a, b) => { return a.concat(b);});
+                        .reduce((a, b) => { return a.concat(b); });
 
                     // Recursive call
                     subQueries.forEach((query) => { query.knownUrls = knownUrls; });
-                    await instance.runDepth(subQueries, depth + 1);
+                    await this.runDepth(subQueries, depth + 1);
                     resolve();
 
                 }).catch(() => {

@@ -25,7 +25,7 @@ export class DataManager {
 
     public init(host: string) {
         this._host = host;
-        if ( !existsSync("data")) { mkdirSync("data"); }
+        if (!existsSync("data")) { mkdirSync("data"); }
         this.createHostSession();
         this.loadTechnologies();
         this.loadWarnings();
@@ -34,7 +34,7 @@ export class DataManager {
     }
 
     private createHostSession() {
-        if ( !existsSync(this.dataPath)) { 
+        if (!existsSync(this.dataPath)) {
             mkdirSync(this.dataPath);
             mkdirSync(this.proofPath);
             closeSync(openSync(this.technologiesPath, "w"));
@@ -45,14 +45,14 @@ export class DataManager {
     }
 
     private loadTechnologies() {
-        if ( existsSync(this.technologiesPath) ) {
+        if (existsSync(this.technologiesPath)) {
             const content = readFileSync(this.technologiesPath);
             this._technologies = Technology.load(content.toString());
         }
     }
 
     public addTechnology(technology: Technology) {
-        if ( !Technology.exists(technology, this._technologies)) {
+        if (!Technology.exists(technology, this._technologies)) {
             this._technologies.push(technology);
             this.saveTechnologies();
         }
@@ -65,14 +65,14 @@ export class DataManager {
     }
 
     private loadWarnings() {
-        if ( existsSync(this.warningsPath) ) {
+        if (existsSync(this.warningsPath)) {
             const content = readFileSync(this.warningsPath);
             this._warnings = Warning.load(content.toString());
         }
     }
 
     public addWarning(warning: Warning) {
-        if ( !Warning.exists(warning, this._warnings)) {
+        if (!Warning.exists(warning, this._warnings)) {
             this._warnings.push(warning);
             this.saveWarnings()
         }
@@ -84,14 +84,14 @@ export class DataManager {
     }
 
     private loadTests() {
-        if ( existsSync(this.testsPath) ) {
+        if (existsSync(this.testsPath)) {
             const content = readFileSync(this.testsPath);
             this._tests = Test.load(content.toString());
         }
     }
 
     public addTest(test: Test) {
-        if ( !Test.exists(test, this._tests)) {
+        if (!Test.exists(test, this._tests)) {
             this._tests.push(test);
             this.saveTests()
         }
@@ -103,14 +103,14 @@ export class DataManager {
     }
 
     private loadDefects() {
-        if ( existsSync(this.defectsPath) ) {
+        if (existsSync(this.defectsPath)) {
             const content = readFileSync(this.defectsPath);
             this._defects = Defect.load(content.toString());
         }
     }
 
     public addDefect(defect: Defect) {
-        if ( !Defect.exists(defect, this._defects)) {
+        if (!Defect.exists(defect, this._defects)) {
             this._defects.push(defect);
             this.saveDefects()
         }
@@ -122,7 +122,7 @@ export class DataManager {
     }
 
     private selectFuzzingSystem(technology: string) {
-        switch ( technology.toLowerCase() ) {
+        switch (technology.toLowerCase()) {
             case "php":
                 const test = new Test("PHPFuzzing", format("%s %d", this.host, this.port));
                 this.addTest(test);
@@ -167,7 +167,7 @@ export class DataManager {
     }
 
     public static get instance() {
-        if ( !DataManager._instance ) {
+        if (!DataManager._instance) {
             DataManager._instance = new DataManager();
         }
         return DataManager._instance;

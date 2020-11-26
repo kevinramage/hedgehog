@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import { Checkers } from "src/checker/checkers";
+import { Checkers } from "../../checker/checkers";
 import { Test } from "../../result/test";
 import { format } from "util";
 import { Report } from "../../result/report/report";
@@ -18,7 +18,7 @@ export class AttackSystem implements ISystem {
     }
 
     public async run() {
-        
+
         // Read host file
         this.init();
 
@@ -41,9 +41,8 @@ export class AttackSystem implements ISystem {
     }
 
     private runTests() {
-        const instance = this;
         this._tests.forEach(test => {
-            instance.runTest(test);
+            this.runTest(test);
         });
     }
 
@@ -56,13 +55,13 @@ export class AttackSystem implements ISystem {
         const checker = Checkers.identifyChecker(test.programName, test.args);
 
         // Run checker
-        if ( checker ) {
+        if (checker) {
             checker.run();
         }
     }
 
     private summarizeTestResults() {
-
+        /// TO IMPLEMENT
     }
 
     public get host() {

@@ -17,28 +17,30 @@ export class Warning {
     }
 
     public static exists(warning: Warning, warnings: Warning[]) {
-        return warnings.find(t => { return t.name == warning.name; }) != undefined;
+        return warnings.find(t => { return t.name === warning.name; }) !== undefined;
     }
 
     public static load(content: string) {
         const warnings : Warning[] = [];
         try {
             const data = JSON.parse(content) as any[];
-            data.forEach(w => { 
+            data.forEach(w => {
                 warnings.push(new Warning(w.type, w.name, w.severity, w.details));
             });
-        } catch (ex) {}
+        } catch (ex) {
+            /// TODO Handling error
+        }
 
         return warnings;
     }
 
     public static save(warnings: Warning[]) {
-        const warningsFormatted = warnings.map(w => { return { 
+        const warningsFormatted = warnings.map(w => { return {
             type: w._type,
             name: w._name,
             severity: w._severity,
             details: w._details
-        }}) 
+        }});
         return JSON.stringify(warningsFormatted);
     }
 
@@ -75,14 +77,14 @@ export class Warning {
     }
 }
 
-export module WARNING_TYPE {
+export namespace WARNING_TYPE {
     export const PRODUCT_INFOS_DIVULGATION = "Product informations divulgation";
     export const PRODUCTVERSION_INFOS_DIVULGATION = "Product version informations divulgation";
     export const WEAK_ACCESSCONTROL = "Weak access control";
     export const DATA_EXPOSURE = "Data exposure"
 }
 
-export module WARNING_NAME {
+export namespace WARNING_NAME {
 
     // Header
     export const SERVER_HEADER = "Server header";
@@ -99,7 +101,7 @@ export module WARNING_NAME {
     export const HTTP_VERSION = "Http version";
 }
 
-export module WARNING_SEVERITY {
+export namespace WARNING_SEVERITY {
     export const CRITICAL = "CRITICAL"; // Risk of data alteration or server impact
     export const SEVERE = "SEVERE"; // Sensible informations divulged
     export const MAJOR = "MAJOR"; // Product infos divulged, invalid configurations

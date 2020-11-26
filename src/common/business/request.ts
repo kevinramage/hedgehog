@@ -36,12 +36,12 @@ export class Request {
     }
 
     public getHeader(headerName: string) {
-        return this.headers.find(h => { return h.key == headerName.toLowerCase() });
+        return this.headers.find(h => { return h.key === headerName.toLowerCase() });
     }
 
     public getHeaderValue(headerName: string) {
-        const header = this.headers.find(h => { return h.key == headerName.toLowerCase() });
-        if ( header ) {
+        const header = this.headers.find(h => { return h.key === headerName.toLowerCase() });
+        if (header) {
             return header.value;
         } else {
             return undefined;
@@ -126,7 +126,7 @@ export class Request {
  * RFC 7231 + RFC 5789
  * By convention, standardized methods are defined in all-uppercase US-ASCII letters.
  */
-export module REQUEST_METHODS {
+export namespace REQUEST_METHODS {
     export const GET = "GET";
     export const HEAD = "HEAD";
     export const POST = "POST";

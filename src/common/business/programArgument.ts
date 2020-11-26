@@ -20,14 +20,14 @@ export class ProgramArgument {
     }
 
     public run(program: Command) {
-        if ( this._required ) {
-            if ( this._defaultValue ) {
+        if (this._required) {
+            if (this._defaultValue) {
                 program.requiredOption(format("-%s, --%s <%s>", this._shortName, this._longName, this._name), this._description, this._defaultValue);
             } else {
                 program.requiredOption(format("-%s, --%s <%s>", this._shortName, this._longName, this._name), this._description);
             }
         } else {
-            if ( this._defaultValue ) {
+            if (this._defaultValue) {
                 program.option(format("-%s, --%s <%s>", this._shortName, this._longName, this._name), this._description, this._defaultValue);
             } else {
                 program.option(format("-%s, --%s <%s>", this._shortName, this._longName, this._name), this._description);

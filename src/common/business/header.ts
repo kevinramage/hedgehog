@@ -28,7 +28,7 @@ export class Header {
     }
 }
 
-export module HEADER_NAME {
+export namespace HEADER_NAME {
     export const HOST = "host";
     export const CONTENTTYPE = "content-type";
     export const LOCATION = "location";

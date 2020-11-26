@@ -17,12 +17,12 @@ export class Response {
     }
 
     public getHeader(headerName: string) {
-        return this.headers.find(h => { return h.key == headerName.toLowerCase() });
+        return this.headers.find(h => { return h.key === headerName.toLowerCase() });
     }
 
     public getHeaderValue(headerName: string) {
-        const header = this.headers.find(h => { return h.key == headerName.toLowerCase() });
-        if ( header ) {
+        const header = this.headers.find(h => { return h.key === headerName.toLowerCase() });
+        if (header) {
             return header.value;
         } else {
             return undefined;
@@ -74,7 +74,7 @@ export class Response {
 
     public get isHtmlResponse() {
         const contentTypeHeader = this.contentType;
-        if ( contentTypeHeader ) {
+        if (contentTypeHeader) {
             return contentTypeHeader && StringUtils.containsOneOf(contentTypeHeader, ["text/html", "application/xhtml+xml"]);
         } else {
             return false;

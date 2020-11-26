@@ -1,7 +1,7 @@
 import { SiteTreeViewPage } from "./siteTreeViewPage";
 
 export class SiteTreeView {
-    private _rootPage : SiteTreeViewPage; 
+    private _rootPage : SiteTreeViewPage;
 
     constructor() {
         this._rootPage = new SiteTreeViewPage("");

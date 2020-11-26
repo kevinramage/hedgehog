@@ -28,7 +28,6 @@ export class SpiderQuery {
     }
 
     private extractLinks() {
-        const instance = this;
         return new Promise<void>((resolve) => {
 
             // Run query
@@ -40,24 +39,24 @@ export class SpiderQuery {
                 Analyzers.instance.run(context);
 
                 // Extract links
-                if ( response.body && response.isHtmlResponse ) {
+                if (response.body && response.isHtmlResponse) {
                     const links = HtmlUtils.extractLinks(response.inlineBody);
                     links.forEach(link => {
-                        if ( link.href ) {
-                            instance.addSpiderQuery(link.href);
+                        if (link.href) {
+                            this.addSpiderQuery(link.href);
                         }
                     });
                 }
                 resolve();
             }).catch((err) => {
-                instance._errorMessage = err;
+                this._errorMessage = err;
                 resolve();
             });
         });
     }
 
     private addSpiderQuery(path: string) {
-        if ( path.startsWith("http") ) {
+        if (path.startsWith("http")) {
             return this._addSpiderQuery(PathUtils.getPathFromUrl(path) as string);
         } else {
             return this._addSpiderQuery(path);
@@ -65,16 +64,15 @@ export class SpiderQuery {
     }
 
     private _addSpiderQuery(path: string) {
-        if ( PathUtils.isInDomain(path, this._host)) {
-            if ( !this.isPathAlreadyProceeded(path) && PathUtils.isNavigablePath(path) ) {
-                //console.info("addSpiderQuery: " + path);
+        if (PathUtils.isInDomain(path, this._host)) {
+            if (!this.isPathAlreadyProceeded(path) && PathUtils.isNavigablePath(path)) {
                 const spiderQuery = new SpiderQuery(this._host, this._port, path);
                 spiderQuery.siteTreeView = this.siteTreeView;
                 this._subQueries.push(spiderQuery);
                 this._knownUrls.push(path);
                 this.siteTreeView?.includePath(path);
             }
-        } else if ( path.includes(this._host)) {
+        } else if (path.includes(this._host)) {
             console.info("addSpiderQuery - OUT OF DOMAIN: " + path + " VS " + this._host);
         }
     }

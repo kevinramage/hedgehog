@@ -17,12 +17,12 @@ export class FeaturePolicyAnalyzer implements IAnalyzer {
      */
     public analyze(context: Context): void {
         
-        if ( context && context.response ) {
+        if (context && context.response) {
             const featurePolicyHeader = context.response.featurePolicy;
 
             // Feature-Policy header contains wildcard
-            if ( featurePolicyHeader && featurePolicyHeader.trim() != "" ) {
-                if ( featurePolicyHeader.includes("*")) {
+            if (featurePolicyHeader && featurePolicyHeader.trim() !== "") {
+                if (featurePolicyHeader.includes("*")) {
                     this.addWarning(context, featurePolicyHeader);
                 }
 

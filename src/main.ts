@@ -7,9 +7,9 @@ import { Test } from "./test";
 class Main {
 
     async run() {
-        //console.info("- Start");
+        // console.info("- Start");
         await new Test().run();
-        //console.info("- End");
+        // console.info("- End");
     }
 }
 

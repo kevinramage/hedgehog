@@ -15,41 +15,43 @@ export class ProxyManager {
 
     constructor(port: number) {
         this._port = port;
-        this._handlers = []; 
+        this._handlers = [];
     }
 
     public onResponseReceived(handler: OnResponseReceivedHandler) {
         this._handlers.push(handler);
     }
-    
+
     public async run() {
         const proxy = new MITM();
-        proxy.onWebSocketConnection((socket:any) => { console.info("connection"); console.info(socket); });
+
         proxy.onRequest(this.onRequest.bind(this));
         proxy.onError((ctx: any, err: any) => {
-            //console.info(err);
+            /// TODO Handling error
         });
-        proxy.listen({port: this.port}, () => {});
+        proxy.listen({port: this.port}, () => {
+            /// TODO Add log
+        });
     }
 
-    private onRequest(ctx: any, callback: Function) {
-        const instance = this;
-        
+    private onRequest(ctx: any, callback: (() => void)) {
+
         // Use gunzip
         ctx.use(MITM.gunzip);
 
         // Collect url and headers
-        var body = null;
+        let body = null;
         const chunks : any[] = [];
 
         // Handlers
-        ctx.onRequestData((ctx: any, chunk: any, callback: Function) => { chunks.push(chunk); return callback(null, chunk); });
-        ctx.onRequestEnd((ctx: any, callback: Function) => {
-            //const requestHeaders = instance.convertHeaders(headers);
+        ctx.onRequestData((ctx: any, chunk: any, callbackData: ((err: any, chunk: any) => void)) => {
+            chunks.push(chunk);
+            return callbackData(null, chunk);
+        });
+        ctx.onRequestEnd((ctxResEnd: any, callbackEnd: (() => void)) => {
             body = (Buffer.concat(chunks)).toString();
-            ctx.clientToProxyRequest.request = instance.createRequest(ctx.clientToProxyRequest, body);
-
-            return callback();
+            ctxResEnd.clientToProxyRequest.request = this.createRequest(ctxResEnd.clientToProxyRequest, body);
+            return callbackEnd();
         });
 
         ctx.onResponse(this.onResponse.bind(this));
@@ -57,29 +59,28 @@ export class ProxyManager {
         return callback();
     }
 
-    private onResponse(ctx: any, callback:Function) {
-        const instance = this;
+    private onResponse(ctx: any, callback: (() => void)) {
         const statusCode = ctx.serverToProxyResponse.statusCode;
         const headers = ctx.serverToProxyResponse.headers;
         const chunks : any[] = [];
-        
+
         // Collect response data
-        ctx.onResponseData((ctx: any, chunk: any, callback: Function) => { 
-            chunks.push(chunk); 
-            return callback(null, chunk); 
+        ctx.onResponseData((ctxResData: any, chunk: any, callbackData: ((err: any, chunk: any) => void)) => {
+            chunks.push(chunk);
+            return callbackData(null, chunk);
         });
 
-        ctx.onResponseEnd((ctx: any, callback: Function) => {
-            
+        ctx.onResponseEnd((ctxResEnd: any, callbackEnd: (() => void)) => {
+
             // Collect request and response objects
             const body = (Buffer.concat(chunks)).toString();
-            const request = ctx.clientToProxyRequest.request;
-            const response = instance.createResponse(statusCode, headers, body);
+            const request = ctxResEnd.clientToProxyRequest.request;
+            const response = this.createResponse(statusCode, headers, body);
 
             // Call handlers
-            instance._handlers.forEach(handler => { handler(request, response); })
-            
-            return callback();
+            this._handlers.forEach(handler => { handler(request, response); })
+
+            return callbackEnd();
         });
 
         return callback();
@@ -97,20 +98,20 @@ export class ProxyManager {
 
     private createRequest(clientToProxyRequest: any, body: string) {
 
-        ///TODO To change clientToProxyRequest.url is a path and not an url
+        /// TODO To change clientToProxyRequest.url is a path and not an url
         const urlInfo = URL.parse(clientToProxyRequest.url);
 
         // Get headers and search host header
         const headers = this.convertHeaders(clientToProxyRequest.headers);
-        var host = "";
-        const hostHeader = headers.find(h => { return h.key == HEADER_NAME.HOST });
-        if ( hostHeader && hostHeader.value ) {
+        let host = "";
+        const hostHeader = headers.find(h => { return h.key === HEADER_NAME.HOST });
+        if (hostHeader && hostHeader.value) {
             host = hostHeader.value as string;
         }
 
-        ///TODO - Change the way to identify the port
-        ///TODO - Change the way to identify the protocol
-        const request = new Request(host, clientToProxyRequest.isSSL ? 443: 80, clientToProxyRequest.method, urlInfo.path as string);
+        /// TODO - Change the way to identify the port
+        /// TODO - Change the way to identify the protocol
+        const request = new Request(host, clientToProxyRequest.isSSL ? 443 : 80, clientToProxyRequest.method, urlInfo.path as string);
         request.protocol = clientToProxyRequest.isSSL ? "https" : "http";
         request.headers = headers;
         request.body = body;

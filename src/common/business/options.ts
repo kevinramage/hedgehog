@@ -8,7 +8,7 @@ export class Options {
     }
 
     public static get instance() {
-        if ( !Options._instance ) {
+        if (!Options._instance) {
             Options._instance = new Options();
         }
         return Options._instance;

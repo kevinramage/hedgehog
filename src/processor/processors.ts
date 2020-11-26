@@ -2,7 +2,7 @@ import { ComponentProcessor } from "./component/componentProcessor";
 import { HtmlProcessor } from "./html/htmlProcessor";
 import { IProcessor } from "./IProcessor";
 
-const processorsConfiguration = require("../config/processors.json");
+import processorsConfiguration = require("../config/processors.json");
 
 export class Processors {
 
@@ -21,7 +21,7 @@ export class Processors {
     }
 
     public static get instance() {
-        if ( !Processors._instance ) {
+        if (!Processors._instance) {
             Processors._instance = new Processors();
         }
         return Processors._instance;

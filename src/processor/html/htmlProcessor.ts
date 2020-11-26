@@ -4,10 +4,10 @@ import { HtmlUtils } from "../../common/utils/htmlUtils";
 import { IProcessor } from "../IProcessor";
 
 export class HtmlProcessor implements IProcessor{
-    
+
     process(context: Context): Promise<void> {
         return new Promise<void>((resolve) => {
-            if ( context.response.body && context.response.isHtmlResponse ) {
+            if (context.response.body && context.response.isHtmlResponse) {
                 context.htmlPage = new HtmlPage();
                 context.htmlPage.forms = HtmlUtils.extractForm(context.response.body);
                 context.htmlPage.h1 = HtmlUtils.extractH1(context.response.body);

@@ -16,10 +16,10 @@ export class ErrorPageAnalyzer implements IAnalyzer{
      * @param context query context
      */
     public analyze(context: Context): void {
-        if ( context && context.response && context.response.isHtmlResponse ) {
+        if (context && context.response && context.response.isHtmlResponse) {
             const errors = ERRORS_PAGE as any[];
             errors.forEach((error => {
-                if ( context.response.inlineBody.match(error.regex) ) {
+                if (context.response.inlineBody.match(error.regex)) {
                     const technology = new Technology(error.name, error.version || "");
                     DataManager.instance.addTechnology(technology);
                 }

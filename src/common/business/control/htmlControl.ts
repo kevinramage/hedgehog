@@ -35,7 +35,7 @@ export class HtmlControl {
      */
     private findAttributeValueByName(name: string) {
         const attributeSearched = this._attributes.find(a => { return a.key && a.key.toLowerCase() === name.toLowerCase() });
-        if ( attributeSearched ) {
+        if (attributeSearched) {
             return attributeSearched.value;
         } else {
             return undefined;
@@ -49,7 +49,7 @@ export class HtmlControl {
     public get name() {
         return this.findAttributeValueByName("name");
     }
-    
+
     public get method() {
         return this.findAttributeValueByName("method");
     }
@@ -103,7 +103,7 @@ export class HtmlControl {
     }
 }
 
-export module CONTROL_TYPE {
+export namespace CONTROL_TYPE {
     export const FORM = "FORM";
     export const INPUT = "INPUT";
     export const TEXTAREA = "TEXTAREA";

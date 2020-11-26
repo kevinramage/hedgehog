@@ -15,9 +15,9 @@ export class AccessControlAllowOriginAnalyzer implements IAnalyzer {
      * @param context query context
      */
     public analyze(context: Context): void {
-        if ( context && context.response ) {
+        if (context && context.response) {
             const headerValue = context.response.accessControlAllowOrigin;
-            if ( headerValue && headerValue.trim() == "*" ) {
+            if (headerValue && headerValue.trim() === "*") {
 
                 // Add warning
                 const warning = new Warning(WARNING_TYPE.WEAK_ACCESSCONTROL, WARNING_NAME.ACCESSCONTROLALLOWORIGIN_HEADER, WARNING_SEVERITY.WARNING, headerValue);
