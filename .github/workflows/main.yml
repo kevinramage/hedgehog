@@ -1,0 +1,26 @@
+name: NonRegressionCI
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+    # Setup node JS
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+
+    # Clone repo
+    - uses: actions/checkout@v2
+
+    # Install project
+    - name: Install application
+      run: |
+        npm install
+
+    # Run TS Lint
+    - name: Check code
+      run: npm run tslint
