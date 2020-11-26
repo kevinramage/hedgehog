@@ -5,7 +5,7 @@
   "bugs": {
     "url": "https://github.com/kevinramage/hedgehog/issues"
   },
-  "keywords": [ "security", "devsecops"],
+  "keywords": [ "security", "devsecops", "web crawler", "spider bot"],
   "version": "1.0.0",
   "repository": {
     "type": "git",
