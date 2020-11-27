@@ -1,10 +1,11 @@
 import { Response } from "../../common/business/request/response";
 import { Header, HEADER_NAME } from "../../common/business/request/header";
 import { Request } from "../../common/business/request/request";
-import { Proxy } from "./http-mitm-proxy";
 
 import * as URL from "url";
-const MITM = require('http-mitm-proxy');
+import * as winston from "winston";
+
+import MITM = require('http-mitm-proxy');
 
 export type OnResponseReceivedHandler = (request: Request, response: Response) => void;
 
@@ -23,14 +24,14 @@ export class ProxyManager {
     }
 
     public async run() {
-        const proxy = new MITM();
+        const proxy = MITM();
 
         proxy.onRequest(this.onRequest.bind(this));
         proxy.onError((ctx: any, err: any) => {
-            /// TODO Handling error
+            // winston.error("Error occured on proxy: ", err);
         });
         proxy.listen({port: this.port}, () => {
-            /// TODO Add log
+            winston.info("Proxy started")
         });
     }
 

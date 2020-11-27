@@ -39,7 +39,7 @@ export class FeaturePolicyAnalyzer implements IAnalyzer {
      * @param headerValue header value received
      */
     private addWarning(context: Context, headerValue: string) {
-        const warning = new Warning(WARNING_TYPE.WEAK_ACCESSCONTROL,WARNING_NAME.FEATUREPOLICY_HEADER, headerValue ? WARNING_SEVERITY.MAJOR : WARNING_SEVERITY.WARNING, headerValue);
+        const warning = new Warning (WARNING_TYPE.WEAK_ACCESSCONTROL, WARNING_NAME.FEATUREPOLICY_HEADER, headerValue ? WARNING_SEVERITY.MAJOR : WARNING_SEVERITY.WARNING, headerValue);
         warning.request = context.request;
         warning.response = context.response;
         Session.instance.addWarning(warning);

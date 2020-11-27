@@ -62,14 +62,13 @@ export class HtmlUtils {
 
 			// Collect attribute
 			if (match.length > 1) {
-			let matchAttribute = attributeRegex.exec(match[1]);
+				let matchAttribute = attributeRegex.exec(match[1]);
 				while (matchAttribute) {
-					const attribute : HtmlAttribute = <HtmlAttribute> {
-						id: v4(),
-						html: matchAttribute.length > 0 ? matchAttribute[0] : null,
-						key: matchAttribute.length > 1 ? matchAttribute[1] : null,
-						value: matchAttribute.length > 3 ? matchAttribute[3] : null
-					}
+					const key = matchAttribute.length > 1 ? matchAttribute[1] : null;
+					const value = matchAttribute.length > 3 ? matchAttribute[3] : null;
+					const htmlCode = matchAttribute.length > 0 ? matchAttribute[0] : null;
+
+					const attribute = new HtmlAttribute(key, value, htmlCode);
 					control.addAttribute(attribute);
 					matchAttribute = attributeRegex.exec(match[1]);
 				}

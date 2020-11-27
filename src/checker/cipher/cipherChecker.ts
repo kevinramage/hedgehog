@@ -57,7 +57,7 @@ export class CipherChecker implements IChecker {
                     resolve();
                 }
             }
-        const completeRequest = () => { /* console.info(format("%s => OK", cipher)); */ }
+            const completeRequest = () => { /* console.info(format("%s => OK", cipher)); */ }
             const abortRequest = () => { /* console.info(format("%s => Timeout", cipher)); */ }
             try {
                 let code = "";

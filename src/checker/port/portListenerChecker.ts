@@ -45,7 +45,7 @@ export class PortListenerChecker implements IChecker {
                 socket.destroy();
                 resolve(result);
             });
-        });       
+        });
     }
     */
 
@@ -53,7 +53,7 @@ export class PortListenerChecker implements IChecker {
         return null;
     }
 }
-
+/*
 export class PortListenerResultItem extends ResultItem {
     public host : string;
     public port : number;
@@ -66,3 +66,4 @@ export class PortListenerResultItem extends ResultItem {
         this.isListening = false;
     }
 }
+*/

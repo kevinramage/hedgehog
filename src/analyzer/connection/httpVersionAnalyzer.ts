@@ -4,7 +4,7 @@ import { Session } from "../../result/session";
 import { Warning, WARNING_NAME, WARNING_SEVERITY, WARNING_TYPE } from "../../result/warning";
 import { IAnalyzer } from "../IAnalyzer";
 
-const NONSECURE_HTTPVERSION = require("../../config/connection/nonSecureHttpVersion.json");
+import NONSECURE_HTTPVERSION = require("../../config/connection/nonSecureHttpVersion.json");
 
 /**
  * Check the http version use to exchange data between client and server

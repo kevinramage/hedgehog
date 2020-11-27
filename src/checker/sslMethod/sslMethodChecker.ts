@@ -56,7 +56,8 @@ export class SSLMethodChecker implements IChecker {
     */
 
     private runQuery(sslProtocol: string) {
-        let sendResponse = false;
+        // let sendResponse = false;
+        /*
         return new Promise<SSLProtocolCheckItem>((resolve) => {
 
             // Create check item
@@ -124,6 +125,7 @@ export class SSLMethodChecker implements IChecker {
                 request.end();
             }
         });
+        */
     }
 
     public static fromArgs(content: string) {
@@ -146,6 +148,7 @@ export class SSLProtocolCheck extends Result {
 }
 */
 
+/*
 export class SSLProtocolCheckItem extends ResultItem {
     public SSLMethod: string;
     public status: string;
@@ -175,3 +178,4 @@ export enum SSL_METHOD {
     TLSV1_1 = "TLSv1_1_method",
     TLSV1_2 = "TLSv1_2_method",
 }
+*/

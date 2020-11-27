@@ -10,6 +10,8 @@ import { Session } from "../../result/session";
 import { format } from "util";
 import { DataManager } from "../../result/dataManager";
 
+import * as winston from "winston";
+
 import PROXY_IGNORE_HOSTS = require("../../config/proxyIgnoreHosts.json");
 
 export class ProxySystem implements ISystem {
@@ -62,7 +64,7 @@ export class ProxySystem implements ISystem {
             this._report.changeStep(format("Request %s - New warning: %d", request.path, currentWarningCount - warningCount));
 
         } else if (!ignoreHostList.includes(request.host)) {
-            /// TODO Log ?
+            winston.warn("Host ignore but seems matches: " + request.host);
         }
     }
 

@@ -23,7 +23,8 @@ import { XAspNetVersionAnalyzer } from "./header/xAspNetVersionAnalyzer";
 import { XPoweredByAnalyzer } from "./header/xPoweredByAnalyzer";
 import { IAnalyzer } from "./IAnalyzer";
 import { PathAnalyzer } from "./path/pathAnalyzer";
-const analyzersConfiguration = require("../config/analyzers.json");
+
+import analyzersConfiguration = require("../config/analyzers.json");
 
 /**
  * Class to retrieve all analyzers installed on system

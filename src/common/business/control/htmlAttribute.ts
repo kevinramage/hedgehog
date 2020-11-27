@@ -2,12 +2,15 @@ import { v4 } from "uuid";
 
 export class HtmlAttribute {
     private _id : string;
-    private _key ?: string;
-    private _value ?: string;
-    private _html ?: string;
+    private _key : string | null;
+    private _value : string | null;
+    private _html : string | null;
 
-    constructor(key: string, value: string, html: string) {
+    constructor(key: string | null, value: string | null, html: string | null) {
         this._id = v4();
+        this._key = key;
+        this._value = value;
+        this._html = html;
     }
 
     public get id() {

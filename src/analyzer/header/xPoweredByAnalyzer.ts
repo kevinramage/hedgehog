@@ -28,12 +28,9 @@ export class XPoweredByAnalyzer implements IAnalyzer {
                     const productVersion = VersionUtils.detectVersion(serverValue.trim());
 
                     // Add warning
-                    let warning;
-                    if (productVersion.version !== "") {
-                        warning = new Warning(WARNING_TYPE.PRODUCTVERSION_INFOS_DIVULGATION, WARNING_NAME.XPOWEREDBY_HEADER, WARNING_SEVERITY.MAJOR, serverValue);
-                    } else {
-                        warning = new Warning(WARNING_TYPE.PRODUCT_INFOS_DIVULGATION, WARNING_NAME.XPOWEREDBY_HEADER, WARNING_SEVERITY.MINOR, serverValue);
-                    }
+                    const warningType = (productVersion.version !== "") ? WARNING_TYPE.PRODUCTVERSION_INFOS_DIVULGATION : WARNING_TYPE.PRODUCT_INFOS_DIVULGATION;
+                    const warningSeverity = (productVersion.version !== "") ? WARNING_SEVERITY.MAJOR : WARNING_SEVERITY.MINOR;
+                    const warning = new Warning(warningType, WARNING_NAME.XPOWEREDBY_HEADER, warningSeverity, serverValue);
                     warning.request = context.request;
                     warning.response = context.response;
                     Session.instance.addWarning(warning);
@@ -43,7 +40,7 @@ export class XPoweredByAnalyzer implements IAnalyzer {
                     const technology = new Technology(productVersion.product, productVersion.version);
                     DataManager.instance.addTechnology(technology);
                 }
-            } 
+            }
         }
     }
 

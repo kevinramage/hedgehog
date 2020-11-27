@@ -3,7 +3,7 @@ import { DataManager } from "../../result/dataManager";
 import { Technology } from "../../result/technology";
 import { IAnalyzer } from "../IAnalyzer";
 
-const ERRORS_PAGE = require("../../config/errorsPage.json");
+import ERRORS_PAGE = require("../../config/errorsPage.json");
 
 /**
  * Analyze response html code to detect technology (from classic errors pages database)

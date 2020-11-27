@@ -23,12 +23,9 @@ export class XAspNetMvcVersionAnalyzer implements IAnalyzer {
                 const serverValue = serverHeader.value as string;
                 if (serverValue && serverValue.trim() !== "") {
                     const regex = /[0-9]+\.[0-9]+/g;
-                    let warning;
-                    if (serverValue.match(regex)) {
-                        warning = new Warning(WARNING_TYPE.PRODUCTVERSION_INFOS_DIVULGATION, WARNING_NAME.XASPNETMVCVERSION_HEADER, WARNING_SEVERITY.MAJOR, serverValue);
-                    } else {
-                        warning = new Warning(WARNING_TYPE.PRODUCT_INFOS_DIVULGATION, WARNING_NAME.XASPNETMVCVERSION_HEADER, WARNING_SEVERITY.MINOR, serverValue);
-                    }
+                    const warningType = (serverValue.match(regex)) ? WARNING_TYPE.PRODUCTVERSION_INFOS_DIVULGATION : WARNING_TYPE.PRODUCT_INFOS_DIVULGATION;
+                    const warningSeverity = (serverValue.match(regex)) ? WARNING_SEVERITY.MAJOR : WARNING_SEVERITY.MINOR;
+                    const warning = new Warning(warningType, WARNING_NAME.XASPNETMVCVERSION_HEADER, warningSeverity, serverValue);
                     warning.request = context.request;
                     warning.response = context.response;
                     Session.instance.addWarning(warning);
@@ -38,7 +35,7 @@ export class XAspNetMvcVersionAnalyzer implements IAnalyzer {
                     const technology = new Technology("asp.net MVC", serverValue);
                     DataManager.instance.addTechnology(technology);
                 }
-            } 
+            }
         }
     }
 
