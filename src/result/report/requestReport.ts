@@ -4,7 +4,7 @@ import { Session } from "../session";
 import { Report } from "./report";
 import * as winston from "winston";
 
-export class requestReport extends Report {
+export class RequestReport extends Report {
 
     writeRequest(requestSystem: RequestSystem) {
         winston.info(Report.SEPARATOR);

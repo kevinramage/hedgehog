@@ -1,6 +1,7 @@
 import { format } from "util";
 import { Result } from "../business/result";
 import { ResultItem } from "../business/resultItem";
+import * as winston from "winston";
 
 /**
  * Class to pretty print
@@ -48,6 +49,6 @@ export class PrettyPrint {
     }
 
     private printLine(line: string) {
-        console.info(line);
+        winston.info(line);
     }
 }

@@ -16,7 +16,7 @@ export class HtmlUtils {
 	 * @param controlType control type to assign on control built
 	 * @param html html code to analyze
 	 */
-	private static extractTag(tagName : string, controlType : string, html : string ) : HtmlControl[] {
+	private static extractTag(tagName : string, controlType : string, html : string) : HtmlControl[] {
 		// winston.debug("HtmlUtils.extractTag: ", tagName);
 
 		// Remove endline characters
@@ -52,8 +52,8 @@ export class HtmlUtils {
 
 		const attributeRegex = /\s*([\w|:|_|-]*)=(\"|')([\w|\.|:|\/|\s|\?|=|_|&|;|#|+|!|(|)|,|-]*)(\"|')/g;
 		const controls : HtmlControl[] = [];
-		let match;
-		while (match = regex.exec(html)) {
+		let match = regex.exec(html);
+		while (match) {
 
 			// Build control
 			const control : HtmlControl = new HtmlControl(controlType);
@@ -61,9 +61,9 @@ export class HtmlUtils {
 			control.text = match.length > 4 ? match[4] : undefined;
 
 			// Collect attribute
-			let matchAttribute;
 			if (match.length > 1) {
-				while (matchAttribute = attributeRegex.exec(match[1])) {
+			let matchAttribute = attributeRegex.exec(match[1]);
+				while (matchAttribute) {
 					const attribute : HtmlAttribute = <HtmlAttribute> {
 						id: v4(),
 						html: matchAttribute.length > 0 ? matchAttribute[0] : null,
@@ -71,6 +71,7 @@ export class HtmlUtils {
 						value: matchAttribute.length > 3 ? matchAttribute[3] : null
 					}
 					control.addAttribute(attribute);
+					matchAttribute = attributeRegex.exec(match[1]);
 				}
 			}
 
@@ -89,6 +90,7 @@ export class HtmlUtils {
 			}
 
 			controls.push(control);
+			match = regex.exec(html)
 		}
 
 		return controls;
@@ -99,7 +101,7 @@ export class HtmlUtils {
      * @param html the HTML string to analyze
      * @returns a list of forms found
      */
-    public static extractForm(html : string) : HtmlControl[] {
+	public static extractForm(html : string) : HtmlControl[] {
 		return HtmlUtils.extractTag("form", CONTROL_TYPE.FORM, html);
 	}
 
@@ -108,7 +110,7 @@ export class HtmlUtils {
      * @param html the HTML string to analyze
      * @returns a list of inputs found
      */
-    private static extractInputs(html : string) : HtmlControl[] {
+	private static extractInputs(html : string) : HtmlControl[] {
         return HtmlUtils.extractTag("input", CONTROL_TYPE.INPUT, html);
     }
 
@@ -117,7 +119,7 @@ export class HtmlUtils {
      * @param html the HTML string to analyze
      * @returns a list of textarea found
      */
-    private static extractTextArea(html : string) : HtmlControl[] {
+	private static extractTextArea(html : string) : HtmlControl[] {
         return HtmlUtils.extractTag("textarea", CONTROL_TYPE.TEXTAREA, html);
     }
 
@@ -125,65 +127,61 @@ export class HtmlUtils {
      * Extract links present in html code
      * @param html the HTML string to analyze
      * @returns a list of links found
-	 */
-    public static extractLinks(html : string) : HtmlControl[] {
+     */
+	public static extractLinks(html : string) : HtmlControl[] {
         return HtmlUtils.extractTag("a", CONTROL_TYPE.LINK, html);
 	}
 
-	/**
+    /**
      * Extract H1 present in html code
      * @param html the HTML string to analyze
      * @returns a list of H1 found
-     *
-	 */
-    public static extractH1(html : string) : HtmlControl[] {
+     */
+	public static extractH1(html : string) : HtmlControl[] {
         return HtmlUtils.extractTag("h1", CONTROL_TYPE.H1, html);
 	}
 
-	/**
+    /**
      * Extract H2 present in html code
      * @param html the HTML string to analyze
      * @returns a list of H2 found
-     *
-	 */
-    public static extractH2(html : string) : HtmlControl[] {
+     */
+	public static extractH2(html : string) : HtmlControl[] {
         return HtmlUtils.extractTag("h2", CONTROL_TYPE.H2, html);
 	}
 
-	/**
+    /**
      * Extract H3 present in html code
      * @param html the HTML string to analyze
      * @returns a list of H3 found
-     *
-	 */
-    public static extractH3(html : string) : HtmlControl[] {
+     */
+	public static extractH3(html : string) : HtmlControl[] {
         return HtmlUtils.extractTag("h3", CONTROL_TYPE.H3, html);
 	}
 
-	/**
+    /**
      * Extract H4 present in html code
      * @param html the HTML string to analyze
      * @returns a list of H4 found
-     *
-	 */
-    public static extractH4(html : string) : HtmlControl[] {
+     */
+	public static extractH4(html : string) : HtmlControl[] {
         return HtmlUtils.extractTag("h4", CONTROL_TYPE.H4, html);
 	}
 
-	/**
+    /**
      * Extract H5 present in html code
      * @param html the HTML string to analyze
      * @returns a list of H5 found
-	 */
-    public static extractH5(html : string) : HtmlControl[] {
+     */
+	public static extractH5(html : string) : HtmlControl[] {
         return HtmlUtils.extractTag("h5", CONTROL_TYPE.H5, html);
 	}
 
-	/**
+    /**
      * Extract H6 present in html code
      * @param html the HTML string to analyze
      * @returns a list of H6 found
-	 */
+     */
 	public static extractH6(html : string) : HtmlControl[] {
         return HtmlUtils.extractTag("h6", CONTROL_TYPE.H6, html);
 	}

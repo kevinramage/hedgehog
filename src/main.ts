@@ -22,18 +22,17 @@ class Main {
 
         // Add loggers
         winston.remove(winston.transports.Console);
-        winston.add(new winston.transports.DailyRotateFile({ filename: "logs/Hedgehog_%DATE%.log", datePattern: 'YYYY-MM-DD', 
-            level: 'debug', zippedArchive: true, maxSize: '20m', maxFiles: '14d', format: winston.format.combine(winston.format.timestamp(), logFormat)}));
+        winston.add(new winston.transports.DailyRotateFile({ filename: "logs/Hedgehog_%DATE%.log", datePattern: 'YYYY-MM-DD', level: 'debug', zippedArchive: true, maxSize: '20m', maxFiles: '14d', format: winston.format.combine(winston.format.timestamp(), logFormat)}));
         winston.add(new winston.transports.Console({level: "info", stderrLevels: ["error"], format: consoleFormat}));
-        
+
     }
 
     async run() {
 
         // Init
         this.init();
-        
-        // Run 
+
+        // Run
         await Program.instance.run();
     }
 }

@@ -5,7 +5,7 @@ import { Session } from "../session";
 import * as winston from "winston";
 
 export class SpiderReport extends Report {
-    
+
     writeRequest(spider: Spider) {
         winston.info(Report.SEPARATOR);
         winston.info("                SPIDER");

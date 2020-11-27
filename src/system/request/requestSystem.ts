@@ -5,7 +5,7 @@ import { ISystem } from "../ISystem";
 import { Processors } from "../../processor/processors";
 import { Analyzers } from "../../analyzer/analyzers";
 import { Report } from "../../result/report/report";
-import { requestReport } from "../../result/report/requestReport";
+import { RequestReport } from "../../result/report/requestReport";
 
 export class RequestSystem implements ISystem {
 
@@ -17,7 +17,7 @@ export class RequestSystem implements ISystem {
     constructor(host: string, port: number) {
         this._host = host;
         this._port = port;
-        this._report = new requestReport();
+        this._report = new RequestReport();
     }
 
     public async run() {
