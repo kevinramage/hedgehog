@@ -37,7 +37,7 @@ export class PHPFuzzing extends Fuzzing {
 
     public static fromArgs(content: string) : PHPFuzzing | null {
         const args = content.split(" ");
-        if ( args.length === 2 ) {
+        if (args.length === 2) {
             const host = args[0];
             const port = Number.parseInt(args[1], 10);
             if (!isNaN(port)) {

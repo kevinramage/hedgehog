@@ -31,7 +31,7 @@ const analyzersConfiguration = require("../config/analyzers.json");
 export class Analyzers {
     private static _instance : Analyzers;
     private _analyzers : IAnalyzer[];
-    
+
     private constructor() {
         this._analyzers = [];
 
@@ -46,7 +46,7 @@ export class Analyzers {
         // Cookie
         this._analyzers.push(new HttpOnlyAnalyzer());
         this._analyzers.push(new SecureAnalyzer());
-        
+
         // Header
         this._analyzers.push(new AccessControlAllowOriginAnalyzer());
         this._analyzers.push(new CacheControlAnalyzer());

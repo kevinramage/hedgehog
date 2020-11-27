@@ -18,7 +18,7 @@ export class XPoweredByAnalyzer implements IAnalyzer {
      * @param context query context
      */
     public analyze(context: Context): void {
-        if ( context && context.response ) {
+        if (context && context.response) {
             const serverHeader = context.response.getHeader(HEADER_NAME.XPOWEREDBY);
             if (serverHeader && serverHeader.value) {
                 const serverValue = serverHeader.value as string;
@@ -46,7 +46,7 @@ export class XPoweredByAnalyzer implements IAnalyzer {
             } 
         }
     }
-    
+
     public get NAME() {
         return "X-POWERED-BY";
     }

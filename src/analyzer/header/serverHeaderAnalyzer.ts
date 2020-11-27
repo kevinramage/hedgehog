@@ -45,7 +45,7 @@ export class ServerHeaderAnalyzer implements IAnalyzer {
             } 
         }
     }
-    
+
     public get NAME() {
         return "SERVER";
     }

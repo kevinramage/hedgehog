@@ -126,14 +126,14 @@ export class Request {
  * RFC 7231 + RFC 5789
  * By convention, standardized methods are defined in all-uppercase US-ASCII letters.
  */
-export namespace REQUEST_METHODS {
-    export const GET = "GET";
-    export const HEAD = "HEAD";
-    export const POST = "POST";
-    export const PUT = "PUT";
-    export const DELETE = "DELETE";
-    export const CONNECT = "CONNECT";
-    export const OPTIONS = "OPTIONS";
-    export const TRACE = "TRACE";
-    export const PATCH = "PATCH";
+export enum REQUEST_METHODS {
+    GET = "GET",
+    HEAD = "HEAD",
+    POST = "POST",
+    PUT = "PUT",
+    DELETE = "DELETE",
+    CONNECT = "CONNECT",
+    OPTIONS = "OPTIONS",
+    TRACE = "TRACE",
+    PATCH = "PATCH"
 }

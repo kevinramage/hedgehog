@@ -9,7 +9,7 @@ import { IAnalyzer } from "../IAnalyzer";
  * Apply this check to all ressources
  */
 export class AccessControlAllowOriginAnalyzer implements IAnalyzer {
-    
+
     /**
      * Analyze response source code
      * @param context query context

@@ -6,7 +6,7 @@ import { IAnalyzer } from "../IAnalyzer";
  * Check the header set-cookie, parse it, if httpOnly flag not set, add warning
  */
 export class HttpOnlyAnalyzer implements IAnalyzer {
-    
+
     /**
      * Analyze response source code
      * @param context query context

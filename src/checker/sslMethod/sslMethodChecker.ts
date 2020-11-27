@@ -163,15 +163,15 @@ export class SSLProtocolCheckItem extends ResultItem {
     }
 }
 
-export namespace CHECKITEM_STATUS {
-    export const ERROR = "ERROR";
-    export const SUPPORTED = "SUPPORTED";
-    export const NOT_SUPPORTED = "NOT_SUPPORTED";
+export enum CHECKITEM_STATUS {
+    ERROR = "ERROR",
+    SUPPORTED = "SUPPORTED",
+    NOT_SUPPORTED = "NOT_SUPPORTED"
 }
 
-export namespace SSL_METHOD {
-    export const SSLV3 = "SSLv3_method";
-    export const TLSV1 = "TLSv1_method";
-    export const TLSV1_1 = "TLSv1_1_method";
-    export const TLSV1_2 = "TLSv1_2_method";
+export enum SSL_METHOD {
+    SSLV3 = "SSLv3_method",
+    TLSV1 = "TLSv1_method",
+    TLSV1_1 = "TLSv1_1_method",
+    TLSV1_2 = "TLSv1_2_method",
 }

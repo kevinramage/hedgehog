@@ -30,14 +30,14 @@ export class HttpVersionAnalyzer implements IAnalyzer {
 
     /**
      * Add a warning to session and data manager
-     * @param httpVersion unsecure http version 
+     * @param httpVersion unsecure http version
      */
     private addWarning(httpVersion: string) {
         const warning = new Warning(WARNING_TYPE.DATA_EXPOSURE, WARNING_NAME.HTTP_VERSION, WARNING_SEVERITY.SEVERE, httpVersion);
         Session.instance.addWarning(warning);
         DataManager.instance.addWarning(warning);
     }
-    
+
     public get NAME() {
         return "HTTP_VERSION";
     }

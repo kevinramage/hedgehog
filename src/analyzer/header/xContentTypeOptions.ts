@@ -7,7 +7,7 @@ import { IAnalyzer } from "../IAnalyzer";
  */
 
 export class XContentTypeOptions implements IAnalyzer{
-    
+
     /**
      * Analyze response source code
      * @param context query context
@@ -19,5 +19,5 @@ export class XContentTypeOptions implements IAnalyzer{
     public get NAME() {
         return "X_CONTENT_TYPE_OPTIONS";
     }
-    
+
 }

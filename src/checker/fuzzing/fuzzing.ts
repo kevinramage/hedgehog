@@ -45,7 +45,7 @@ export class Fuzzing implements IChecker {
             try {
                 const request = new Request(this._host, this._port, REQUEST_METHODS.GET, path);
                 const response = await request.send();
-                if ( !NumberUtils.equalsOneOf(response.status as number, this._expectedStatus)) {
+                if (!NumberUtils.equalsOneOf(response.status as number, this._expectedStatus)) {
                     // console.info(format("Path: %s, Code: %d => not expected", path, response.status));
                     this.addDefect(path, response.status + "");
                 }

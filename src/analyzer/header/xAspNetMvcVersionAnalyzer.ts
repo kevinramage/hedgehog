@@ -41,7 +41,7 @@ export class XAspNetMvcVersionAnalyzer implements IAnalyzer {
             } 
         }
     }
-    
+
     public get NAME() {
         return "X-ASPNETMVC-VERSION";
     }

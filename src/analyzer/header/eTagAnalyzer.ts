@@ -10,7 +10,7 @@ import { IAnalyzer } from "../IAnalyzer";
  * https://security.stackexchange.com/questions/186482/damage-of-a-leaked-etag
  */
 export class ETagAnalyzer implements IAnalyzer {
-    
+
     /**
      * Analyze response source code
      * @param context query context

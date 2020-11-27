@@ -7,7 +7,7 @@ import { IAnalyzer } from "../IAnalyzer";
  * Check the Strict-Transport-Security header presence (SEVERE)
  */
 export class HSTSAnalyzer implements IAnalyzer {
-    
+
     /**
      * Analyze response source code
      * @param context query context
@@ -15,7 +15,7 @@ export class HSTSAnalyzer implements IAnalyzer {
     public analyze(context: Context): void {
         throw new Error("Method not implemented.");
     }
-    
+
     public get NAME() {
         return "HSTS";
     }

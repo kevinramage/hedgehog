@@ -10,7 +10,7 @@ const ERRORS_PAGE = require("../../config/errorsPage.json");
  * Add technology if some regex matches
  */
 export class ErrorPageAnalyzer implements IAnalyzer{
-    
+
     /**
      * Analyze response source code
      * @param context query context

@@ -16,7 +16,7 @@ export class FeaturePolicyAnalyzer implements IAnalyzer {
      * @param context query context
      */
     public analyze(context: Context): void {
-        
+
         if (context && context.response) {
             const featurePolicyHeader = context.response.featurePolicy;
 
@@ -45,7 +45,7 @@ export class FeaturePolicyAnalyzer implements IAnalyzer {
         Session.instance.addWarning(warning);
         DataManager.instance.addWarning(warning);
     }
-    
+
     public get NAME() {
         return "FEATURE_POLICY";
     }

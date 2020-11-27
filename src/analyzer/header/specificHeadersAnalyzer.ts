@@ -6,7 +6,7 @@ import { IAnalyzer } from "../IAnalyzer";
  * Add a mecanism to ignore some custom headers (from config JSON file)
  */
 export class SpecificHeadersAnalyzer implements IAnalyzer {
-    
+
     /**
      * Analyze response source code
      * @param context query context

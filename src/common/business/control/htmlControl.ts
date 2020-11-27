@@ -29,7 +29,7 @@ export class HtmlControl {
         this._children = this._children.concat(children);
     }
 
-        /**
+    /**
      * Search an attribute from its name
      * @param name attribute name to search
      */
@@ -103,15 +103,15 @@ export class HtmlControl {
     }
 }
 
-export namespace CONTROL_TYPE {
-    export const FORM = "FORM";
-    export const INPUT = "INPUT";
-    export const TEXTAREA = "TEXTAREA";
-    export const LINK = "LINK";
-    export const H1 = "H1";
-    export const H2 = "H2";
-    export const H3 = "H3";
-    export const H4 = "H4";
-    export const H5 = "H5";
-    export const H6 = "H6";
+export enum CONTROL_TYPE {
+    FORM = "FORM",
+    INPUT = "INPUT",
+    TEXTAREA = "TEXTAREA",
+    LINK = "LINK",
+    H1 = "H1",
+    H2 = "H2",
+    H3 = "H3",
+    H4 = "H4",
+    H5 = "H5",
+    H6 = "H6"
 }

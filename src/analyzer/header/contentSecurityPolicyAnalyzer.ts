@@ -8,7 +8,7 @@ import { IAnalyzer } from "../IAnalyzer";
  * Avoid eval option
  */
 export class ContentSecurityPolicyAnalyzer implements IAnalyzer  {
-    
+
     /**
      * Analyze response source code
      * @param context query context

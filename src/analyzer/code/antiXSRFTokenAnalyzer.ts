@@ -6,7 +6,7 @@ import { IAnalyzer } from "../IAnalyzer";
  * https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html
  */
 export class AntiCSRFAnalyzer implements IAnalyzer {
-    
+
     /**
      * Analyze response source code
      * @param context query context

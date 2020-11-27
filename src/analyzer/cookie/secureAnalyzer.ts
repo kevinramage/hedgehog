@@ -6,7 +6,7 @@ import { IAnalyzer } from "../IAnalyzer";
  * Check the header set-cookie, parse it, if secure flag not set, add warning
  */
 export class SecureAnalyzer implements IAnalyzer {
-    
+
     /**
      * Analyze response source code
      * @param context query context

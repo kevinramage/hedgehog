@@ -6,7 +6,7 @@ import { IAnalyzer } from "../IAnalyzer";
  * The referrer policy must be present
  */
 export class ReferrerPolicyAnalyzer implements IAnalyzer {
-    
+
     /**
      * Analyze response source code
      * @param context query context

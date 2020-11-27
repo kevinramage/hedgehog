@@ -38,10 +38,10 @@ export class XAspNetVersionAnalyzer implements IAnalyzer {
                     const technology = new Technology("asp.net", serverValue);
                     DataManager.instance.addTechnology(technology);
                 }
-            } 
+            }
         }
     }
-    
+
     public get NAME() {
         return "X-ASPNET-VERSION";
     }

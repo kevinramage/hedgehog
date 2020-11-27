@@ -6,14 +6,14 @@ import { IAnalyzer } from "../IAnalyzer";
 import { DataManager } from "../../result/dataManager";
 
 /**
- * Shared server content cached 
+ * Shared server content cached
  * "no-store" flag must be provided in Cache-Control header to avoid the server response cached by a proxy server or browser
  * "private" flag must be provided in Cache-Control header to avoid the server response cached by a proxy server or browser
  * Normally HTTPS limit the content sharing
  * Values are case insensitive (RFC-7234)
  */
 export class CacheControlAnalyzer implements IAnalyzer {
-    
+
     /**
      * Analyze response source code
      * @param context query context
@@ -32,7 +32,7 @@ export class CacheControlAnalyzer implements IAnalyzer {
             }
         }
     }
-    
+
     public get NAME(){
         return "CACHE_CONTROL";
     }

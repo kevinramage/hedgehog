@@ -28,16 +28,16 @@ export class Header {
     }
 }
 
-export namespace HEADER_NAME {
-    export const HOST = "host";
-    export const CONTENTTYPE = "content-type";
-    export const LOCATION = "location";
-    export const SERVER = "server";
-    export const XASPNETVERSION = "x-aspnet-version";
-    export const XASPNETMVCVERSION = "x-aspNetmvc-version";
-    export const XPOWEREDBY = "x-powered-by";
-    export const ACCESSCONTROLALLOWORIGIN = "access-control-allow-origin";
-    export const CACHECONTROL = "cache-control";
-    export const ETAG = "etag";
-    export const FEATUREPOLICY = "feature-policy";
+export enum HEADER_NAME {
+    HOST = "host",
+    CONTENTTYPE = "content-type",
+    LOCATION = "location",
+    SERVER = "server",
+    XASPNETVERSION = "x-aspnet-version",
+    XASPNETMVCVERSION = "x-aspNetmvc-version",
+    XPOWEREDBY = "x-powered-by",
+    ACCESSCONTROLALLOWORIGIN = "access-control-allow-origin",
+    CACHECONTROL = "cache-control",
+    ETAG = "etag",
+    FEATUREPOLICY = "feature-policy"
 }

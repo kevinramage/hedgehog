@@ -5,7 +5,7 @@ import { IAnalyzer } from "../IAnalyzer";
  * ///TODO
  */
 export class PragmaAnalyzer implements IAnalyzer {
-    
+
     /**
      * Analyze response source code
      * @param context query context

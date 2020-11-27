@@ -6,7 +6,7 @@ import { IAnalyzer } from "../IAnalyzer";
  * If this header is not present, add warning
  */
 export class XXSSProtectionAnalyzer implements IAnalyzer {
-    
+
     /**
      * Analyze response source code
      * @param context query context
@@ -14,7 +14,7 @@ export class XXSSProtectionAnalyzer implements IAnalyzer {
     public analyze(context: Context): void {
         throw new Error("Method not implemented.");
     }
-    
+
     public get NAME() {
         return "XXSS_PROTECTION";
     }
