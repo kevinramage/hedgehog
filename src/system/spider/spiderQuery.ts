@@ -4,6 +4,7 @@ import { HtmlUtils } from "../../common/utils/htmlUtils";
 import { SiteTreeView } from "./siteTreeView";
 import { Analyzers } from "../../analyzer/analyzers";
 import { Context } from "../../common/business/context";
+import * as winston from "winston";
 
 export class SpiderQuery {
     private _host : string;
@@ -73,7 +74,7 @@ export class SpiderQuery {
                 this.siteTreeView?.includePath(path);
             }
         } else if (path.includes(this._host)) {
-            console.info("addSpiderQuery - OUT OF DOMAIN: " + path + " VS " + this._host);
+            winston.warn("addSpiderQuery - OUT OF DOMAIN: " + path + " VS " + this._host);
         }
     }
 

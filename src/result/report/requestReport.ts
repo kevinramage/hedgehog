@@ -2,16 +2,17 @@ import util from "util";
 import { RequestSystem } from "../../system/request/requestSystem";
 import { Session } from "../session";
 import { Report } from "./report";
+import * as winston from "winston";
 
 export class requestReport extends Report {
 
     writeRequest(requestSystem: RequestSystem) {
-        console.info(Report.SEPARATOR);
-        console.info("                REQUEST");
-        console.info(util.format("Session: %s", Session.instance.id));
-        console.info(util.format("Date: %s", new Date()));
-        console.info(util.format("Host: '%s'", requestSystem.host));
-        console.info(util.format("Port: '%d'", requestSystem.port));
-        console.info(Report.SEPARATOR);
+        winston.info(Report.SEPARATOR);
+        winston.info("                REQUEST");
+        winston.info(util.format("Session: %s", Session.instance.id));
+        winston.info(util.format("Date: %s", new Date()));
+        winston.info(util.format("Host: '%s'", requestSystem.host));
+        winston.info(util.format("Port: '%d'", requestSystem.port));
+        winston.info(Report.SEPARATOR);
     }
 }

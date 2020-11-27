@@ -46,11 +46,11 @@ export class Fuzzing implements IChecker {
                 const request = new Request(this._host, this._port, REQUEST_METHODS.GET, path);
                 const response = await request.send();
                 if ( !NumberUtils.equalsOneOf(response.status as number, this._expectedStatus)) {
-                    console.info(format("Path: %s, Code: %d => not expected", path, response.status));
+                    // console.info(format("Path: %s, Code: %d => not expected", path, response.status));
                     this.addDefect(path, response.status + "");
                 }
             } catch (err) {
-                console.info("Path: %s, Error: %s => not expected", path, err.code);
+                // console.info("Path: %s, Error: %s => not expected", path, err.code);
                 this.addDefect(path, err.code ? err.code : err);
             }
             resolve();

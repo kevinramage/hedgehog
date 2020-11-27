@@ -19,8 +19,8 @@ export class Program {
     
             // Display help when no command identified
             myProgram.exitOverride(() => {
-                console.info("");
-                console.info(myProgram.helpInformation());
+                console.log("");
+                console.log(myProgram.helpInformation());
                 resolve();
             });
     
@@ -38,12 +38,12 @@ export class Program {
         myProgram.command("proxy <hostName> <port>")
             .description("run proxy system to analyze incomming request")
             .action(async (hostName, port) => {
-                console.info("Run proxy with " + hostName + " and " + port);
+                console.log("Run proxy with " + hostName + " and " + port);
                 await this.proxy(hostName, port);
                 resolve();
             }).exitOverride(() => {
-                console.info("");
-                console.info("ports <hostName> <port>  run ports checker to identify opened ports");
+                console.log("");
+                console.log("ports <hostName> <port>  run ports checker to identify opened ports");
                 resolve();
             });
 
@@ -54,12 +54,12 @@ export class Program {
         myProgram.command("ports <hostName> <port>")
             .description("run ports checker to identify opened ports")
             .action(async (hostName, port) => {
-                console.info("Run ports checker with " + hostName + " and " + port);
+                console.log("Run ports checker with " + hostName + " and " + port);
                 await this.port(hostName);
                 resolve();
             }).exitOverride(() => {
-                console.info("");
-                console.info("Syntax: proxy <hostName> <port>  run proxy system to analyze incomming request");
+                console.log("");
+                console.log("Syntax: proxy <hostName> <port>  run proxy system to analyze incomming request");
                 resolve();
             });
     }

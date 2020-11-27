@@ -77,34 +77,34 @@ export class Warning {
     }
 }
 
-export namespace WARNING_TYPE {
-    export const PRODUCT_INFOS_DIVULGATION = "Product informations divulgation";
-    export const PRODUCTVERSION_INFOS_DIVULGATION = "Product version informations divulgation";
-    export const WEAK_ACCESSCONTROL = "Weak access control";
-    export const DATA_EXPOSURE = "Data exposure"
+export enum WARNING_TYPE {
+    PRODUCT_INFOS_DIVULGATION = "Product informations divulgation",
+    PRODUCTVERSION_INFOS_DIVULGATION = "Product version informations divulgation",
+    WEAK_ACCESSCONTROL = "Weak access control",
+    DATA_EXPOSURE = "Data exposure"
 }
 
-export namespace WARNING_NAME {
+export enum WARNING_NAME {
 
     // Header
-    export const SERVER_HEADER = "Server header";
-    export const XASPNETVERSION_HEADER = "X-AspNet-Version";
-    export const XASPNETMVCVERSION_HEADER = "X-AspNetMvc-Version header";
-    export const XPOWEREDBY_HEADER = "X-Powered-By header";
-    export const XXSSPROTECTION_HEADER = "X-XSS-Protection header";
-    export const ACCESSCONTROLALLOWORIGIN_HEADER = "Access-Control-Allow-Origin header";
-    export const CACHECONTROL_HEADER = "Cache-Control header";
-    export const ETAG_HEADER = "ETag header";
-    export const FEATUREPOLICY_HEADER = "Feature-Policy header";
+    SERVER_HEADER = "Server header",
+    XASPNETVERSION_HEADER = "X-AspNet-Version",
+    XASPNETMVCVERSION_HEADER = "X-AspNetMvc-Version header",
+    XPOWEREDBY_HEADER = "X-Powered-By header",
+    XXSSPROTECTION_HEADER = "X-XSS-Protection header",
+    ACCESSCONTROLALLOWORIGIN_HEADER = "Access-Control-Allow-Origin header",
+    CACHECONTROL_HEADER = "Cache-Control header",
+    ETAG_HEADER = "ETag header",
+    FEATUREPOLICY_HEADER = "Feature-Policy header",
 
     // Connection
-    export const HTTP_VERSION = "Http version";
+    HTTP_VERSION = "Http version"
 }
 
-export namespace WARNING_SEVERITY {
-    export const CRITICAL = "CRITICAL"; // Risk of data alteration or server impact
-    export const SEVERE = "SEVERE"; // Sensible informations divulged
-    export const MAJOR = "MAJOR"; // Product infos divulged, invalid configurations
-    export const MINOR = "MINOR";
-    export const WARNING = "WARNING"; // In general a configuration possible but can't be risky in some situations
+export enum WARNING_SEVERITY {
+    CRITICAL = "CRITICAL",  // Risk of data alteration or server impact
+    SEVERE = "SEVERE",      // Sensible informations divulged
+    MAJOR = "MAJOR",        // Product infos divulged, invalid configurations
+    MINOR = "MINOR",
+    WARNING = "WARNING",    // In general a configuration possible but can't be risky in some situations
 }

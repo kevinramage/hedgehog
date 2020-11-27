@@ -27,12 +27,12 @@ export class CipherChecker implements IChecker {
     public async run() {
 
         const list : string[] = [];
-        //list.push("AES_128_GCM");
+        // list.push("AES_128_GCM");
 
-        console.info("Start cipher to analyze: " + list.length);
+        // console.info("Start cipher to analyze: " + list.length);
         const promises = list.map(c => { return this.runQuery(c); });
         await Promise.all(promises);
-        console.info("End cipher to analyze: " + list.length)
+        // console.info("End cipher to analyze: " + list.length)
        /*
         const ciphers = "ECDHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA256:AES128-GCM-SHA256:RC4:HIGH:!MD5:!aNULL";
         console.info("Ciphers: " + ciphers);
@@ -50,15 +50,15 @@ export class CipherChecker implements IChecker {
             const errorHandler = (err: any) => { 
                 if ( !responseSent ) {
                     responseSent = true;
-                    console.error(format("%s => KO (%s)", cipher, err.code)); 
+                    // console.error(format("%s => KO (%s)", cipher, err.code)); 
                     if ( err.code !== "ERR_SSL_NO_CIPHER_MATCH" ) {
                         //
                     }
                     resolve();
                 }
             }
-            const completeRequest = () => { console.info(format("%s => OK", cipher)); }
-            const abortRequest = () => { console.info(format("%s => Timeout", cipher)); }
+        const completeRequest = () => { /* console.info(format("%s => OK", cipher)); */ }
+            const abortRequest = () => { /* console.info(format("%s => Timeout", cipher)); */ }
             try {
                 let code = "";
                 const options : https.RequestOptions = { hostname: this._host, port: this._port, path: "/", ciphers: cipher, timeout: 50000 };

@@ -44,7 +44,7 @@ export class ProxyManager {
         const chunks : any[] = [];
 
         // Handlers
-        ctx.onRequestData((ctx: any, chunk: any, callbackData: ((err: any, chunk: any) => void)) => {
+        ctx.onRequestData((ctxData: any, chunk: any, callbackData: ((err: any, chunk: any) => void)) => {
             chunks.push(chunk);
             return callbackData(null, chunk);
         });

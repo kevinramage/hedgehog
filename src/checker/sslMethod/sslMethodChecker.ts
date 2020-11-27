@@ -96,7 +96,7 @@ export class SSLMethodChecker implements IChecker {
             });
 
             request.on("error", (err: any) => {
-                console.error(err.code);
+                // console.error(err.code);
                 if (!sendResponse) {
                     sendResponse = true;
                     checkItem.status = CHECKITEM_STATUS.ERROR;
