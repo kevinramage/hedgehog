@@ -1,5 +1,6 @@
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://github.com/kevinramage/hedgehog/blob/main/LICENSE)
 ![Build](https://github.com/kevinramage/hedgehog/workflows/NonRegressionCI/badge.svg)
+![Quality](./.github/current/quality.svg)
 
 # Hedgehog
 A security black box testing tool to analyze your application security 
