@@ -5,7 +5,7 @@ const data = JSON.parse(content.toString());
 console.info(data.length + " lints");
 
 if ( data.length > 30 ) {
-    copyFileSync("./.github/bagdes/codeQualityD.svg", "./.github/current/quality.svg");
+    copyFileSync("./.github/badges/codeQualityD.svg", "./.github/current/quality.svg");
 } else if ( data.length > 20 ) {
     copyFileSync("./.github/badges/codeQualityC.svg", "./.github/current/quality.svg");
 } else if ( data.length > 10 ) {
