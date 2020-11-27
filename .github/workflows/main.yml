@@ -1,4 +1,4 @@
-name: NonRegressionCI
+name: build
 
 on: push
 
