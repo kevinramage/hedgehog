@@ -1,4 +1,4 @@
-import { Context } from "../../common/business/context";
+import { Context } from "../../common/business/request/context";
 import { StringUtils } from "../../common/utils/StringUtils";
 import { Session } from "../../result/session";
 import { Warning, WARNING_NAME, WARNING_SEVERITY, WARNING_TYPE } from "../../result/warning";

@@ -1,4 +1,4 @@
-import { Context } from "../../common/business/context";
+import { Context } from "../../common/business/request/context";
 import { IAnalyzer } from "../IAnalyzer";
 
 /*

@@ -1,6 +1,6 @@
-import { Context } from "../../common/business/context";
-import { Request, REQUEST_METHODS } from "../../common/business/request";
-import { Response } from "../../common/business/response";
+import { Context } from "../../common/business/request/context";
+import { Request, REQUEST_METHODS } from "../../common/business/request/request";
+import { Response } from "../../common/business/request/response";
 import { ISystem } from "../ISystem";
 import { Processors } from "../../processor/processors";
 import { Analyzers } from "../../analyzer/analyzers";
@@ -27,7 +27,7 @@ export class RequestSystem implements ISystem {
             this._report.writeRequest(this);
 
             // Send request
-            this.sendRequest().then(async response => {
+            this.sendRequest().then(async (response: Response) => {
 
                 // Define context
                 const context = this.defineContext(response);
@@ -46,7 +46,7 @@ export class RequestSystem implements ISystem {
 
                 resolve();
 
-            }).catch((err) => {
+            }).catch((err: any) => {
                 /// TODO
             });
         });

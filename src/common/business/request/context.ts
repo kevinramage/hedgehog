@@ -1,4 +1,4 @@
-import { HtmlPage } from "./control/htmlPage";
+import { HtmlPage } from "../control/htmlPage";
 import { Request } from "./request";
 import { Response } from "./response";
 

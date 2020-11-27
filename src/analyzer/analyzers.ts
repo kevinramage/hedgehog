@@ -1,4 +1,4 @@
-import { Context } from "../common/business/context";
+import { Context } from "../common/business/request/context";
 import { AntiCSRFAnalyzer } from "./code/antiXSRFTokenAnalyzer";
 import { CommentPathAnalyser } from "./code/commentPathAnalyzer";
 import { ErrorPageAnalyzer } from "./code/errorPageAnalyzer";

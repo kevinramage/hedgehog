@@ -1,10 +1,11 @@
 import { PathUtils } from "../../common/utils/pathUtils";
-import { Request, REQUEST_METHODS } from "../../common/business/request";
+import { Request, REQUEST_METHODS } from "../../common/business/request/request";
 import { HtmlUtils } from "../../common/utils/htmlUtils";
 import { SiteTreeView } from "./siteTreeView";
 import { Analyzers } from "../../analyzer/analyzers";
-import { Context } from "../../common/business/context";
+import { Context } from "../../common/business/request/context";
 import * as winston from "winston";
+import { Response } from "../../common/business/request/response";
 
 export class SpiderQuery {
     private _host : string;
@@ -33,7 +34,7 @@ export class SpiderQuery {
 
             // Run query
             const request = new Request(this._host, this._port, REQUEST_METHODS.GET, this._path);
-            request.send().then((response) => {
+            request.send().then((response: Response) => {
 
                 // Analyzers
                 const context = new Context(request, response);
@@ -49,7 +50,7 @@ export class SpiderQuery {
                     });
                 }
                 resolve();
-            }).catch((err) => {
+            }).catch((err: any) => {
                 this._errorMessage = err;
                 resolve();
             });

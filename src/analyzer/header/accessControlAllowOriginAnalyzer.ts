@@ -1,5 +1,5 @@
 import { DataManager } from "../../result/dataManager";
-import { Context } from "../../common/business/context";
+import { Context } from "../../common/business/request/context";
 import { Session } from "../../result/session";
 import { Warning, WARNING_NAME, WARNING_SEVERITY, WARNING_TYPE } from "../../result/warning";
 import { IAnalyzer } from "../IAnalyzer";

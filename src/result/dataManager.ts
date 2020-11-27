@@ -1,4 +1,4 @@
-import { closeSync, existsSync, fstat, mkdirSync, openSync, readFileSync, writeFileSync } from "fs";
+import { closeSync, existsSync, mkdirSync, openSync, readFileSync, writeFileSync } from "fs";
 import { join } from "path";
 import { Test } from "./test";
 import { Technology } from "./technology";

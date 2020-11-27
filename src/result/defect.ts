@@ -1,4 +1,4 @@
-import { Sequence } from "../common/business/sequence";
+import { Sequence } from "../common/business/request/sequence";
 
 export class Defect {
     private _test : string;

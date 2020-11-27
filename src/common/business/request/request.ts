@@ -1,4 +1,4 @@
-import { RequestUtil } from "../utils/requestUtil";
+import { RequestUtil } from "../../utils/requestUtil";
 import { Header, HEADER_NAME } from "./header";
 
 export class Request {

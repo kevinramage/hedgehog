@@ -1,8 +1,8 @@
 import { ISystem } from "../ISystem";
 import { ProxyManager } from "./proxyManager";
-import { Request } from "../../common/business/request";
-import { Response } from "../../common/business/response";
-import { Context } from "../../common/business/context";
+import { Request } from "../../common/business/request/request";
+import { Response } from "../../common/business/request/response";
+import { Context } from "../../common/business/request/context";
 import { Analyzers } from "../../analyzer/analyzers";
 import { Report } from "../../result/report/report";
 import { ProxyReport } from "../../result/report/proxyReport";

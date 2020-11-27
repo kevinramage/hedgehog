@@ -1,4 +1,4 @@
-import { Context } from "../../common/business/context";
+import { Context } from "../../common/business/request/context";
 import { DataManager } from "../../result/dataManager";
 import { Technology } from "../../result/technology";
 import { IAnalyzer } from "../IAnalyzer";

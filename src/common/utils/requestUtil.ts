@@ -1,8 +1,7 @@
 import { ClientRequest, IncomingMessage } from "http";
 import * as https from "https";
-import { Request } from "../business/request";
-import { Response } from "../business/response";
-import { Header } from "../business/header";
+import { Request } from "../business/request/request";
+import { Response } from "../business/request/response";
 import { Session } from "../../result/session";
 import { NumberUtils } from "./numberUtils";
 import { PathUtils } from "./pathUtils";

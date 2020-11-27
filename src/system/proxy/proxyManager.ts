@@ -1,6 +1,6 @@
-import { Response } from "../../common/business/response";
-import { Header, HEADER_NAME } from "../../common/business/header";
-import { Request } from "../../common/business/request";
+import { Response } from "../../common/business/request/response";
+import { Header, HEADER_NAME } from "../../common/business/request/header";
+import { Request } from "../../common/business/request/request";
 import { Proxy } from "./http-mitm-proxy";
 
 import * as URL from "url";
