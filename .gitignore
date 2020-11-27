@@ -4,3 +4,4 @@ dist
 data
 .http-mitm-proxy
 logs
+/tslint_result.json
