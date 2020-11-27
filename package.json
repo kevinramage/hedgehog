@@ -21,7 +21,8 @@
     "tslint": "npx tslint --project .",
     "commit": "npm run updateQuality",
     "updateQuality": "npx tslint --project . --format json --out tslint_result.json || node .github/scripts/updateCodeQuality.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "testProxy": "npm start proxy testphp.vulnweb.com 7001"
   },
   "author": "Kevin RAMAGE",
   "license": "Apache License 2.0",

@@ -16,14 +16,13 @@ class Main {
         const logFormat = winston.format.printf(({ level, message, timestamp }) => {
             return `${timestamp} - ${level.toUpperCase()} - ${message}`;
         });
-        const consoleFormat = winston.format.printf(({ level, message }) => {
-            return `${level.toUpperCase()} - ${message}`;
-        });
+        const combinedFormat = winston.format.combine(winston.format.timestamp({format: 'YYYY-MM-DD HH:mm:ss.SSS'}), logFormat);
+        const transportOption = { filename: "logs/Hedgehog_%DATE%.log", datePattern: 'YYYY-MM-DD', level: 'debug', zippedArchive: true, maxSize: '20m', maxFiles: '14d', format: combinedFormat};
 
         // Add loggers
         winston.remove(winston.transports.Console);
-        winston.add(new winston.transports.DailyRotateFile({ filename: "logs/Hedgehog_%DATE%.log", datePattern: 'YYYY-MM-DD', level: 'debug', zippedArchive: true, maxSize: '20m', maxFiles: '14d', format: winston.format.combine(winston.format.timestamp(), logFormat)}));
-        winston.add(new winston.transports.Console({level: "info", stderrLevels: ["error"], format: consoleFormat}));
+        winston.add(new winston.transports.DailyRotateFile(transportOption));
+        winston.add(new winston.transports.Console({level: "info", stderrLevels: ["error"], format: combinedFormat}));
 
     }
 
