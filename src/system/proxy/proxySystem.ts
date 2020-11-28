@@ -4,11 +4,11 @@ import { Request } from "../../common/business/request/request";
 import { Response } from "../../common/business/request/response";
 import { Context } from "../../common/business/request/context";
 import { Analyzers } from "../../analyzer/analyzers";
-import { Report } from "../../result/report/report";
-import { ProxyReport } from "../../result/report/proxyReport";
-import { Session } from "../../result/session";
+import { Report } from "../../common/business/report/report";
+import { ProxyReport } from "../../common/business/report/proxyReport";
+import { Session } from "../../common/business/session/session";
 import { format } from "util";
-import { DataManager } from "../../result/dataManager";
+import { DataManager } from "../../common/business/session/dataManager";
 
 import * as winston from "winston";
 

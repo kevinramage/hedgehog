@@ -1,6 +1,6 @@
 import * as https from "https";
-import { Result } from "../../common/business/result"
-import { ResultItem } from "../../common/business/resultItem";
+// import { Result } from "../../common/business/result"
+// import { ResultItem } from "../../common/business/resultItem";
 import { IChecker } from "../IChecker";
 
 /**

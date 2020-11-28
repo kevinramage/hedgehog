@@ -1,5 +1,4 @@
 {
-    "portListener": {
-        "timeout": -1
-    }
+    "portListener.timeout": null,
+    "request.maxRedirect": 10
 }

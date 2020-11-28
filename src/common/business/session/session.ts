@@ -2,10 +2,10 @@ import { v4 } from "uuid";
 import { format } from "util";
 import { join } from "path";
 import { mkdirSync, existsSync, closeSync, openSync, appendFileSync } from "fs";
-import { Request } from "../common/business/request/request";
-import { Response } from "../common/business/request/response";
+import { Request } from "../request/request";
+import { Response } from "../request/response";
 import { Warning } from "./warning";
-import { SiteTreeView } from "../system/spider/siteTreeView";
+import { SiteTreeView } from "../../../system/spider/siteTreeView";
 
 export class Session {
     private static SEPARATOR = "------------------------------------------------------------------------------";

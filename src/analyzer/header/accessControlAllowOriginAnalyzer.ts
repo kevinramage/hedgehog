@@ -1,7 +1,7 @@
-import { DataManager } from "../../result/dataManager";
+import { DataManager } from "../../common/business/session/dataManager";
 import { Context } from "../../common/business/request/context";
-import { Session } from "../../result/session";
-import { Warning, WARNING_NAME, WARNING_SEVERITY, WARNING_TYPE } from "../../result/warning";
+import { Session } from "../../common/business/session/session";
+import { Warning, WARNING_NAME, WARNING_SEVERITY, WARNING_TYPE } from "../../common/business/session/warning";
 import { IAnalyzer } from "../IAnalyzer";
 
 /**

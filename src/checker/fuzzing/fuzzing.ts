@@ -1,8 +1,7 @@
 import { NumberUtils } from "../../common/utils/numberUtils";
-import { format } from "util";
 import { Request, REQUEST_METHODS } from "../../common/business/request/request";
-import { Defect } from "../../result/defect";
-import { DataManager } from "../../result/dataManager";
+import { Defect } from "../../common/business/session/defect";
+import { DataManager } from "../../common/business/session/dataManager";
 import { IChecker } from "../IChecker";
 
 /**

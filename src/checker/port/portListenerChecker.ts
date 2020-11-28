@@ -1,11 +1,10 @@
 import * as net from "net";
-import { PortReport } from "../../result/report/portReport";
-import { Report } from "../../result/report/report";
+import { PortReport } from "../../common/business/report/portReport";
+import { Report } from "../../common/business/report/report";
 import { format } from "util";
 import { IChecker } from "../IChecker";
 import { PortResult } from "./portResult";
-
-import OPTIONS = require("../../config/options.json");
+import { OPTIONS, Options } from "../../common/business/options";
 
 /**
  * Checker to analyze the server port allowed
@@ -54,7 +53,7 @@ export class PortListenerChecker implements IChecker {
     private checkPort(port: number) {
         return new Promise<PortResult>((resolve) => {
             let responseProvided = false;
-            const timeout = this.readTimeout();
+            const timeout = Options.instance.option(OPTIONS.PORTLISTENER_TIMEOUT);
             const socket = net.connect(port, this._host);
             if (timeout && timeout !== -1) {
                 socket.setTimeout(timeout);
@@ -71,14 +70,6 @@ export class PortListenerChecker implements IChecker {
                 resolve(new PortResult(port, false));
             });
         });
-    }
-
-    private readTimeout() {
-        if (OPTIONS && OPTIONS.portListener && OPTIONS.portListener.timeout) {
-            return OPTIONS.portListener.timeout;
-        } else {
-            return undefined;
-        }
     }
 
     public get host() {

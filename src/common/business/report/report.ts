@@ -1,7 +1,7 @@
-import { ISystem } from "../../system/ISystem";
+import { ISystem } from "../../../system/ISystem";
 import * as util from "util";
 import * as winston from "winston";
-import { IChecker } from "../../checker/IChecker";
+import { IChecker } from "../../../checker/IChecker";
 
 export class Report {
 

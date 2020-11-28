@@ -1,9 +1,9 @@
 import { Context } from "../../common/business/request/context";
 import { StringUtils } from "../../common/utils/StringUtils";
-import { Session } from "../../result/session";
-import { Warning, WARNING_NAME, WARNING_SEVERITY, WARNING_TYPE } from "../../result/warning";
+import { Session } from "../../common/business/session/session";
+import { Warning, WARNING_NAME, WARNING_SEVERITY, WARNING_TYPE } from "../../common/business/session/warning";
 import { IAnalyzer } from "../IAnalyzer";
-import { DataManager } from "../../result/dataManager";
+import { DataManager } from "../../common/business/session/dataManager";
 
 /**
  * Shared server content cached

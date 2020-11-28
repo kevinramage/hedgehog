@@ -1,9 +1,9 @@
-import { Session } from "../../result/session";
-import { Report } from "../../result/report/report";
+import { Session } from "../../common/business/session/session";
+import { Report } from "../../common/business/report/report";
 import { ISystem } from "../ISystem";
 import { SiteTreeView } from "./siteTreeView";
 import { SpiderQuery } from "./spiderQuery";
-import { SpiderReport } from "../../result/report/spiderReport";
+import { SpiderReport } from "../../common/business/report/spiderReport";
 
 export class Spider implements ISystem {
     private _host : string;

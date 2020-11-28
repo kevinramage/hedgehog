@@ -1,8 +1,8 @@
 
-import { Session } from "../../result/session";
+import { Session } from "../../common/business/session/session";
 import { Context } from "../../common/business/request/context";
-import { DataManager } from "../../result/dataManager";
-import { Warning, WARNING_NAME, WARNING_SEVERITY, WARNING_TYPE } from "../../result/warning";
+import { DataManager } from "../../common/business/session/dataManager";
+import { Warning, WARNING_NAME, WARNING_SEVERITY, WARNING_TYPE } from "../../common/business/session/warning";
 import { IAnalyzer } from "../IAnalyzer";
 
 /**

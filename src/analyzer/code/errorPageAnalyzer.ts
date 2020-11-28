@@ -1,6 +1,6 @@
 import { Context } from "../../common/business/request/context";
-import { DataManager } from "../../result/dataManager";
-import { Technology } from "../../result/technology";
+import { DataManager } from "../../common/business/session/dataManager";
+import { Technology } from "../../common/business/session/technology";
 import { IAnalyzer } from "../IAnalyzer";
 
 import ERRORS_PAGE = require("../../config/errorsPage.json");

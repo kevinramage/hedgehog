@@ -1,6 +1,6 @@
 import util from "util";
-import { RequestSystem } from "../../system/request/requestSystem";
-import { Session } from "../session";
+import { RequestSystem } from "../../../system/request/requestSystem";
+import { Session } from "../session/session";
 import { Report } from "./report";
 import * as winston from "winston";
 

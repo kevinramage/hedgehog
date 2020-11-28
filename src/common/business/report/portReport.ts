@@ -1,4 +1,4 @@
-import { PortListenerChecker } from "../../checker/port/portListenerChecker";
+import { PortListenerChecker } from "../../../checker/port/portListenerChecker";
 import { Report } from "./report";
 import * as winston from "winston";
 import { format } from "util";

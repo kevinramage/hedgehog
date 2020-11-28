@@ -1,5 +1,5 @@
-import { Request } from "../common/business/request/request";
-import { Response } from "../common/business/request/response";
+import { Request } from "../request/request";
+import { Response } from "../request/response";
 
 export class Warning {
     private _type: string;

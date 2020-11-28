@@ -1,7 +1,7 @@
 import * as util from "util";
-import { Spider } from "../../system/spider/spider";
+import { Spider } from "../../../system/spider/spider";
 import { Report } from "./report";
-import { Session } from "../session";
+import { Session } from "../session/session";
 import * as winston from "winston";
 
 export class SpiderReport extends Report {

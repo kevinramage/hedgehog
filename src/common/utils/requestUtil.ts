@@ -2,10 +2,10 @@ import { ClientRequest, IncomingMessage } from "http";
 import * as https from "https";
 import { Request } from "../business/request/request";
 import { Response } from "../business/request/response";
-import { Session } from "../../result/session";
+import { Session } from "../../common/business/session/session";
 import { NumberUtils } from "./numberUtils";
 import { PathUtils } from "./pathUtils";
-import { Options } from "../business/options";
+import { OPTIONS, Options } from "../business/options";
 
 /**
  * @class
@@ -39,7 +39,8 @@ export class RequestUtil {
                     Session.instance.addResponse(response);
 
                     // Manage follow redirect
-                    if (NumberUtils.equalsOneOf(response.status, [301, 302, 303]) && response.location && redirectLoop < Options.instance.MAX_REDIRECT) {
+                    const maxRedirection = Options.instance.option(OPTIONS.REQUEST_MAXREDIRECT);
+                    if (NumberUtils.equalsOneOf(response.status, [301, 302, 303]) && response.location && redirectLoop < maxRedirection) {
                         const url = PathUtils.getPathFromUrl(response.location);
                         if (url) {
                             request.path = url;

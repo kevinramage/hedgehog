@@ -1,8 +1,8 @@
 import { readFileSync } from "fs";
 import { Checkers } from "../../checker/checkers";
-import { Test } from "../../result/test";
+import { Test } from "../../common/business/session/test";
 import { format } from "util";
-import { Report } from "../../result/report/report";
+import { Report } from "../../common/business/report/report";
 import { ISystem } from "../ISystem";
 
 export class AttackSystem implements ISystem {

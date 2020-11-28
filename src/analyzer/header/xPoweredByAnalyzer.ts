@@ -1,9 +1,9 @@
-import { DataManager } from "../../result/dataManager";
-import { Technology } from "../../result/technology";
+import { DataManager } from "../../common/business/session/dataManager";
+import { Technology } from "../../common/business/session/technology";
 import { Context } from "../../common/business/request/context";
 import { HEADER_NAME } from "../../common/business/request/header";
-import { Session } from "../../result/session";
-import { Warning, WARNING_NAME, WARNING_SEVERITY, WARNING_TYPE } from "../../result/warning";
+import { Session } from "../../common/business/session/session";
+import { Warning, WARNING_NAME, WARNING_SEVERITY, WARNING_TYPE } from "../../common/business/session/warning";
 import { IAnalyzer } from "../IAnalyzer";
 import { VersionUtils } from "../../common/utils/versionUtils";
 

@@ -1,7 +1,7 @@
 import * as util from "util";
 import { Report } from "./report";
-import { Session } from "../session";
-import { ProxySystem } from "../../system/proxy/proxySystem";
+import { Session } from "../session/session";
+import { ProxySystem } from "../../../system/proxy/proxySystem";
 import * as winston from "winston";
 
 export class ProxyReport extends Report {

@@ -4,8 +4,8 @@ import { Response } from "../../common/business/request/response";
 import { ISystem } from "../ISystem";
 import { Processors } from "../../processor/processors";
 import { Analyzers } from "../../analyzer/analyzers";
-import { Report } from "../../result/report/report";
-import { RequestReport } from "../../result/report/requestReport";
+import { Report } from "../../common/business/report/report";
+import { RequestReport } from "../../common/business/report/requestReport";
 
 export class RequestSystem implements ISystem {
 
