@@ -22,7 +22,9 @@ export class SSLReport extends Report{
     writeSummary(sslMethodChecker: SSLMethodChecker) {
         super.writeSummary(sslMethodChecker);
         const results = sslMethodChecker.results;
-        let methods = results.filter(m => { return m.isAllowed; }).map(m => { return m.sslMethod; }).join(", ");
+        let methods = results.filter(m => { return m.isAllowed || m.errorMessage !== ""; })
+            .map(m => { return (m.errorMessage !== "") ? format("%s (%s)", m.sslMethod, m.errorMessage) : m.sslMethod; })
+            .join(", ");
         if (methods === "") {
             methods = "Insecure connection: no SSL methods identified"
         }

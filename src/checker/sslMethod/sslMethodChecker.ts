@@ -75,7 +75,10 @@ export class SSLMethodChecker implements IChecker {
                 request.on("error", (err: any) => {
                     if (!sendResponse) {
                         sendResponse = true;
-                        resolve(new SSLMethodResult(sslMethod, false, err));
+                        if (!err.code) {
+                            winston.debug("SSLMethodChecker.runQuery - Error during request processing: ", err);
+                        }
+                        resolve(new SSLMethodResult(sslMethod, false, err.code ? err.code : "NO ERROR CODE"));
                     }
                 });
 
@@ -84,7 +87,10 @@ export class SSLMethodChecker implements IChecker {
                     resolve(new SSLMethodResult(sslMethod, false, ""));
                 } else {
                     if (!sendResponse) {
-                        winston.error("SSLMethodChecker.runQuery - InternalError: ", err);
+                        if (!err.code) {
+                            winston.debug("SSLMethodChecker.runQuery - Error during request building: ", err);
+                        }
+                        winston.error("SSLMethodChecker.runQuery - InternalError: ", err.code ? err.code : "NO ERROR CODE");
                         sendResponse = true;
                         resolve(new SSLMethodResult(sslMethod, false, err));
                     }
