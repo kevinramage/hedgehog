@@ -4,6 +4,7 @@ import { ProxySystem } from "../system/proxy/proxySystem";
 import * as winston from "winston";
 import { PortListenerChecker } from "../checker/port/portListenerChecker";
 import { SSLMethodChecker } from "../checker/sslMethod/sslMethodChecker";
+import { CipherChecker } from "../checker/cipher/cipherChecker";
 
 export class Program {
 
@@ -68,6 +69,17 @@ export class Program {
                 resolve();
             }).exitOverride(() => {
                 winston.error("Syntax: ssl <hostName> <port>  run ssl methods checker to identify ssl method allowed");
+                resolve();
+            });
+
+        // Cipher checker
+        myProgram.command("cipher <hostName> <port>")
+            .description("run cipher checker to identify ciphers allowed")
+            .action(async (hostName, port) => {
+                await this.cipher(hostName, port);
+                resolve();
+            }).exitOverride(() => {
+                winston.error("Syntax: cipher <hostName> <port>  run cipher checker to identify ciphers allowed");
                 resolve();
             });
     }
@@ -137,6 +149,16 @@ export class Program {
             await sslMethodChecker.run();
         } else {
             winston.error("Syntax: ssl <hostName> <port>  run ssl methods checker to identify ssl method allowed");
+        }
+    }
+
+    public async cipher(hostName: string, portValue: string) {
+        const port = Number.parseInt(portValue, 10);
+        if (!isNaN(port)) {
+            const cipherChecker = new CipherChecker(hostName, port);
+            await cipherChecker.run();
+        } else {
+            winston.error("Syntax: cipher <hostName> <port>  run cipher checker to identify ciphers allowed");
         }
     }
 

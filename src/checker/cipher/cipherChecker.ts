@@ -1,6 +1,9 @@
-import * as https from "https";
-import { format } from "util";
+import { resolve } from "path";
 import { IChecker } from "../IChecker";
+
+// Implement ClientHello avec une liste de cipher élévé
+// Analyse the ServerHello message
+// https://github.com/kuisathaverat/TestSSLServer
 
 /**
  * Checker to analyze communication between client and server.
@@ -25,59 +28,57 @@ export class CipherChecker implements IChecker {
      * Run the execution of the checker
      */
     public async run() {
-
-        const list : string[] = [];
-        // list.push("AES_128_GCM");
-
-        // console.info("Start cipher to analyze: " + list.length);
-        const promises = list.map(c => { return this.runQuery(c); });
-        await Promise.all(promises);
-        // console.info("End cipher to analyze: " + list.length)
-       /*
-        const ciphers = "ECDHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA256:AES128-GCM-SHA256:RC4:HIGH:!MD5:!aNULL";
-        console.info("Ciphers: " + ciphers);
-        await this.runQuery(ciphers);
-        */
+        return new Promise<void>(async (r) => {
+            // console.info(tls.getCiphers());
+            const ciphersSuite = ["TLS_RSA_WITH_AES_128_CBC_SHA"];
+            const promises = ciphersSuite.map(c => { return this.runQuery(c); });
+            await Promise.all(promises);
+            r();
+        });
     }
 
-    /**
-     * Run an HTTP request with a specific cipher to test server
-     * @param cipher cipher to check
-     */
     private runQuery(cipher: string) {
-        return new Promise<void>((resolve) => {
-            let responseSent = false;
-            const errorHandler = (err: any) => {
-                if (!responseSent) {
-                    responseSent = true;
-                    // console.error(format("%s => KO (%s)", cipher, err.code));
-                    if (err.code !== "ERR_SSL_NO_CIPHER_MATCH") {
-                        //
+        return new Promise<void>(() => {
+            /*
+            const options : https.RequestOptions = {
+                hostname: this._host,
+                //port: this._port,
+                method: "CONNECT",
+                ciphers: cipher.toUpperCase(),
+                rejectUnauthorized: false
+            };
+
+            let request;
+            try {
+                request = https.request(options);
+                request.on("connect", () => {
+                    console.info("connect");
+                    resolve();
+                });
+
+                request.on("error", (err: any) => {
+                    if ( err.code === "ERR_SSL_NO_CIPHERS_AVAILABLE" ) {
+                        console.info("error: " + err.code);
+
+                    } else {
+                        console.info("error: " + err.code);
                     }
                     resolve();
-                }
-            }
-            const completeRequest = () => { /* console.info(format("%s => OK", cipher)); */ }
-            const abortRequest = () => { /* console.info(format("%s => Timeout", cipher)); */ }
-            try {
-                let code = "";
-                const options : https.RequestOptions = { hostname: this._host, port: this._port, path: "/", ciphers: cipher, timeout: 50000 };
-                const request = https.request(options, (res) => {
-                    res.on("error", errorHandler);
-                    res.on("data", (chunk) => {
-                        code += chunk;
-                    });
-                    res.on("end", () => { completeRequest(); });
                 });
-                request.on("error", errorHandler);
-                request.on("abort", abortRequest);
-                request.on("timeout", () => { request.abort(); });
 
-
-                request.end("");
             } catch (err) {
-                errorHandler(err);
+                if (err.code == "ERR_SSL_NO_CIPHER_MATCH") {
+
+                }
+                console.info("error ..." + err.code);
+                resolve();
             }
+
+            if (request) {
+                request.end();
+            }
+            */
+           resolve();
         });
     }
 
