@@ -1,7 +1,6 @@
-import { v4 } from "uuid";
 import { HtmlControl, CONTROL_TYPE } from "../business/control/htmlControl";
 import { HtmlAttribute } from "../business/control/htmlAttribute";
-import { StringUtils } from "./StringUtils";
+import { StringUtils } from "./stringUtils";
 
 /**
  * @class

@@ -1,5 +1,5 @@
 import { Context } from "../../common/business/request/context";
-import { StringUtils } from "../../common/utils/StringUtils";
+import { StringUtils } from "../../common/utils/stringUtils";
 import { Session } from "../../common/business/session/session";
 import { Warning, WARNING_NAME, WARNING_SEVERITY, WARNING_TYPE } from "../../common/business/session/warning";
 import { IAnalyzer } from "../IAnalyzer";

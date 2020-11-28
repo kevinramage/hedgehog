@@ -1,4 +1,4 @@
-import { StringUtils } from "../../utils/StringUtils";
+import { StringUtils } from "../../utils/stringUtils";
 import { Header, HEADER_NAME } from "./header";
 
 export class Response {
