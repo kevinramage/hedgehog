@@ -9,6 +9,7 @@ export class RequestReport extends Report {
     writeRequest(requestSystem: RequestSystem) {
         winston.info(Report.SEPARATOR);
         winston.info("                REQUEST");
+        winston.info(Report.SEPARATOR);
         winston.info(util.format("Session: %s", Session.instance.id));
         winston.info(util.format("Date: %s", new Date()));
         winston.info(util.format("Host: '%s'", requestSystem.host));

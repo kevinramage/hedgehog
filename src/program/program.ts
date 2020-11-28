@@ -2,6 +2,7 @@ import commander, { program } from "commander";
 import { readFileSync } from "fs";
 import { ProxySystem } from "../system/proxy/proxySystem";
 import * as winston from "winston";
+import { PortListenerChecker } from "../checker/port/portListenerChecker";
 
 export class Program {
 
@@ -48,10 +49,10 @@ export class Program {
         // Attack
 
         // Ports checkers
-        myProgram.command("ports <hostName> <port>")
+        myProgram.command("ports <hostName> <portRange>")
             .description("run ports checker to identify opened ports")
-            .action(async (hostName, port) => {
-                await this.port(hostName);
+            .action(async (hostName, portRange) => {
+                await this.port(hostName, portRange);
                 resolve();
             }).exitOverride(() => {
                 winston.error("Syntax: proxy <hostName> <port>  run proxy system to analyze incomming request");
@@ -82,8 +83,39 @@ export class Program {
         }
     }
 
-    public async port(hostname: string) {
-        /// TODO
+    public async port(hostname: string, portArg: string) {
+        if (hostname !== "" && portArg !== "") {
+            const regexPortList = /^(\s*[0-9]+\s*(\,\s*[0-9]+\s*)*)$/g;
+            const regexPortRange = /^\s*[0-9]+\s*\-\s*[0-9]+\s*$/g;
+            const uniquePort = Number.parseInt(portArg, 10);
+
+            // List (22, 80, 443)
+            if (portArg.match(regexPortList) != null) {
+                const ports = portArg.split(",").
+                    map((p) => { return Number.parseInt(p, 10); })
+                    .filter(p => { return !Number.isNaN(p); });
+                const portListener = new PortListenerChecker(hostname, ports);
+                await portListener.run();
+
+            // Interval (22-80)
+            } else if (portArg.match(regexPortRange) != null) {
+                const min = Number.parseInt(portArg.split("-")[0].trim(), 10);
+                const max = Number.parseInt(portArg.split("-")[1].trim(), 10);
+                const ports = PortListenerChecker.getPortsFromInterval(min, max);
+                const portListener = new PortListenerChecker(hostname, ports);
+                await portListener.run();
+
+            // Single port
+            } else if (!isNaN(uniquePort)) {
+                const portListener = new PortListenerChecker(hostname, [uniquePort]);
+                await portListener.run();
+            } else {
+                winston.error("Invalid syntax: ports <hostName> <port>  run ports checker to identify opened ports");
+            }
+
+        } else {
+            winston.error("Invalid syntax: ports <hostName> <port>  run ports checker to identify opened ports");
+        }
     }
 
     public static get instance() {

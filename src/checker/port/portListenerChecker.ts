@@ -1,6 +1,11 @@
 import * as net from "net";
-import { ResultItem } from "../../common/business/resultItem";
+import { PortReport } from "../../result/report/portReport";
+import { Report } from "../../result/report/report";
+import { format } from "util";
 import { IChecker } from "../IChecker";
+import { PortResult } from "./portResult";
+
+import OPTIONS = require("../../config/options.json");
 
 /**
  * Checker to analyze the server port allowed
@@ -9,61 +14,98 @@ import { IChecker } from "../IChecker";
 export class PortListenerChecker implements IChecker {
 
     private _host : string;
-    private _port : number;
+    private _ports : number[];
+    private _results : PortResult[];
+    private _report : Report;
 
     /**
      * Constructor
      * @param host host to test
-     * @param port port to test
-     * @param expectedStatus array of possible response status code for invalid path (e.g 404, 405)
+     * @param port ports to test
      */
-    constructor(host: string, port: number) {
+    constructor(host: string, ports: number[]) {
         this._host = host;
-        this._port = port;
+        this._ports = ports;
+        this._results = [];
+        this._report = new PortReport();
     }
 
+    /**
+     * Run the checker execution
+     * TODO: Improve it with parallel execution
+     */
     run(): Promise<void> {
-        throw new Error("Method not implemented.");
+        return new Promise<void>(async (resolve) => {
+
+            // Write user request
+            this._report.writeRequest(this);
+
+            // Run query
+            const promises = this._ports.map(p => { return this.checkPort(p); });
+            this._results = await Promise.all(promises);
+
+            // Write summary
+            this._report.writeSummary(this);
+
+            resolve();
+        });
     }
 
-    /*
-    check() {
-        return new Promise<PortListenerResultItem>((resolve) => {
-            const result = new PortListenerResultItem();
-            result.host = this._host;
-            result.port = this._port;
+    private checkPort(port: number) {
+        return new Promise<PortResult>((resolve) => {
             let responseProvided = false;
-            const socket = net.connect(this._port, this._host);
+            const timeout = this.readTimeout();
+            const socket = net.connect(port, this._host);
+            if (timeout && timeout !== -1) {
+                socket.setTimeout(timeout);
+            }
             socket.on("connect", () => {
                 responseProvided = true;
-                result.isListening = true;
+                this._report.changeStep(format("Listen %d port", port))
                 socket.destroy();
-                resolve(result);
+                resolve(new PortResult(port, true));
             });
             socket.on("error", () => {
                 responseProvided = true;
                 socket.destroy();
-                resolve(result);
+                resolve(new PortResult(port, false));
             });
         });
     }
-    */
+
+    private readTimeout() {
+        if (OPTIONS && OPTIONS.portListener && OPTIONS.portListener.timeout) {
+            return OPTIONS.portListener.timeout;
+        } else {
+            return undefined;
+        }
+    }
+
+    public get host() {
+        return this._host;
+    }
+
+    public get ports() {
+        return this._ports;
+    }
+
+    public get results() {
+        return this._results;
+    }
+
+    public static getPortsFromInterval(min: number, max: number) {
+        if (min <= max) {
+            const ports : number[] = [];
+            for (let i = min; i < max; i++) {
+                ports.push(i);
+            }
+            return ports;
+        } else {
+            return [];
+        }
+    }
 
     public static fromArgs(content: string) {
         return null;
     }
 }
-/*
-export class PortListenerResultItem extends ResultItem {
-    public host : string;
-    public port : number;
-    public isListening: boolean;
-
-    constructor() {
-        super();
-        this.host = "";
-        this.port = -1;
-        this.isListening = false;
-    }
-}
-*/

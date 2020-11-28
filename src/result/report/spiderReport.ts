@@ -9,6 +9,7 @@ export class SpiderReport extends Report {
     writeRequest(spider: Spider) {
         winston.info(Report.SEPARATOR);
         winston.info("                SPIDER");
+        winston.info(Report.SEPARATOR);
         winston.info(util.format("Session: %s", Session.instance.id));
         winston.info(util.format("Date: %s", new Date()));
         winston.info(util.format("Host: '%s'", spider.host));
