@@ -3,6 +3,7 @@ import { readFileSync } from "fs";
 import { ProxySystem } from "../system/proxy/proxySystem";
 import * as winston from "winston";
 import { PortListenerChecker } from "../checker/port/portListenerChecker";
+import { SSLMethodChecker } from "../checker/sslMethod/sslMethodChecker";
 
 export class Program {
 
@@ -41,7 +42,7 @@ export class Program {
                 await this.proxy(hostName, port);
                 resolve();
             }).exitOverride(() => {
-                winston.error("ports <hostName> <port>  run ports checker to identify opened ports");
+                winston.error("pproxy <hostName> <port>  run proxy system to analyze incomming request");
                 resolve();
             });
 
@@ -56,6 +57,17 @@ export class Program {
                 resolve();
             }).exitOverride(() => {
                 winston.error("Syntax: proxy <hostName> <port>  run proxy system to analyze incomming request");
+                resolve();
+            });
+
+        // SSL Method checker
+        myProgram.command("ssl <hostName> <port>")
+            .description("run ssl methods checker to identify ssl method allowed")
+            .action(async (hostName, port) => {
+                await this.ssl(hostName, port);
+                resolve();
+            }).exitOverride(() => {
+                winston.error("Syntax: ssl <hostName> <port>  run ssl methods checker to identify ssl method allowed");
                 resolve();
             });
     }
@@ -79,7 +91,7 @@ export class Program {
             const proxySystem = new ProxySystem(hostName, port);
             await proxySystem.run();
         } else {
-            /// TODO Manage error
+            winston.error("pproxy <hostName> <port>  run proxy system to analyze incomming request");
         }
     }
 
@@ -115,6 +127,16 @@ export class Program {
 
         } else {
             winston.error("Invalid syntax: ports <hostName> <port>  run ports checker to identify opened ports");
+        }
+    }
+
+    public async ssl(hostName: string, portValue: string) {
+        const port = Number.parseInt(portValue, 10);
+        if (!isNaN(port)) {
+            const sslMethodChecker = new SSLMethodChecker(hostName, port);
+            await sslMethodChecker.run();
+        } else {
+            winston.error("Syntax: ssl <hostName> <port>  run ssl methods checker to identify ssl method allowed");
         }
     }
 

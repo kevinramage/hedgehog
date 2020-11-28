@@ -19,7 +19,7 @@ export class Report {
     }
 
     public changeStep(stepName: string) {
-        winston.info(util.format("- %s", stepName));
+        winston.info(util.format("%s", stepName));
     }
 
     public writeSummary(system: ISystem | IChecker) {

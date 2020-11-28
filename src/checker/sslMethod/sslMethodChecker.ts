@@ -1,7 +1,11 @@
 import * as https from "https";
-// import { Result } from "../../common/business/result"
-// import { ResultItem } from "../../common/business/resultItem";
 import { IChecker } from "../IChecker";
+import { SSLMethodResult } from "./sslMethodResult";
+import * as winston from "winston";
+import { Report } from "../../common/business/report/report";
+import { SSLReport } from "../../common/business/report/sslReport";
+import * as tls from "tls";
+import { format } from "util";
 
 /**
  * Checker to test the SSL method allowed by the server
@@ -11,6 +15,8 @@ export class SSLMethodChecker implements IChecker {
     public static NAME = "SSLProcolChecker";
     private _host : string;
     private _port : number;
+    private _report : Report;
+    private _results : SSLMethodResult[];
 
     /**
      * Constructor
@@ -20,103 +26,67 @@ export class SSLMethodChecker implements IChecker {
     constructor(host: string, port: number) {
         this._host = host;
         this._port = port;
+        this._report = new SSLReport();
+        this._results = [];
     }
 
 
-    run(): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
-
-    /*
-    run2() {
-        const instance = this;
-
-        // Prepare result
-        const check = new SSLProtocolCheck();
-        check.host = instance._host;
-        check.port = instance._port;
-
-        // Run query foreach SSL method
-        return new Promise<SSLProtocolCheck>((resolve) => {
-            Promise.all([
-                instance.runQuery(SSL_METHOD.SSLv3_method),
-                instance.runQuery(SSL_METHOD.TLSv1_method),
-                instance.runQuery(SSL_METHOD.TLSv1_1_method),
-                instance.runQuery(SSL_METHOD.TLSv1_2_method),
-            ]).then((result) => {
-                check.items = result;
-                check.protocols = SSLProtocolCheckItem.mergeProtocols(result);
-                resolve(check);
-            }).catch((err) => {
-                check.errorMessage = err;
-                resolve(check);
-            });
+    public run(): Promise<void> {
+        winston.debug("SSLMethodChecker.run");
+        return new Promise<void>(async (resolve) => {
+            this._report.writeRequest(this);
+            const methods = [SSL_METHOD.SSLV3, SSL_METHOD.TLSV1, SSL_METHOD.TLSV1_1, SSL_METHOD.TLSV1_2, SSL_METHOD.TLSV1_3];
+            const promises = methods.map(m => { return this.runQuery(m); });
+            this._results = await Promise.all(promises);
+            this._report.writeSummary(this);
+            resolve();
         });
     }
-    */
 
-    private runQuery(sslProtocol: string) {
-        // let sendResponse = false;
-        /*
-        return new Promise<SSLProtocolCheckItem>((resolve) => {
-
-            // Create check item
-            const checkItem = new SSLProtocolCheckItem();
-            checkItem.SSLMethod = sslProtocol;
+    private runQuery(sslMethod: string) {
+        winston.debug("SSLMethodChecker.runQuery");
+        let sendResponse = false;
+        return new Promise<SSLMethodResult>((resolve) => {
 
             // Request options
             const options : https.RequestOptions = {
                 hostname: this._host,
                 port: this._port,
-                method: "GET",
-                path: "/",
-                secureProtocol: sslProtocol,
+                method: "CONNECT",
                 rejectUnauthorized: false
             };
+
+            if (sslMethod !== SSL_METHOD.TLSV1_3) {
+                options.secureProtocol = sslMethod.replace(".", "_") + "_method";
+            } else {
+                options.minVersion = "TLSv1.3";
+                options.maxVersion = "TLSv1.3";
+            }
 
             // Create request
             let request;
             try {
-                let code = "";
-                request = https.request(options, (res) => {
-                res.on("error", (err: any) => {
+                request = https.request(options);
+                request.on("connect", () => {
+                    this._report.changeStep(format("%s allowed", sslMethod));
+                    resolve(new SSLMethodResult(sslMethod, true, ""));
+                });
+
+                request.on("error", (err: any) => {
                     if (!sendResponse) {
                         sendResponse = true;
-                        checkItem.status = CHECKITEM_STATUS.ERROR;
-                        checkItem.errorMessage = err.code;
-                        resolve(checkItem);
+                        resolve(new SSLMethodResult(sslMethod, false, err));
                     }
                 });
-                res.on("data", (chunk) => {
-                    code += chunk;
-                });
-                res.on("end", () => {
-                    checkItem.status = CHECKITEM_STATUS.SUPPORTED;
-                    resolve(checkItem);
-                });
-            });
-
-            request.on("error", (err: any) => {
-                // console.error(err.code);
-                if (!sendResponse) {
-                    sendResponse = true;
-                    checkItem.status = CHECKITEM_STATUS.ERROR;
-                    checkItem.errorMessage = err.code;
-                    resolve(checkItem);
-                }
-            });
-
 
             } catch (err) {
                 if (err && err.code === "ERR_TLS_INVALID_PROTOCOL_METHOD") {
-                    checkItem.status = CHECKITEM_STATUS.NOT_SUPPORTED;
-                    resolve(checkItem);
+                    resolve(new SSLMethodResult(sslMethod, false, ""));
                 } else {
                     if (!sendResponse) {
+                        winston.error("SSLMethodChecker.runQuery - InternalError: ", err);
                         sendResponse = true;
-                        checkItem.status = CHECKITEM_STATUS.ERROR;
-                        checkItem.errorMessage = err.code;
-                        resolve(checkItem);
+                        resolve(new SSLMethodResult(sslMethod, false, err));
                     }
                 }
             }
@@ -125,7 +95,18 @@ export class SSLMethodChecker implements IChecker {
                 request.end();
             }
         });
-        */
+    }
+
+    public get host() {
+        return this._host;
+    }
+
+    public get port() {
+        return this._port;
+    }
+
+    public get results() {
+        return this._results;
     }
 
     public static fromArgs(content: string) {
@@ -133,49 +114,11 @@ export class SSLMethodChecker implements IChecker {
     }
 }
 
-/*
-export class SSLProtocolCheck extends Result {
-    public host: string;
-    public port: number;
-    public protocols: string;
-
-    constructor() {
-        super(SSLProcolChecker.NAME);
-        this.host = "";
-        this.port = -1;
-        this.protocols = "";
-    }
-}
-*/
-
-/*
-export class SSLProtocolCheckItem extends ResultItem {
-    public SSLMethod: string;
-    public status: string;
-
-    constructor() {
-        super();
-        this.SSLMethod = "";
-        this.status = "";
-    }
-
-    public static mergeProtocols(items: SSLProtocolCheckItem[]) {
-        return items.filter(i => { return i.status === CHECKITEM_STATUS.SUPPORTED; })
-            .map(i => { return i.SSLMethod; })
-            .join(", ")
-    }
-}
-
-export enum CHECKITEM_STATUS {
-    ERROR = "ERROR",
-    SUPPORTED = "SUPPORTED",
-    NOT_SUPPORTED = "NOT_SUPPORTED"
-}
 
 export enum SSL_METHOD {
-    SSLV3 = "SSLv3_method",
-    TLSV1 = "TLSv1_method",
-    TLSV1_1 = "TLSv1_1_method",
-    TLSV1_2 = "TLSv1_2_method",
+    SSLV3 = "SSLv3", // Node disable SSL V3 from the node version 9
+    TLSV1 = "TLSv1",
+    TLSV1_1 = "TLSv1.1",
+    TLSV1_2 = "TLSv1.2",
+    TLSV1_3 = "TLSv1.3",
 }
-*/

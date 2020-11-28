@@ -4,14 +4,12 @@ export class Options {
 
     private static _instance : Options;
 
-    private constructor() {
-
-    }
+    private constructor() {}
 
     public option(key: string) {
         if (OPTIONS_FILE) {
             const descriptor = Object.getOwnPropertyDescriptor(OPTIONS_FILE, key);
-            if ( descriptor ) {
+            if (descriptor) {
                 return descriptor.value;
             }
         }
