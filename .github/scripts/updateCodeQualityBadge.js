@@ -2,7 +2,6 @@ const { readFileSync, copyFileSync } = require("fs");
 
 const content = readFileSync("tslint_result.json");
 const data = JSON.parse(content.toString());
-console.info(data.length + " lints");
 
 if ( data.length > 30 ) {
     copyFileSync("./.github/badges/codeQualityD.svg", "./.github/current/quality.svg");
@@ -14,4 +13,4 @@ if ( data.length > 30 ) {
     copyFileSync("./.github/badges/codeQualityA.svg", "./.github/current/quality.svg");
 }
 
-console.info("OK");
+console.info("Lints: " + data.length);

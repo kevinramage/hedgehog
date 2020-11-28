@@ -19,8 +19,9 @@
     "portsListener": "tsc && node dist/server/port/portsListenerProgram",
     "doc": "npx typedoc --out doc src",
     "tslint": "npx tslint --project .",
-    "commit": "npm run updateQuality",
-    "updateQuality": "(npx tslint --project . --format json --out tslint_result.json || echo) && node .github/scripts/updateCodeQuality.js",
+    "commit": "npm run updateQuality && npm run updateAnalyzer",
+    "updateQuality": "(npx tslint --project . --format json --out tslint_result.json || echo) && node .github/scripts/updateCodeQualityBadge.js",
+    "updateAnalyzer": "node .github/scripts/updateAnalyzerBadge.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "testProxy": "npm start proxy testphp.vulnweb.com 7001"
   },
