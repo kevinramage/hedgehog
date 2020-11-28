@@ -52,12 +52,12 @@ export class Program {
 
         // Ports checkers
         myProgram.command("ports <hostName> <portRange>")
-            .description("run ports checker to identify opened ports")
+            .description("run ports checker to identify open ports")
             .action(async (hostName, portRange) => {
                 await this.port(hostName, portRange);
                 resolve();
             }).exitOverride(() => {
-                winston.error("Syntax: proxy <hostName> <port>  run proxy system to analyze incomming request");
+                winston.error("Syntax: proxy <hostName> <portRange>  run ports checker to identify open ports");
                 resolve();
             });
 
@@ -103,7 +103,7 @@ export class Program {
             const proxySystem = new ProxySystem(hostName, port);
             await proxySystem.run();
         } else {
-            winston.error("pproxy <hostName> <port>  run proxy system to analyze incomming request");
+            winston.error("proxy <hostName> <port>  run proxy system to analyze incomming request");
         }
     }
 
@@ -134,11 +134,11 @@ export class Program {
                 const portListener = new PortListenerChecker(hostname, [uniquePort]);
                 await portListener.run();
             } else {
-                winston.error("Invalid syntax: ports <hostName> <port>  run ports checker to identify opened ports");
+                winston.error("Invalid syntax: ports <hostName> <portRange>  run ports checker to identify open ports");
             }
 
         } else {
-            winston.error("Invalid syntax: ports <hostName> <port>  run ports checker to identify opened ports");
+            winston.error("Invalid syntax: ports <hostName> <portRange>  run ports checker to identify open ports");
         }
     }
 
