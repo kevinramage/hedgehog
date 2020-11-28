@@ -18,8 +18,11 @@ jobs:
 
     # Install project
     - name: Install application
-      run: |
-        npm install
+      run: npm install
+      
+    # Compile and run a simple port scan
+    - name: Run simple port sca,
+      run: npm start ports testphp.vulnweb.com 80
 
     # Run TS Lint
     - name: Check code
