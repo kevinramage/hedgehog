@@ -17,7 +17,7 @@
     "start": "tsc && node dist/main.js",
     "sslProtocol": "tsc && node dist/server/sslProtocol/sslProtocolProgram",
     "portsListener": "tsc && node dist/server/port/portsListenerProgram",
-    "doc": "npx typedoc --out doc src",
+    "doc": "npx typedoc --mode file --out doc src",
     "tslint": "npx tslint --project .",
     "commit": "npm run updateQuality && npm run updateAnalyzer",
     "updateQuality": "(npx tslint --project . --format json --out tslint_result.json || echo) && node .github/scripts/updateCodeQualityBadge.js",

@@ -1,6 +1,9 @@
 import { RequestUtil } from "../../utils/requestUtil";
 import { Header, HEADER_NAME } from "./header";
 
+/**
+ * HTTP Request
+ */
 export class Request {
     private _protocol ?: string;
     private _httpVersion ?: string;
@@ -13,6 +16,13 @@ export class Request {
     private _body : string | undefined;
     private _followRedirect : boolean;
 
+    /**
+     * Constructor
+     * @param host request host
+     * @param port request port
+     * @param method request method
+     * @param path request path
+     */
     constructor(host: string, port: number, method: string, path: string) {
         this._host = host;
         this._port = port;
@@ -23,22 +33,34 @@ export class Request {
         this._url = "";
     }
 
+    /**
+     * Add header to this request
+     * @param key header key
+     * @param value header value
+     */
     public addHeader(key: string, value: string | string[]) {
         this._headers.push(new Header(key, value));
     }
 
+    /**
+     * Remove all request headers
+     */
     public cleanHeaders() {
         this._headers = [];
     }
 
-    public send() {
-        return RequestUtil.sendRequest(this, 0);
-    }
-
+    /**
+     * Search an header from its name
+     * @param headerName header name to search (case insensitive)
+     */
     public getHeader(headerName: string) {
         return this.headers.find(h => { return h.key === headerName.toLowerCase() });
     }
 
+    /**
+     * Search an header value from its name
+     * @param headerName header name to search (case insensitive)
+     */
     public getHeaderValue(headerName: string) {
         const header = this.headers.find(h => { return h.key === headerName.toLowerCase() });
         if (header) {
@@ -48,8 +70,19 @@ export class Request {
         }
     }
 
+    /**
+     * Get request host header
+     */
     public get hostHeader() {
         return this.getHeaderValue(HEADER_NAME.HOST) as string;
+    }
+
+    /**
+     * Send a request and wait the response
+     * @returns a promise of response
+     */
+    public send() {
+        return RequestUtil.sendRequest(this, 0);
     }
 
     public get host() {

@@ -1,5 +1,9 @@
 import { Sequence } from "../request/sequence";
+import * as winston from "winston";
 
+/**
+ * Represent an unexpected behaviour, probably a security issue
+ */
 export class Defect {
     private _test : string;
     private _path : string;
@@ -7,6 +11,13 @@ export class Defect {
     private _actual : string;
     private _sequence : Sequence;
 
+    /**
+     * Constructor
+     * @param test test executed
+     * @param path path ?
+     * @param expected expected value
+     * @param actual actual value
+     */
     constructor(test: string, path: string, expected: string, actual: string) {
         this._test = test;
         this._path = path;
@@ -15,11 +26,23 @@ export class Defect {
         this._sequence = new Sequence();
     }
 
+    /**
+     * Identify if a defect exists or not
+     * @param defect defect to search
+     * @param defects session defects
+     * @returns true if the defect exists false else
+     */
     public static exists(defect: Defect, defects: Defect[]) {
         return defects.find(t => { return t.test === defect.test && t._path === defect.path; }) !== undefined;
     }
 
+    /**
+     * Load session defects
+     * @param content content of session defect file
+     * @returns defect list
+     */
     public static load(content: string) {
+        winston.debug("Defect.load");
         const defects : Defect[] = [];
         try {
             const data = JSON.parse(content) as any[];
@@ -27,12 +50,17 @@ export class Defect {
                 defects.push(new Defect(t.test, t.path, t.expected, t.actual));
             });
         } catch (ex) {
-            /// TODO Handling error
+            winston.error("Defect.load - Error during parsing", ex);
         }
 
         return defects;
     }
 
+    /**
+     * Save session defects
+     * @param defects session defects
+     * @returns JSON content
+     */
     public static save(defects: Defect[]) {
         const defectsFormatted = defects.map(t => { return {
             test: t._test,

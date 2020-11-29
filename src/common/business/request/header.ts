@@ -1,14 +1,16 @@
 import { format } from "util";
 
+/**
+ * HTTP header
+ */
 export class Header {
     private _key: string;
     private _value: string | string[];
 
     /**
      * Constructor
-     * @param key header key
+     * @param key header key - Header key is case insensitive (RFC-4485), store in lower case
      * @param value header value
-     * Header name is case insensitive (RFC-4485)
      */
     constructor(key: string, value: string | string[]) {
         this._key = key.toLowerCase();
@@ -23,6 +25,9 @@ export class Header {
         return this._value;
     }
 
+    /**
+     * Format the header
+     */
     public toString() {
         return format("%s: %s", this.key, this.value);
     }

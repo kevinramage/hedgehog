@@ -2,6 +2,9 @@ import { ComponentProcessor } from "./component/componentProcessor";
 import { HtmlProcessor } from "./html/htmlProcessor";
 import { IProcessor } from "./IProcessor";
 
+/**
+ * @ignore
+ */
 import processorsConfiguration = require("../config/processors.json");
 
 export class Processors {

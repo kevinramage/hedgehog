@@ -1,5 +1,6 @@
 import { Request } from "../request/request";
 import { Response } from "../request/response";
+import * as winston from "winston";
 
 export class Warning {
     private _type: string;
@@ -16,11 +17,23 @@ export class Warning {
         this._details = details;
     }
 
+    /**
+     * Identify if a warning exists or not
+     * @param warning warning to search
+     * @param warnings session warnings
+     * @returns true if the warning exists false else
+     */
     public static exists(warning: Warning, warnings: Warning[]) {
         return warnings.find(t => { return t.name === warning.name; }) !== undefined;
     }
 
+    /**
+     * Load session warnings
+     * @param content content of session warning file
+     * @returns warning list
+     */
     public static load(content: string) {
+        winston.debug("Warning.load");
         const warnings : Warning[] = [];
         try {
             const data = JSON.parse(content) as any[];
@@ -28,12 +41,17 @@ export class Warning {
                 warnings.push(new Warning(w.type, w.name, w.severity, w.details));
             });
         } catch (ex) {
-            /// TODO Handling error
+            winston.error("Warning.load - Error during parsing", ex);
         }
 
         return warnings;
     }
 
+    /**
+     * Save session warning
+     * @param warnings session warnings
+     * @returns JSON content
+     */
     public static save(warnings: Warning[]) {
         const warningsFormatted = warnings.map(w => { return {
             type: w._type,

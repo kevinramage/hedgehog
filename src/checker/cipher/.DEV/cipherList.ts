@@ -1,3 +1,6 @@
+/**
+ * @ignore
+ */
 export module CipherList {
     export const ECDHE_RSA_AES256_GCM_SHA384 = "ECDHE-RSA-AES256-GCM-SHA384";
     export const ECDHE_ECDSA_AES256_GCM_SHA384 = "ECDHE-ECDSA-AES256-GCM-SHA384";

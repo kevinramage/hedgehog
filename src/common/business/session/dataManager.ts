@@ -6,6 +6,10 @@ import { Warning } from "./warning";
 import { format } from "util";
 import { Defect } from "./defect";
 
+/**
+ * Represent data linked to host
+ * Results of proxy and attack system (technology, warnings, tests, defects)
+ */
 export class DataManager {
 
     private static _instance : DataManager;
@@ -16,6 +20,9 @@ export class DataManager {
     private _tests : Test[];
     private _defects : Defect[];
 
+    /**
+     * Constructor
+     */
     private constructor() {
         this._technologies = [];
         this._warnings = [];
@@ -23,6 +30,10 @@ export class DataManager {
         this._defects = [];
     }
 
+    /**
+     * Init data manager with an host
+     * @param host host to initialized
+     */
     public init(host: string) {
         this._host = host;
         if (!existsSync("data")) { mkdirSync("data"); }
@@ -33,6 +44,10 @@ export class DataManager {
         this.loadDefects();
     }
 
+    /**
+     * Create an host session
+     * Initialize files
+     */
     private createHostSession() {
         if (!existsSync(this.dataPath)) {
             mkdirSync(this.dataPath);
@@ -44,6 +59,9 @@ export class DataManager {
         }
     }
 
+    /**
+     * Load technologies from session file
+     */
     private loadTechnologies() {
         if (existsSync(this.technologiesPath)) {
             const content = readFileSync(this.technologiesPath);
@@ -51,6 +69,10 @@ export class DataManager {
         }
     }
 
+    /**
+     * Add technology to session
+     * @param technology technology to add
+     */
     public addTechnology(technology: Technology) {
         if (!Technology.exists(technology, this._technologies)) {
             this._technologies.push(technology);
@@ -64,6 +86,9 @@ export class DataManager {
         writeFileSync(this.technologiesPath, content);
     }
 
+    /**
+     * Load warnings from session file
+     */
     private loadWarnings() {
         if (existsSync(this.warningsPath)) {
             const content = readFileSync(this.warningsPath);
@@ -71,6 +96,10 @@ export class DataManager {
         }
     }
 
+    /**
+     * Add warning to session
+     * @param warning warning to add
+     */
     public addWarning(warning: Warning) {
         if (!Warning.exists(warning, this._warnings)) {
             this._warnings.push(warning);
@@ -78,11 +107,17 @@ export class DataManager {
         }
     }
 
+    /**
+     * Save warnings to session
+     */
     private saveWarnings() {
         const content = Warning.save(this._warnings);
         writeFileSync(this.warningsPath, content);
     }
 
+    /**
+     * Load tests from session file
+     */
     private loadTests() {
         if (existsSync(this.testsPath)) {
             const content = readFileSync(this.testsPath);
@@ -90,6 +125,10 @@ export class DataManager {
         }
     }
 
+    /**
+     * Add test to session
+     * @param test test to add
+     */
     public addTest(test: Test) {
         if (!Test.exists(test, this._tests)) {
             this._tests.push(test);
@@ -97,11 +136,17 @@ export class DataManager {
         }
     }
 
+    /**
+     * Save tests to session
+     */
     private saveTests() {
         const content = Test.save(this._tests);
         writeFileSync(this.testsPath, content);
     }
 
+    /**
+     * Load defects from session file
+     */
     private loadDefects() {
         if (existsSync(this.defectsPath)) {
             const content = readFileSync(this.defectsPath);
@@ -109,6 +154,10 @@ export class DataManager {
         }
     }
 
+    /**
+     * Add defect to session
+     * @param defect defect to add
+     */
     public addDefect(defect: Defect) {
         if (!Defect.exists(defect, this._defects)) {
             this._defects.push(defect);
@@ -116,11 +165,18 @@ export class DataManager {
         }
     }
 
+    /**
+     * Save defects to session
+     */
     private saveDefects() {
         const content = Defect.save(this._defects);
         writeFileSync(this.defectsPath, content);
     }
 
+    /**
+     * Select the fuzzing system from technology identified
+     * @param technology technology identified
+     */
     private selectFuzzingSystem(technology: string) {
         switch (technology.toLowerCase()) {
             case "php":
@@ -142,30 +198,51 @@ export class DataManager {
         this._port = value;
     }
 
+    /**
+     * Get data path
+     */
     public get dataPath() {
         return join("data", this.host);
     }
 
+    /**
+     * Get proof path
+     */
     public get proofPath() {
         return join("data", this.host, "proofs");
     }
 
+    /**
+     * Get technologies path
+     */
     public get technologiesPath() {
         return join("data", this.host, "technologies.json");
     }
 
+    /**
+     * Get warnings path
+     */
     public get warningsPath() {
         return join("data", this.host, "warning.json");
     }
 
+    /**
+     * Get tests path
+     */
     public get testsPath() {
         return join("data", this.host, "tests.json");
     }
 
+    /**
+     * Get defects path
+     */
     public get defectsPath() {
         return join("data", this.host, "defects.json");
     }
 
+    /**
+     * Get the unique instance (Singleton)
+     */
     public static get instance() {
         if (!DataManager._instance) {
             DataManager._instance = new DataManager();

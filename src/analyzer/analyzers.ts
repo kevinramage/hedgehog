@@ -24,10 +24,13 @@ import { XPoweredByAnalyzer } from "./header/xPoweredByAnalyzer";
 import { IAnalyzer } from "./IAnalyzer";
 import { PathAnalyzer } from "./path/pathAnalyzer";
 
+/**
+ * @ignore
+ */
 import analyzersConfiguration = require("../config/analyzers.json");
 
 /**
- * Class to retrieve all analyzers installed on system
+ * Class to retrieve all analyzers installed and configured on system
  */
 export class Analyzers {
     private static _instance : Analyzers;
@@ -71,8 +74,8 @@ export class Analyzers {
     }
 
     /**
-     * Get all analyzers installed and configured
-     * Search on analyzers.json file, analyzers to use
+     * Get all analyzers installed and configured (config/analyzers.json)
+     * @returns all analyzers available
      */
     public getAll() {
         const analyzersName = analyzersConfiguration as string[];
@@ -89,7 +92,8 @@ export class Analyzers {
     }
 
     /**
-     * Get unique instance
+     * Get unique instance (Singleton)
+     * @returns the unique instance of Analyzers
      */
     public static get instance() {
         if (!Analyzers._instance) {

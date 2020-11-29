@@ -28,8 +28,27 @@ From an an attack plan, a security check list and a defect list, select some att
 
 # Installation
 
+To install this tool, git and NodeJS tools are required.
+Execute the following statements to install this tool:
+
+```
+git clone https://github.com/kevinramage/hedgehog.git
+cd hedgehog
+npm install
+```
+
 # Usage
+
+This tool based on two importants notions SYSTEM and CHECKER.
+![System](./src/system/README.md)
+![Checker](./src/checker/README.md)
 
 # Contributions
 
+To consult developper documentation
+![Documentation](./doc/globals.html)
+
 # Issue
+
+To view and create issue, follow this link
+![issue]https://github.com/kevinramage/hedgehog/issues
