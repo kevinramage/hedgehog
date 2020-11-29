@@ -52,20 +52,17 @@ export class PortListenerChecker implements IChecker {
 
     private checkPort(port: number) {
         return new Promise<PortResult>((resolve) => {
-            let responseProvided = false;
             const timeout = Options.instance.option(OPTIONS.PORTLISTENER_TIMEOUT);
             const socket = net.connect(port, this._host);
             if (timeout && timeout !== -1) {
                 socket.setTimeout(timeout);
             }
             socket.on("connect", () => {
-                responseProvided = true;
                 this._report.changeStep(format("Listen %d port", port))
                 socket.destroy();
                 resolve(new PortResult(port, true));
             });
             socket.on("error", () => {
-                responseProvided = true;
                 socket.destroy();
                 resolve(new PortResult(port, false));
             });

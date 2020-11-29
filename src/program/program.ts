@@ -5,6 +5,7 @@ import * as winston from "winston";
 import { PortListenerChecker } from "../checker/port/portListenerChecker";
 import { SSLMethodChecker } from "../checker/sslMethod/sslMethodChecker";
 import { CipherChecker } from "../checker/cipher/cipherChecker";
+import { MethodChecker } from "../checker/method/methodChecker";
 
 export class Program {
 
@@ -82,6 +83,17 @@ export class Program {
                 winston.error("Syntax: cipher <hostName> <port>  run cipher checker to identify ciphers allowed");
                 resolve();
             });
+
+        // Method checker
+        myProgram.command("method <hostName> <port> <path>")
+        .description("run method checker to identify method allowed")
+        .action(async (hostName, port, path) => {
+            await this.method(hostName, port, path);
+            resolve();
+        }).exitOverride(() => {
+            winston.error("Syntax: method <hostName> <port> <path>  run method checker to identify method allowed");
+            resolve();
+        });
     }
 
     private defineProgramInformations(myProgram: commander.Command, resolve: () => void) {
@@ -159,6 +171,16 @@ export class Program {
             await cipherChecker.run();
         } else {
             winston.error("Syntax: cipher <hostName> <port>  run cipher checker to identify ciphers allowed");
+        }
+    }
+
+    public async method(hostName: string, portValue: string, path: string) {
+        const port = Number.parseInt(portValue, 10);
+        if (!isNaN(port)) {
+            const methodChecker = new MethodChecker(hostName, port, path);
+            await methodChecker.run();
+        } else {
+            winston.error("Syntax: method <hostName> <port> <path>  run method checker to identify method allowed");
         }
     }
 
