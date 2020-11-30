@@ -1,6 +1,6 @@
 import { FuzzingChecker, FUZZING_NAME } from "./fuzzingChecker";
 
-import IIS_PATHS = require("../../config/fuzzing/iis.json");
+import IIS_PATHS = require("../../config/fuzzing/IIS.json");
 
 export class IISFuzzing extends FuzzingChecker {
 

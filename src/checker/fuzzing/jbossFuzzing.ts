@@ -1,6 +1,6 @@
 import { FuzzingChecker, FUZZING_NAME } from "./fuzzingChecker";
 
-import JBOSS_PATHS = require("../../config/fuzzing/jboss.json");
+import JBOSS_PATHS = require("../../config/fuzzing/jBoss.json");
 
 export class JBossFuzzing extends FuzzingChecker {
 
