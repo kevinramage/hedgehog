@@ -1,0 +1,15 @@
+[
+    "/admin",
+    "/ADMIN",
+    "/Admin",
+    "/public",
+    "/.git",
+    "/.svn",
+    "/css",
+    "/images",
+    "/font",
+    "/static",
+    "/staticContent",
+    "/sql",
+    "/setup"
+]

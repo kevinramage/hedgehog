@@ -4,7 +4,6 @@ import { SSLMethodResult } from "./sslMethodResult";
 import * as winston from "winston";
 import { Report } from "../../common/business/report/report";
 import { SSLReport } from "../../common/business/report/sslReport";
-import * as tls from "tls";
 import { format } from "util";
 
 /**
@@ -92,7 +91,7 @@ export class SSLMethodChecker implements IChecker {
                         }
                         winston.error("SSLMethodChecker.runQuery - InternalError: ", err.code ? err.code : "NO ERROR CODE");
                         sendResponse = true;
-                        resolve(new SSLMethodResult(sslMethod, false, err));
+                        resolve(new SSLMethodResult(sslMethod, false, err.code ? err.code : "NO ERROR CODE"));
                     }
                 }
             }

@@ -6,6 +6,13 @@ import { PortListenerChecker } from "../checker/port/portListenerChecker";
 import { SSLMethodChecker } from "../checker/sslMethod/sslMethodChecker";
 import { CipherChecker } from "../checker/cipher/cipherChecker";
 import { MethodChecker } from "../checker/method/methodChecker";
+import { CommonFuzzing } from "../checker/fuzzing/commonFuzzing";
+import { ApacheFuzzing } from "../checker/fuzzing/apacheFuzzing";
+import { ColdFusionFuzzing } from "../checker/fuzzing/coldFusionFuzzing";
+import { IISFuzzing } from "../checker/fuzzing/iisFuzzing";
+import { JBossFuzzing } from "../checker/fuzzing/jbossFuzzing";
+import { PHPFuzzing } from "../checker/fuzzing/phpFuzzing";
+import { TomcatFuzzing } from "../checker/fuzzing/tomcatFuzzing";
 
 export class Program {
 
@@ -92,6 +99,83 @@ export class Program {
             resolve();
         }).exitOverride(() => {
             winston.error("Syntax: method <hostName> <port> <path>  run method checker to identify method allowed");
+            resolve();
+        });
+
+        // Apache fuzzing checker
+        myProgram.command("apacheFuzzing <hostName> <port> <ssl>")
+        .description("run apache fuzzing checker to identify exposed path")
+        .action(async (hostName, port, ssl) => {
+            await this.apacheFuzzing(hostName, port, ssl);
+            resolve();
+        }).exitOverride(() => {
+            winston.error("Syntax: apacheFuzzing <hostName> <port> <ssl>  run apache fuzzing checker to identify exposed path");
+            resolve();
+        });
+
+        // Cold Fusion fuzzing checker
+        myProgram.command("coldFusionFuzzing <hostName> <port> <ssl>")
+        .description("run cold fusion fuzzing checker to identify exposed path")
+        .action(async (hostName, port, ssl) => {
+            await this.coldFusion(hostName, port, ssl);
+            resolve();
+        }).exitOverride(() => {
+            winston.error("Syntax: coldFusionFuzzing <hostName> <port> <ssl>  run cold fusion fuzzing checker to identify exposed path");
+            resolve();
+        });
+
+        // Common fuzzing checker
+        myProgram.command("commonFuzzing <hostName> <port> <ssl>")
+        .description("run common fuzzing checker to identify exposed path")
+        .action(async (hostName, port, ssl) => {
+            await this.commonFuzzing(hostName, port, ssl);
+            resolve();
+        }).exitOverride(() => {
+            winston.error("Syntax: commonFuzzing <hostName> <port> <ssl>  run common fuzzing checker to identify exposed path");
+            resolve();
+        });
+
+        // IIS fuzzing checker
+        myProgram.command("iisFuzzing <hostName> <port> <ssl>")
+        .description("run IIS fuzzing checker to identify exposed path")
+        .action(async (hostName, port, ssl) => {
+            await this.iis(hostName, port, ssl);
+            resolve();
+        }).exitOverride(() => {
+            winston.error("Syntax: iisFuzzing <hostName> <port> <ssl>  run IIS fuzzing checker to identify exposed path");
+            resolve();
+        });
+
+        // JBoss fuzzing checker
+        myProgram.command("jBossFuzzing <hostName> <port> <ssl>")
+        .description("run jBoss fuzzing checker to identify exposed path")
+        .action(async (hostName, port, ssl) => {
+            await this.jboss(hostName, port, ssl);
+            resolve();
+        }).exitOverride(() => {
+            winston.error("Syntax: jBossFuzzing <hostName> <port> <ssl>  run jBoss fuzzing checker to identify exposed path");
+            resolve();
+        });
+
+        // PHP fuzzing checker
+        myProgram.command("phpFuzzing <hostName> <port> <ssl>")
+        .description("run PHP fuzzing checker to identify exposed path")
+        .action(async (hostName, port, ssl) => {
+            await this.php(hostName, port, ssl);
+            resolve();
+        }).exitOverride(() => {
+            winston.error("Syntax: phpFuzzing <hostName> <port> <ssl>  run PHP fuzzing checker to identify exposed path");
+            resolve();
+        });
+
+        // Tomcat fuzzing checker
+        myProgram.command("tomcatFuzzing <hostName> <port> <ssl>")
+        .description("run tomcat fuzzing checker to identify exposed path")
+        .action(async (hostName, port, ssl) => {
+            await this.tomcat(hostName, port, ssl);
+            resolve();
+        }).exitOverride(() => {
+            winston.error("Syntax: tomcatFuzzing <hostName> <port> <ssl>  run tomcat fuzzing checker to identify exposed path");
             resolve();
         });
     }
@@ -181,6 +265,118 @@ export class Program {
             await methodChecker.run();
         } else {
             winston.error("Syntax: method <hostName> <port> <path>  run method checker to identify method allowed");
+        }
+    }
+
+    public async apacheFuzzing(hostName: string, portValue: string, sslValue: string) {
+        const sslArg = sslValue ? sslValue.toLocaleLowerCase() : "";
+        const port = Number.parseInt(portValue, 10);
+        const ssl : boolean | null = (sslArg !== "true") ? (sslArg === "false" ? false : null) : true;
+        if (!isNaN(port)) {
+            if (ssl != null) {
+                const apacheFuzzing = new ApacheFuzzing(hostName, port, ssl);
+                await apacheFuzzing.run();
+            } else {
+                winston.error("Syntax: apacheFuzzing <hostName> <port> <ssl>  run apache fuzzing checker to identify exposed path");
+            }
+        } else {
+            winston.error("Syntax: apacheFuzzing <hostName> <port> <ssl>  run apache fuzzing checker to identify exposed path");
+        }
+    }
+
+    public async coldFusion(hostName: string, portValue: string, sslValue: string) {
+        const sslArg = sslValue ? sslValue.toLocaleLowerCase() : "";
+        const port = Number.parseInt(portValue, 10);
+        const ssl : boolean | null = (sslArg !== "true") ? (sslArg === "false" ? false : null) : true;
+        if (!isNaN(port)) {
+            if (ssl != null) {
+                const coldFusionFuzzing = new ColdFusionFuzzing(hostName, port, ssl);
+                await coldFusionFuzzing.run();
+            } else {
+                winston.error("Syntax: coldFusionFuzzing <hostName> <port> <ssl>  run cold fusion fuzzing checker to identify exposed path");
+            }
+        } else {
+            winston.error("Syntax: coldFusionFuzzing <hostName> <port> <ssl>  run cold fusion fuzzing fuzzing checker to identify exposed path");
+        }
+    }
+
+    public async commonFuzzing(hostName: string, portValue: string, sslValue: string) {
+        const sslArg = sslValue ? sslValue.toLocaleLowerCase() : "";
+        const port = Number.parseInt(portValue, 10);
+        const ssl : boolean | null = (sslArg !== "true") ? (sslArg === "false" ? false : null) : true;
+        if (!isNaN(port)) {
+            if (ssl != null) {
+                const commonFuzzing = new CommonFuzzing(hostName, port, ssl);
+                await commonFuzzing.run();
+            } else {
+                winston.error("Syntax: commonFuzzing <hostName> <port> <ssl>  run common fuzzing checker to identify exposed path");
+            }
+        } else {
+            winston.error("Syntax: commonFuzzing <hostName> <port> <ssl>  run common fuzzing checker to identify exposed path");
+        }
+    }
+
+    public async iis(hostName: string, portValue: string, sslValue: string) {
+        const sslArg = sslValue ? sslValue.toLocaleLowerCase() : "";
+        const port = Number.parseInt(portValue, 10);
+        const ssl : boolean | null = (sslArg !== "true") ? (sslArg === "false" ? false : null) : true;
+        if (!isNaN(port)) {
+            if (ssl != null) {
+                const iisFuzing = new IISFuzzing(hostName, port, ssl);
+                await iisFuzing.run();
+            } else {
+                winston.error("Syntax: iisFuzing <hostName> <port> <ssl>  run IIS fuzzing checker to identify exposed path");
+            }
+        } else {
+            winston.error("Syntax: iisFuzing <hostName> <port> <ssl>  run IIS fuzzing checker to identify exposed path");
+        }
+    }
+
+    public async jboss(hostName: string, portValue: string, sslValue: string) {
+        const sslArg = sslValue ? sslValue.toLocaleLowerCase() : "";
+        const port = Number.parseInt(portValue, 10);
+        const ssl : boolean | null = (sslArg !== "true") ? (sslArg === "false" ? false : null) : true;
+        if (!isNaN(port)) {
+            if (ssl != null) {
+                const jBossFuzzing = new JBossFuzzing(hostName, port, ssl);
+                await jBossFuzzing.run();
+            } else {
+                winston.error("Syntax: jBossFuzzing <hostName> <port> <ssl>  run JBoss fuzzing checker to identify exposed path");
+            }
+        } else {
+            winston.error("Syntax: jBossFuzzing <hostName> <port> <ssl>  run JBoss fuzzing checker to identify exposed path");
+        }
+    }
+
+    public async php(hostName: string, portValue: string, sslValue: string) {
+        const sslArg = sslValue ? sslValue.toLocaleLowerCase() : "";
+        const port = Number.parseInt(portValue, 10);
+        const ssl : boolean | null = (sslArg !== "true") ? (sslArg === "false" ? false : null) : true;
+        if (!isNaN(port)) {
+            if (ssl != null) {
+                const phpFuzzing = new PHPFuzzing(hostName, port, ssl);
+                await phpFuzzing.run();
+            } else {
+                winston.error("Syntax: phpFuzzing <hostName> <port> <ssl>  run PHP fuzzing checker to identify exposed path");
+            }
+        } else {
+            winston.error("Syntax: phpFuzzing <hostName> <port> <ssl>  run PHP fuzzing checker to identify exposed path");
+        }
+    }
+
+    public async tomcat(hostName: string, portValue: string, sslValue: string) {
+        const sslArg = sslValue ? sslValue.toLocaleLowerCase() : "";
+        const port = Number.parseInt(portValue, 10);
+        const ssl : boolean | null = (sslArg !== "true") ? (sslArg === "false" ? false : null) : true;
+        if (!isNaN(port)) {
+            if (ssl != null) {
+                const tomcatFuzzing = new TomcatFuzzing(hostName, port, ssl);
+                await tomcatFuzzing.run();
+            } else {
+                winston.error("Syntax: tomcatFuzzing <hostName> <port> <ssl>  run tomcat fuzzing checker to identify exposed path");
+            }
+        } else {
+            winston.error("Syntax: tomcatFuzzing <hostName> <port> <ssl>  run tomcat fuzzing checker to identify exposed path");
         }
     }
 

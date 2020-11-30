@@ -8,6 +8,7 @@ export class Request {
     private _protocol ?: string;
     private _httpVersion ?: string;
     private _host : string;
+    private _ssl : boolean;
     private _port : number;
     private _method : string;
     private _url: string;
@@ -31,6 +32,7 @@ export class Request {
         this._headers = [];
         this._followRedirect = true;
         this._url = "";
+        this._ssl = false;
     }
 
     /**
@@ -151,6 +153,14 @@ export class Request {
 
     public set httpVersion(value) {
         this._httpVersion = value;
+    }
+
+    public get ssl() {
+        return this._ssl;
+    }
+
+    public set ssl(value) {
+        this._ssl = value;
     }
 }
 

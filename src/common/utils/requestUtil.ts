@@ -1,11 +1,12 @@
-import { ClientRequest, IncomingMessage } from "http";
-import * as https from "https";
 import { Request } from "../business/request/request";
 import { Response } from "../business/request/response";
 import { Session } from "../../common/business/session/session";
 import { NumberUtils } from "./numberUtils";
 import { PathUtils } from "./pathUtils";
 import { OPTIONS, Options } from "../business/options";
+
+import * as http from "http";
+import * as https from "https";
 
 /**
  * @class
@@ -21,9 +22,12 @@ export class RequestUtil {
             const onDataReceived = (chunk: any) => { code += chunk; }
             const onErrorReceived = (err: any) => { reject(err); }
 
-            // Create request
-            const options : https.RequestOptions = { host: request.host, port: request.port, method: request.method, path: request.path};
-            const req = https.request(options, (res) => {
+            // Define options
+            const options = { host: request.host, port: request.port, method: request.method, path: encodeURI(request.path) };
+
+            // Define response handler
+            let req : http.ClientRequest;
+            const responseHandler = (res : http.IncomingMessage) => {
 
                 // Add request to session
                 RequestUtil.updateRequestInfos(request, req);
@@ -54,7 +58,9 @@ export class RequestUtil {
                         resolve(response);
                     }
                 })
-            });
+            };
+
+            req = request.ssl ? https.request(options, responseHandler) : http.request(options, responseHandler);
             req.on("error", onErrorReceived);
 
             // Headers
@@ -72,7 +78,7 @@ export class RequestUtil {
         });
     }
 
-    private static convertIncomingMessage(message: IncomingMessage, content: string) {
+    private static convertIncomingMessage(message: http.IncomingMessage, content: string) {
         const response = new Response(message.statusCode as number, content);
         Object.keys(message.headers).forEach(key => {
             const value = message.headers[key];
@@ -81,7 +87,7 @@ export class RequestUtil {
         return response;
     }
 
-    private static updateRequestInfos(request: Request, clientRequest: ClientRequest) {
+    private static updateRequestInfos(request: Request, clientRequest: http.ClientRequest) {
         clientRequest.getHeaderNames().forEach((headerName) => {
             if (!request.getHeader(headerName)) {
                 const headerValue = clientRequest.getHeader(headerName) as string | string[];

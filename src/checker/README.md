@@ -11,3 +11,7 @@
 ## HTTP method checker
 
 ![Check HTTP methods authorized on the application server](./method/README.md)
+
+## Fuzzing checker
+
+![Check path exposed on the application server](./fuzzing/README.md)

@@ -1,33 +1,28 @@
-import * as fs from "fs";
 import { format } from "util";
-import { Fuzzing } from "./fuzzing";
+import { FuzzingChecker, FUZZING_NAME } from "./fuzzingChecker";
+
+import PHP_PATHS = require("../../config/fuzzing/php.json");
 
 /**
  * Fuzzing checker dedicated to PHP technology
  */
-export class PHPFuzzing extends Fuzzing {
+export class PHPFuzzing extends FuzzingChecker {
 
     /**
      * Constructor
-     * @param host host to test
-     * @param port port to test
-     * @param expectedStatus array of possible response status code for invalid path (e.g 404, 405)
+     * @param host host to check
+     * @param port port to check
+     * @param ssl host use SSL or not
      */
-    constructor(host: string, port: number) {
-        super(host, port, [ 404, 405 ]);
+    constructor(host: string, port: number, ssl: boolean) {
+        super(FUZZING_NAME.COMMON, host, port, ssl, [ 404, 405]);
     }
 
     /**
      * Run the execution of the checker
      */
     public async run() {
-
-        // Load payloads
-        const content = fs.readFileSync("config/fuzzing/php/php.json").toString();
-        const data = JSON.parse(content);
-
-        // Run
-        super.paths = data;
+        this._paths = PHP_PATHS as string[];
         super.run();
     }
 
@@ -41,7 +36,7 @@ export class PHPFuzzing extends Fuzzing {
             const host = args[0];
             const port = Number.parseInt(args[1], 10);
             if (!isNaN(port)) {
-                return new PHPFuzzing(host, port);
+                // return new PHPFuzzing(host, port, );
             }
         }
         return null;
