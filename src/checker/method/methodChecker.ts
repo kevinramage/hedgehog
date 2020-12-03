@@ -10,6 +10,8 @@ import { REQUEST_METHODS } from "../../common/business/request/request";
 
 /**
  * Checker to test http method allow by the server
+ * /// TODO Manage non SSL web site
+ * /// TODO Refacto using request object
  */
 export class MethodChecker implements IChecker {
 

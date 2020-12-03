@@ -13,6 +13,7 @@ import { IISFuzzing } from "../checker/fuzzing/iisFuzzing";
 import { JBossFuzzing } from "../checker/fuzzing/jbossFuzzing";
 import { PHPFuzzing } from "../checker/fuzzing/phpFuzzing";
 import { TomcatFuzzing } from "../checker/fuzzing/tomcatFuzzing";
+import { CertificateChecker } from "../checker/certificate/certificateChecker";
 
 export class Program {
 
@@ -176,6 +177,17 @@ export class Program {
             resolve();
         }).exitOverride(() => {
             winston.error("Syntax: tomcatFuzzing <hostName> <port> <ssl>  run tomcat fuzzing checker to identify exposed path");
+            resolve();
+        });
+
+        // Certificate checker
+        myProgram.command("certificate <hostName> <port>")
+        .description("run certificate checker to validate the server SSL certificate")
+        .action(async (hostName, port) => {
+            await this.certificate(hostName, port);
+            resolve();
+        }).exitOverride(() => {
+            winston.error("Syntax: certificate <hostName> <port>  run certificate checker to validate the server SSL certificate");
             resolve();
         });
     }
@@ -377,6 +389,16 @@ export class Program {
             }
         } else {
             winston.error("Syntax: tomcatFuzzing <hostName> <port> <ssl>  run tomcat fuzzing checker to identify exposed path");
+        }
+    }
+
+    public async certificate(hostName: string, portValue: string) {
+        const port = Number.parseInt(portValue, 10);
+        if (!isNaN(port)) {
+            const certificateChecker = new CertificateChecker(hostName, port);
+            await certificateChecker.run();
+        } else {
+            winston.error("Syntax: certificate <hostName> <port>  run certificate checker to validate the server SSL certificate");
         }
     }
 

@@ -7,6 +7,8 @@ import { OPTIONS, Options } from "../business/options";
 
 import * as http from "http";
 import * as https from "https";
+import { TLSSocket } from "tls";
+import { ICertificate } from "../business/request/certificate";
 
 /**
  * @class
@@ -80,6 +82,7 @@ export class RequestUtil {
 
     private static convertIncomingMessage(message: http.IncomingMessage, content: string) {
         const response = new Response(message.statusCode as number, content);
+        response.certificate = ((message.socket as TLSSocket)?.getPeerCertificate(true) as ICertificate);
         Object.keys(message.headers).forEach(key => {
             const value = message.headers[key];
             response.addHeader(key, value || "");

@@ -1,4 +1,6 @@
+import { PeerCertificate } from "tls";
 import { StringUtils } from "../../utils/stringUtils";
+import { ICertificate } from "./certificate";
 import { Header, HEADER_NAME } from "./header";
 
 /**
@@ -8,6 +10,7 @@ export class Response {
     private _status: number | undefined;
     private _headers: Header[];
     private _body: string | undefined;
+    private _certificate ?: ICertificate;
 
     /**
      * Constructor
@@ -112,6 +115,14 @@ export class Response {
 
     public get body() {
         return this._body;
+    }
+
+    public get certificate() {
+        return this._certificate;
+    }
+
+    public set certificate(value) {
+        this._certificate = value;
     }
 
     public get inlineBody() {

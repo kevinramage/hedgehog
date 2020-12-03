@@ -21,3 +21,7 @@ Several checkers propose to validate some security points:
 ## Fuzzing checker
 
 [Check path exposed on the application server](./fuzzing/README.md)
+
+## Certificate checker
+
+[Check certificate validity of the application server](./certificate/README.md)
