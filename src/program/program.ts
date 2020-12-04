@@ -93,13 +93,13 @@ export class Program {
             });
 
         // Method checker
-        myProgram.command("method <hostName> <port> <path>")
+        myProgram.command("method <hostName> <port> <ssl> <path>")
         .description("run method checker to identify method allowed")
-        .action(async (hostName, port, path) => {
-            await this.method(hostName, port, path);
+        .action(async (hostName, port, ssl, path) => {
+            await this.method(hostName, port, ssl, path);
             resolve();
         }).exitOverride(() => {
-            winston.error("Syntax: method <hostName> <port> <path>  run method checker to identify method allowed");
+            winston.error("Syntax: method <hostName> <port> <ssl> <path>  run method checker to identify method allowed");
             resolve();
         });
 
@@ -270,13 +270,13 @@ export class Program {
         }
     }
 
-    public async method(hostName: string, portValue: string, path: string) {
+    public async method(hostName: string, portValue: string, ssl: boolean, path: string) {
         const port = Number.parseInt(portValue, 10);
         if (!isNaN(port)) {
-            const methodChecker = new MethodChecker(hostName, port, path);
+            const methodChecker = new MethodChecker(hostName, port, ssl, path);
             await methodChecker.run();
         } else {
-            winston.error("Syntax: method <hostName> <port> <path>  run method checker to identify method allowed");
+            winston.error("Syntax: method <hostName> <port> <ssl> <path>  run method checker to identify method allowed");
         }
     }
 

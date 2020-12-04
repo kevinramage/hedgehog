@@ -7,16 +7,17 @@ import { format } from "util";
 
 import HTTP_METHODS = require("../../config/connection/httpMethod.json");
 import { REQUEST_METHODS } from "../../common/business/request/request";
+import { IncomingMessage, request, RequestOptions } from "http";
+import { TlsOptions } from "tls";
 
 /**
  * Checker to test http method allow by the server
- * /// TODO Manage non SSL web site
- * /// TODO Refacto using request object
  */
 export class MethodChecker implements IChecker {
 
     private _host : string;
     private _port : number;
+    private _ssl : boolean;
     private _path : string;
     private _methodsToCheck: string[];
     private _results : MethodResult[];
@@ -28,9 +29,10 @@ export class MethodChecker implements IChecker {
      * @param port port to check
      * @param path path to check
      */
-    constructor(host: string, port: number, path: string) {
+    constructor(host: string, port: number, ssl: boolean, path: string) {
         this._host = host;
         this._port = port;
+        this._ssl = ssl;
         this._path = path;
         this._methodsToCheck = [];
         this._results = [];
@@ -59,13 +61,16 @@ export class MethodChecker implements IChecker {
         return new Promise<MethodResult>((resolve) => {
 
             // Prepare request
-            const options : https.RequestOptions = {
+            const options : RequestOptions = {
                 hostname: this._host,
-                port: this._port,
-                path: this._path,
-                method: httpMethod,
-                rejectUnauthorized: false
+                path: encodeURI(this._path),
+                method: httpMethod
             };
+
+            // For HTTP request, we must not defined port attribute for port 80
+            if (this._port !== 80) {
+                options.port = this._port;
+            }
 
             // Handler
             let responseProvided = false;
@@ -77,23 +82,26 @@ export class MethodChecker implements IChecker {
                 }
             };
 
+            // Response handler
+            const responseHandler = (response : IncomingMessage) => {
+                response.on("error", errorHandler);
+                response.on("data", () => {
+                    // Listener required else the end listener not trigger, bug ??
+                });
+                response.on("end", () => {
+                    if (!response.statusCode || !response.statusCode.toString().startsWith("4")){
+                        this._report.changeStep(format("%s listening => %d", httpMethod, response.statusCode));
+                        resolve(new MethodResult(httpMethod, true, ""));
+                    } else {
+                        resolve(new MethodResult(httpMethod, false, ""));
+                    }
+                });
+            };
+
             // Run request
             try {
-                const request = https.request(options, (response) => {
-                    response.on("error", errorHandler);
-                    response.on("data", () => {
-                        // Listener required else the end listener not trigger, bug ??
-                    });
-                    response.on("end", () => {
-                        if (!response.statusCode || !response.statusCode.toString().startsWith("4")){
-                            this._report.changeStep(format("%s listening => %d", httpMethod, response.statusCode));
-                            resolve(new MethodResult(httpMethod, true, ""));
-                        } else {
-                            resolve(new MethodResult(httpMethod, false, ""));
-                        }
-                    });
-                });
-                request.on("connect", (response) => {
+                const req = this._ssl ? https.request(options, responseHandler) : request(options, responseHandler);
+                req.on("connect", (response) => {
                     if (httpMethod === REQUEST_METHODS.CONNECT) {
                         if (!response.statusCode || !response.statusCode.toString().startsWith("4")){
                             this._report.changeStep(format("%s listening => %d", httpMethod, response.statusCode));
@@ -103,8 +111,8 @@ export class MethodChecker implements IChecker {
                         }
                     }
                 });
-                request.on("error", errorHandler);
-                request.end();
+                req.on("error", (errorHandler));
+                req.end();
             } catch (err) {
                 errorHandler(err);
             }
@@ -117,6 +125,10 @@ export class MethodChecker implements IChecker {
 
     public get port() {
         return this._port;
+    }
+
+    public get ssl() {
+        return this._ssl;
     }
 
     public get path() {
