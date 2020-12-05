@@ -31,14 +31,14 @@ export class FuzzingChecker implements IChecker {
      * @param ssl host use SSL or not
      * @param expectedStatus array of possible response status code for invalid path (e.g 404, 405)
      */
-    constructor(name: string, host: string, port: number, ssl: boolean, expectedStatus: number[]) {
+    constructor(name: string, host: string, port: number, ssl: boolean) {
         this._name = name;
         this._host = host;
         this._port = port;
         this._ssl = ssl;
         this._paths = [];
         this._report = new FuzzingReport();
-        this._expectedStatus = expectedStatus;
+        this._expectedStatus = [301, 302, 404, 405];
         this._results = [];
     }
 
