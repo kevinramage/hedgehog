@@ -1,4 +1,9 @@
 {
     "portListener.timeout": null,
-    "request.maxRedirect": 10
+    "request.maxRedirect": 10,
+    "request.proxy.type": "SYSTEM",
+    "request.proxy.host": "localhost",
+    "request.proxy.port": 8866,
+    "request.proxy.username": "",
+    "request.proxy.password": ""
 }

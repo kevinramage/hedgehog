@@ -1,14 +1,15 @@
 import * as https from "https";
+import { IncomingMessage, request, RequestOptions } from "http";
+import { format } from "util";
 import { IChecker } from "../IChecker";
 import { MethodResult } from "./methodResult";
 import { Report } from "../../common/business/report/report";
 import { MethodReport } from "../../common/business/report/methodReport";
-import { format } from "util";
+import { REQUEST_METHODS } from "../../common/business/request/request";
 
 import HTTP_METHODS = require("../../config/connection/httpMethod.json");
-import { REQUEST_METHODS } from "../../common/business/request/request";
-import { IncomingMessage, request, RequestOptions } from "http";
-import { TlsOptions } from "tls";
+import { Proxy } from "../../common/business/request/proxy";
+
 
 /**
  * Checker to test http method allow by the server
@@ -58,7 +59,7 @@ export class MethodChecker implements IChecker {
      * @param httpMethod http method to check
      */
     private runQuery(httpMethod: string) {
-        return new Promise<MethodResult>((resolve) => {
+        return new Promise<MethodResult>(async (resolve) => {
 
             // Prepare request
             const options : RequestOptions = {
@@ -71,6 +72,10 @@ export class MethodChecker implements IChecker {
             if (this._port !== 80) {
                 options.port = this._port;
             }
+
+            // Update options when proxy defined
+            const proxy = await Proxy.getProxy();
+            Proxy.updateRequestWithProxy(proxy, this.ssl, options);
 
             // Handler
             let responseProvided = false;
@@ -100,7 +105,10 @@ export class MethodChecker implements IChecker {
 
             // Run request
             try {
+                // Create request
                 const req = this._ssl ? https.request(options, responseHandler) : request(options, responseHandler);
+
+                // Connect
                 req.on("connect", (response) => {
                     if (httpMethod === REQUEST_METHODS.CONNECT) {
                         if (!response.statusCode || !response.statusCode.toString().startsWith("4")){
@@ -111,7 +119,14 @@ export class MethodChecker implements IChecker {
                         }
                     }
                 });
+
+                // Error handling
                 req.on("error", (errorHandler));
+
+                // Add proxy authorization if required
+                Proxy.addProxyAuthorization(req, proxy);
+
+                // Send request
                 req.end();
             } catch (err) {
                 errorHandler(err);

@@ -5,6 +5,7 @@ import * as winston from "winston";
 import { Report } from "../../common/business/report/report";
 import { SSLReport } from "../../common/business/report/sslReport";
 import { format } from "util";
+import { Proxy } from "../../common/business/request/proxy";
 
 /**
  * Checker to test the SSL method allowed by the server
@@ -45,7 +46,7 @@ export class SSLMethodChecker implements IChecker {
     private runQuery(sslMethod: string) {
         winston.debug("SSLMethodChecker.runQuery");
         let sendResponse = false;
-        return new Promise<SSLMethodResult>((resolve) => {
+        return new Promise<SSLMethodResult>(async (resolve) => {
 
             // Request options
             const options : https.RequestOptions = {
@@ -55,6 +56,7 @@ export class SSLMethodChecker implements IChecker {
                 rejectUnauthorized: false
             };
 
+            // Apply SSL method restriction
             if (sslMethod !== SSL_METHOD.TLSV1_3) {
                 options.secureProtocol = sslMethod.replace(".", "_") + "_method";
             } else {
@@ -62,15 +64,24 @@ export class SSLMethodChecker implements IChecker {
                 options.maxVersion = "TLSv1.3";
             }
 
+            // Update options when proxy defined
+            const proxy = await Proxy.getProxy();
+            Proxy.updateRequestWithProxy(proxy, true, options);
+
             // Create request
             let request;
             try {
+
+                // Create request
                 request = https.request(options);
+
+                // Connect handler
                 request.on("connect", () => {
                     this._report.changeStep(format("%s allowed", sslMethod));
                     resolve(new SSLMethodResult(sslMethod, true, ""));
                 });
 
+                // Error handler
                 request.on("error", (err: any) => {
                     if (!sendResponse) {
                         sendResponse = true;
@@ -97,6 +108,11 @@ export class SSLMethodChecker implements IChecker {
             }
 
             if (request) {
+
+                // Add proxy authorization if required
+                Proxy.addProxyAuthorization(request, proxy);
+
+                // Send request
                 request.end();
             }
         });

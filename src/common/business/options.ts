@@ -37,5 +37,10 @@ export class Options {
 
 export enum OPTIONS {
     PORTLISTENER_TIMEOUT = "portListener.timeout",
-    REQUEST_MAXREDIRECT = "request.maxRedirect"
+    REQUEST_MAXREDIRECT = "request.maxRedirect",
+    REQUEST_PROXY_TYPE = "request.proxy.type",
+    REQUEST_PROXY_HOST = "request.proxy.host",
+    REQUEST_PROXY_PORT = "request.proxy.port",
+    REQUEST_PROXY_USERNAME = "request.proxy.username",
+    REQUEST_PROXY_PASSWORD = "request.proxy.password"
 }

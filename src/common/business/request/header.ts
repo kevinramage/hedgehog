@@ -33,6 +33,9 @@ export class Header {
     }
 }
 
+/**
+ * Headers name (request and response)
+ */
 export enum HEADER_NAME {
     HOST = "host",
     CONTENTTYPE = "content-type",
@@ -44,5 +47,6 @@ export enum HEADER_NAME {
     ACCESSCONTROLALLOWORIGIN = "access-control-allow-origin",
     CACHECONTROL = "cache-control",
     ETAG = "etag",
-    FEATUREPOLICY = "feature-policy"
+    FEATUREPOLICY = "feature-policy",
+    PROXYAUTHORIZATION = "proxy-authorization"
 }

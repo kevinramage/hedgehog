@@ -4,11 +4,14 @@ import { Session } from "../../common/business/session/session";
 import { NumberUtils } from "./numberUtils";
 import { PathUtils } from "./pathUtils";
 import { OPTIONS, Options } from "../business/options";
+import { TLSSocket } from "tls";
+import { ICertificate } from "../business/request/certificate";
 
 import * as http from "http";
 import * as https from "https";
-import { TLSSocket } from "tls";
-import { ICertificate } from "../business/request/certificate";
+import { Proxy } from "../business/request/proxy";
+
+
 
 /**
  * @class
@@ -17,7 +20,7 @@ import { ICertificate } from "../business/request/certificate";
 export class RequestUtil {
 
     public static sendRequest(request: Request, redirectLoop: number) {
-        return new Promise<Response>((resolve, reject) => {
+        return new Promise<Response>(async (resolve, reject) => {
 
             // Handlers
             let code = "";
@@ -26,6 +29,10 @@ export class RequestUtil {
 
             // Define options
             const options = { host: request.host, port: request.port, method: request.method, path: encodeURI(request.path) };
+
+            // Update options when proxy defined
+            const proxy = await Proxy.getProxy();
+            Proxy.updateRequestWithProxy(proxy, request.ssl, options);
 
             // Define response handler
             let req : http.ClientRequest;
@@ -46,7 +53,8 @@ export class RequestUtil {
 
                     // Manage follow redirect
                     const maxRedirection = Options.instance.option(OPTIONS.REQUEST_MAXREDIRECT);
-                    if (NumberUtils.equalsOneOf(response.status, [301, 302, 303]) && response.location && redirectLoop < maxRedirection) {
+                    if (NumberUtils.equalsOneOf(response.status, [301, 302, 303]) && response.location &&
+                        request.followRedirect && redirectLoop < maxRedirection) {
                         const url = PathUtils.getPathFromUrl(response.location);
                         if (url) {
                             request.path = url;
@@ -62,18 +70,24 @@ export class RequestUtil {
                 })
             };
 
+            // Create request
             req = request.ssl ? https.request(options, responseHandler) : http.request(options, responseHandler);
-            req.on("error", onErrorReceived);
 
             // Headers
             request.headers.forEach((header) => {
                 req.setHeader(header.key, header.value);
             });
 
+            // Add proxy authorization if required
+            Proxy.addProxyAuthorization(req, proxy);
+
             // Body
             if (request.body) {
                 req.write(request.body);
             }
+
+            // Error handling
+            req.on("error", onErrorReceived);
 
             // Send request
             req.end();

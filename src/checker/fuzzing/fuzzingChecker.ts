@@ -49,7 +49,7 @@ export class FuzzingChecker implements IChecker {
         winston.debug("FuzzingChecker.run");
         return new Promise<void>(async (resolve) => {
             this._report.writeRequest(this);
-            const promises = this._paths.map(p => { return this.runRequest(p); })
+            const promises = this._paths.map(p => { return this.runRequest(p) });
             this._results = await Promise.all(promises);
             this._report.writeSummary(this);
             resolve();
@@ -65,6 +65,7 @@ export class FuzzingChecker implements IChecker {
         return new Promise<FuzzingResult>(async (resolve) => {
             try {
                 const request = new Request(this._host, this._port, REQUEST_METHODS.GET, path);
+                request.followRedirect = false;
                 request.ssl = this._ssl;
                 const response = await request.send();
                 const isExposed = (!NumberUtils.equalsOneOf(response.status as number, this._expectedStatus));
