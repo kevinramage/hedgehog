@@ -77,7 +77,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="fuzzing.html" class="tsd-signature-type">Fuzzing</a>
+						<a href="fuzzingchecker.html" class="tsd-signature-type">FuzzingChecker</a>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">PHPFuzzing</span>
@@ -107,8 +107,12 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="phpfuzzing.html#_expectedstatus" class="tsd-kind-icon">_expected<wbr>Status</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="phpfuzzing.html#_host" class="tsd-kind-icon">_host</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="phpfuzzing.html#_name" class="tsd-kind-icon">_name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="phpfuzzing.html#_paths" class="tsd-kind-icon">_paths</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="phpfuzzing.html#_port" class="tsd-kind-icon">_port</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="phpfuzzing.html#_report" class="tsd-kind-icon">_report</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="phpfuzzing.html#_results" class="tsd-kind-icon">_results</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="phpfuzzing.html#_ssl" class="tsd-kind-icon">_ssl</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -116,8 +120,10 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite"><a href="phpfuzzing.html#commandline" class="tsd-kind-icon">command<wbr>Line</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="phpfuzzing.html#host" class="tsd-kind-icon">host</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="phpfuzzing.html#name" class="tsd-kind-icon">name</a></li>
 								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a href="phpfuzzing.html#paths" class="tsd-kind-icon">paths</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="phpfuzzing.html#port" class="tsd-kind-icon">port</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="phpfuzzing.html#results" class="tsd-kind-icon">results</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -137,14 +143,14 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new PHPFuzzing<span class="tsd-signature-symbol">(</span>host<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, port<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="phpfuzzing.html" class="tsd-signature-type">PHPFuzzing</a></li>
+						<li class="tsd-signature tsd-kind-icon">new PHPFuzzing<span class="tsd-signature-symbol">(</span>host<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, port<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, ssl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="phpfuzzing.html" class="tsd-signature-type">PHPFuzzing</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="fuzzing.html">Fuzzing</a>.<a href="fuzzing.html#constructor">constructor</a></p>
+								<p>Overrides <a href="fuzzingchecker.html">FuzzingChecker</a>.<a href="fuzzingchecker.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/6c60fd4/src/checker/fuzzing/phpFuzzing.ts#L8">src/checker/fuzzing/phpFuzzing.ts:8</a></li>
+									<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/203ddb8/src/checker/fuzzing/phpFuzzing.ts#L9">src/checker/fuzzing/phpFuzzing.ts:9</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -158,7 +164,7 @@
 									<h5>host: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>host to test</p>
+											<p>host to check</p>
 										</div>
 									</div>
 								</li>
@@ -166,7 +172,15 @@
 									<h5>port: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>port to test</p>
+											<p>port to check</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5>ssl: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>host use SSL or not</p>
 										</div>
 									</div>
 								</li>
@@ -183,9 +197,9 @@
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _expected<wbr>Status</h3>
 					<div class="tsd-signature tsd-kind-icon">_expected<wbr>Status<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="fuzzing.html">Fuzzing</a>.<a href="fuzzing.html#_expectedstatus">_expectedStatus</a></p>
+						<p>Inherited from <a href="fuzzingchecker.html">FuzzingChecker</a>.<a href="fuzzingchecker.html#_expectedstatus">_expectedStatus</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/6c60fd4/src/checker/fuzzing/fuzzing.ts#L15">src/checker/fuzzing/fuzzing.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/203ddb8/src/checker/fuzzing/fuzzingChecker.ts#L23">src/checker/fuzzing/fuzzingChecker.ts:23</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -194,9 +208,20 @@
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _host</h3>
 					<div class="tsd-signature tsd-kind-icon">_host<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="fuzzing.html">Fuzzing</a>.<a href="fuzzing.html#_host">_host</a></p>
+						<p>Inherited from <a href="fuzzingchecker.html">FuzzingChecker</a>.<a href="fuzzingchecker.html#_host">_host</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/6c60fd4/src/checker/fuzzing/fuzzing.ts#L12">src/checker/fuzzing/fuzzing.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/203ddb8/src/checker/fuzzing/fuzzingChecker.ts#L18">src/checker/fuzzing/fuzzingChecker.ts:18</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="_name" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _name</h3>
+					<div class="tsd-signature tsd-kind-icon">_name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="fuzzingchecker.html">FuzzingChecker</a>.<a href="fuzzingchecker.html#_name">_name</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/203ddb8/src/checker/fuzzing/fuzzingChecker.ts#L17">src/checker/fuzzing/fuzzingChecker.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -205,9 +230,9 @@
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _paths</h3>
 					<div class="tsd-signature tsd-kind-icon">_paths<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="fuzzing.html">Fuzzing</a>.<a href="fuzzing.html#_paths">_paths</a></p>
+						<p>Inherited from <a href="fuzzingchecker.html">FuzzingChecker</a>.<a href="fuzzingchecker.html#_paths">_paths</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/6c60fd4/src/checker/fuzzing/fuzzing.ts#L14">src/checker/fuzzing/fuzzing.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/203ddb8/src/checker/fuzzing/fuzzingChecker.ts#L21">src/checker/fuzzing/fuzzingChecker.ts:21</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -216,9 +241,42 @@
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _port</h3>
 					<div class="tsd-signature tsd-kind-icon">_port<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="fuzzing.html">Fuzzing</a>.<a href="fuzzing.html#_port">_port</a></p>
+						<p>Inherited from <a href="fuzzingchecker.html">FuzzingChecker</a>.<a href="fuzzingchecker.html#_port">_port</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/6c60fd4/src/checker/fuzzing/fuzzing.ts#L13">src/checker/fuzzing/fuzzing.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/203ddb8/src/checker/fuzzing/fuzzingChecker.ts#L19">src/checker/fuzzing/fuzzingChecker.ts:19</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="_report" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _report</h3>
+					<div class="tsd-signature tsd-kind-icon">_report<span class="tsd-signature-symbol">:</span> <a href="report.html" class="tsd-signature-type">Report</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="fuzzingchecker.html">FuzzingChecker</a>.<a href="fuzzingchecker.html#_report">_report</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/203ddb8/src/checker/fuzzing/fuzzingChecker.ts#L22">src/checker/fuzzing/fuzzingChecker.ts:22</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="_results" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _results</h3>
+					<div class="tsd-signature tsd-kind-icon">_results<span class="tsd-signature-symbol">:</span> <a href="fuzzingresult.html" class="tsd-signature-type">FuzzingResult</a><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="fuzzingchecker.html">FuzzingChecker</a>.<a href="fuzzingchecker.html#_results">_results</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/203ddb8/src/checker/fuzzing/fuzzingChecker.ts#L24">src/checker/fuzzing/fuzzingChecker.ts:24</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="_ssl" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _ssl</h3>
+					<div class="tsd-signature tsd-kind-icon">_ssl<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="fuzzingchecker.html">FuzzingChecker</a>.<a href="fuzzingchecker.html#_ssl">_ssl</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/203ddb8/src/checker/fuzzing/fuzzingChecker.ts#L20">src/checker/fuzzing/fuzzingChecker.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -234,9 +292,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="fuzzing.html">Fuzzing</a>.<a href="fuzzing.html#commandline">commandLine</a></p>
+								<p>Overrides <a href="fuzzingchecker.html">FuzzingChecker</a>.<a href="fuzzingchecker.html#commandline">commandLine</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/6c60fd4/src/checker/fuzzing/phpFuzzing.ts#L34">src/checker/fuzzing/phpFuzzing.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/203ddb8/src/checker/fuzzing/phpFuzzing.ts#L29">src/checker/fuzzing/phpFuzzing.ts:29</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -252,9 +310,27 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="fuzzing.html">Fuzzing</a>.<a href="fuzzing.html#host">host</a></p>
+								<p>Inherited from <a href="fuzzingchecker.html">FuzzingChecker</a>.<a href="fuzzingchecker.html#host">host</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/6c60fd4/src/checker/fuzzing/fuzzing.ts#L70">src/checker/fuzzing/fuzzing.ts:70</a></li>
+									<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/203ddb8/src/checker/fuzzing/fuzzingChecker.ts#L94">src/checker/fuzzing/fuzzingChecker.ts:94</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
+					<a name="name" class="tsd-anchor"></a>
+					<h3>name</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> name<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="fuzzingchecker.html">FuzzingChecker</a>.<a href="fuzzingchecker.html#name">name</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/203ddb8/src/checker/fuzzing/fuzzingChecker.ts#L90">src/checker/fuzzing/fuzzingChecker.ts:90</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -271,18 +347,18 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="fuzzing.html">Fuzzing</a>.<a href="fuzzing.html#paths">paths</a></p>
+								<p>Inherited from <a href="fuzzingchecker.html">FuzzingChecker</a>.<a href="fuzzingchecker.html#paths">paths</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/6c60fd4/src/checker/fuzzing/fuzzing.ts#L82">src/checker/fuzzing/fuzzing.ts:82</a></li>
+									<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/203ddb8/src/checker/fuzzing/fuzzingChecker.ts#L110">src/checker/fuzzing/fuzzingChecker.ts:110</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="fuzzing.html">Fuzzing</a>.<a href="fuzzing.html#paths">paths</a></p>
+								<p>Inherited from <a href="fuzzingchecker.html">FuzzingChecker</a>.<a href="fuzzingchecker.html#paths">paths</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/6c60fd4/src/checker/fuzzing/fuzzing.ts#L86">src/checker/fuzzing/fuzzing.ts:86</a></li>
+									<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/203ddb8/src/checker/fuzzing/fuzzingChecker.ts#L114">src/checker/fuzzing/fuzzingChecker.ts:114</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -304,12 +380,30 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="fuzzing.html">Fuzzing</a>.<a href="fuzzing.html#port">port</a></p>
+								<p>Inherited from <a href="fuzzingchecker.html">FuzzingChecker</a>.<a href="fuzzingchecker.html#port">port</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/6c60fd4/src/checker/fuzzing/fuzzing.ts#L74">src/checker/fuzzing/fuzzing.ts:74</a></li>
+									<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/203ddb8/src/checker/fuzzing/fuzzingChecker.ts#L98">src/checker/fuzzing/fuzzingChecker.ts:98</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
+					<a name="results" class="tsd-anchor"></a>
+					<h3>results</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> results<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="fuzzingresult.html" class="tsd-signature-type">FuzzingResult</a><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="fuzzingchecker.html">FuzzingChecker</a>.<a href="fuzzingchecker.html#results">results</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/203ddb8/src/checker/fuzzing/fuzzingChecker.ts#L102">src/checker/fuzzing/fuzzingChecker.ts:102</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="fuzzingresult.html" class="tsd-signature-type">FuzzingResult</a><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -326,9 +420,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/ichecker.html">IChecker</a>.<a href="../interfaces/ichecker.html#run">run</a></p>
-								<p>Overrides <a href="fuzzing.html">Fuzzing</a>.<a href="fuzzing.html#run">run</a></p>
+								<p>Overrides <a href="fuzzingchecker.html">FuzzingChecker</a>.<a href="fuzzingchecker.html#run">run</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/6c60fd4/src/checker/fuzzing/phpFuzzing.ts#L23">src/checker/fuzzing/phpFuzzing.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/203ddb8/src/checker/fuzzing/phpFuzzing.ts#L24">src/checker/fuzzing/phpFuzzing.ts:24</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -344,14 +438,14 @@
 					<a name="runrequest" class="tsd-anchor"></a>
 					<h3>run<wbr>Request</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">run<wbr>Request<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">run<wbr>Request<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="fuzzingresult.html" class="tsd-signature-type">FuzzingResult</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="fuzzing.html">Fuzzing</a>.<a href="fuzzing.html#runrequest">runRequest</a></p>
+								<p>Inherited from <a href="fuzzingchecker.html">FuzzingChecker</a>.<a href="fuzzingchecker.html#runrequest">runRequest</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/6c60fd4/src/checker/fuzzing/fuzzing.ts#L42">src/checker/fuzzing/fuzzing.ts:42</a></li>
+									<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/203ddb8/src/checker/fuzzing/fuzzingChecker.ts#L63">src/checker/fuzzing/fuzzingChecker.ts:63</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -368,7 +462,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="fuzzingresult.html" class="tsd-signature-type">FuzzingResult</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -382,7 +476,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/6c60fd4/src/checker/fuzzing/phpFuzzing.ts#L38">src/checker/fuzzing/phpFuzzing.ts:38</a></li>
+									<li>Defined in <a href="https://github.com/kevinramage/hedgehog/blob/203ddb8/src/checker/fuzzing/phpFuzzing.ts#L33">src/checker/fuzzing/phpFuzzing.ts:33</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -422,10 +516,22 @@
 								<a href="phpfuzzing.html#_host" class="tsd-kind-icon">_host</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="phpfuzzing.html#_name" class="tsd-kind-icon">_name</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a href="phpfuzzing.html#_paths" class="tsd-kind-icon">_paths</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a href="phpfuzzing.html#_port" class="tsd-kind-icon">_port</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="phpfuzzing.html#_report" class="tsd-kind-icon">_report</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="phpfuzzing.html#_results" class="tsd-kind-icon">_results</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="phpfuzzing.html#_ssl" class="tsd-kind-icon">_ssl</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite">
 								<a href="phpfuzzing.html#commandline" class="tsd-kind-icon">command<wbr>Line</a>
@@ -433,11 +539,17 @@
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 								<a href="phpfuzzing.html#host" class="tsd-kind-icon">host</a>
 							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
+								<a href="phpfuzzing.html#name" class="tsd-kind-icon">name</a>
+							</li>
 							<li class=" tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
 								<a href="phpfuzzing.html#paths" class="tsd-kind-icon">paths</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 								<a href="phpfuzzing.html#port" class="tsd-kind-icon">port</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
+								<a href="phpfuzzing.html#results" class="tsd-kind-icon">results</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="phpfuzzing.html#run" class="tsd-kind-icon">run</a>
