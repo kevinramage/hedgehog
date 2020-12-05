@@ -14,6 +14,7 @@ import { JBossFuzzing } from "../checker/fuzzing/jbossFuzzing";
 import { PHPFuzzing } from "../checker/fuzzing/phpFuzzing";
 import { TomcatFuzzing } from "../checker/fuzzing/tomcatFuzzing";
 import { CertificateChecker } from "../checker/certificate/certificateChecker";
+import { HedgeHogInfo } from "../common/business/hedgehogInfo";
 
 export class Program {
 
@@ -26,7 +27,7 @@ export class Program {
             const myProgram = program;
 
             // Create commands
-            this.defineProgramInformations(myProgram, resolve);
+            this.defineProgramInformations(myProgram);
             this.createCommands(myProgram, resolve);
 
             // Display help when no command identified
@@ -192,17 +193,10 @@ export class Program {
         });
     }
 
-    private defineProgramInformations(myProgram: commander.Command, resolve: () => void) {
+    private defineProgramInformations(myProgram: commander.Command) {
         winston.debug("Program.defineProgramInformations");
-        try {
-            const buffer = readFileSync("package.json");
-            const data = JSON.parse(buffer.toString());
-            myProgram.description(data.description);
-            myProgram.version(data.version);
-        } catch (err) {
-            winston.debug("Program.defineProgramVersion - Internal error: ", err);
-            resolve();
-        }
+        myProgram.description(HedgeHogInfo.description);
+        myProgram.version(HedgeHogInfo.version);
     }
 
     public async proxy(hostName: string, portValue: string) {

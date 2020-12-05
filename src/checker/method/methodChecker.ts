@@ -9,6 +9,7 @@ import { REQUEST_METHODS } from "../../common/business/request/request";
 
 import HTTP_METHODS = require("../../config/connection/httpMethod.json");
 import { Proxy } from "../../common/business/request/proxy";
+import { RequestUtil } from "../../common/utils/requestUtil";
 
 
 /**
@@ -125,6 +126,9 @@ export class MethodChecker implements IChecker {
 
                 // Add proxy authorization if required
                 Proxy.addProxyAuthorization(req, proxy);
+
+                // Add additionnal headers
+                RequestUtil.addAdditionalHeaders(req);
 
                 // Send request
                 req.end();

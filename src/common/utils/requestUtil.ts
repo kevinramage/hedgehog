@@ -10,6 +10,7 @@ import { ICertificate } from "../business/request/certificate";
 import * as http from "http";
 import * as https from "https";
 import { Proxy } from "../business/request/proxy";
+import { HedgeHogInfo } from "../business/hedgehogInfo";
 
 
 
@@ -81,6 +82,9 @@ export class RequestUtil {
             // Add proxy authorization if required
             Proxy.addProxyAuthorization(req, proxy);
 
+            // Add additional headers
+            RequestUtil.addAdditionalHeaders(req);
+
             // Body
             if (request.body) {
                 req.write(request.body);
@@ -114,5 +118,24 @@ export class RequestUtil {
                 request.addHeader(headerName, headerValue);
             }
         });
+    }
+
+    public static addAdditionalHeaders(request: http.ClientRequest) {
+        RequestUtil.addCustomHeader(request);
+        RequestUtil.addHedgeHogHeader(request);
+    }
+
+    private static addCustomHeader(request: http.ClientRequest) {
+        if (Options.instance.option(OPTIONS.REQUEST_CUSTOMHEADER_ENABLED) === true) {
+            const key = Options.instance.option(OPTIONS.REQUEST_CUSTOMHEADER_KEY);
+            const value = Options.instance.option(OPTIONS.REQUEST_CUSTOMHEADER_VALUE);
+            request.setHeader(key, value);
+        }
+    }
+
+    private static addHedgeHogHeader(request: http.ClientRequest) {
+        if (Options.instance.option(OPTIONS.REQUEST_HEDGEHOG_ENABLED) === true) {
+            request.setHeader("HedgeHog-Version", HedgeHogInfo.version);
+        }
     }
 }

@@ -42,5 +42,9 @@ export enum OPTIONS {
     REQUEST_PROXY_HOST = "request.proxy.host",
     REQUEST_PROXY_PORT = "request.proxy.port",
     REQUEST_PROXY_USERNAME = "request.proxy.username",
-    REQUEST_PROXY_PASSWORD = "request.proxy.password"
+    REQUEST_PROXY_PASSWORD = "request.proxy.password",
+    REQUEST_CUSTOMHEADER_ENABLED = "request.customHeader.enabled",
+    REQUEST_CUSTOMHEADER_KEY = "request.customHeader.key",
+    REQUEST_CUSTOMHEADER_VALUE = "request.customHeader.value",
+    REQUEST_HEDGEHOG_ENABLED = "request.hedgeHeader.enabled"
 }

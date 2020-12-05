@@ -6,6 +6,7 @@ import { Report } from "../../common/business/report/report";
 import { SSLReport } from "../../common/business/report/sslReport";
 import { format } from "util";
 import { Proxy } from "../../common/business/request/proxy";
+import { RequestUtil } from "../../common/utils/requestUtil";
 
 /**
  * Checker to test the SSL method allowed by the server
@@ -111,6 +112,9 @@ export class SSLMethodChecker implements IChecker {
 
                 // Add proxy authorization if required
                 Proxy.addProxyAuthorization(request, proxy);
+
+                // Add additionnal headers
+                RequestUtil.addAdditionalHeaders(request);
 
                 // Send request
                 request.end();

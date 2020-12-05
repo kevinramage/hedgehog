@@ -5,5 +5,9 @@
     "request.proxy.host": "localhost",
     "request.proxy.port": 8866,
     "request.proxy.username": "",
-    "request.proxy.password": ""
+    "request.proxy.password": "",
+    "request.customHeader.enabled": true,
+    "request.customHeader.key": "User-Agent",
+    "request.customHeader.value": "hedgehog 1.0",
+    "request.hedgeHeader.enabled": true
 }
