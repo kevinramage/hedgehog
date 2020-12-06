@@ -14,7 +14,7 @@ export class FuzzingReport extends Report {
         winston.info(Report.SEPARATOR);
         winston.info(format("Date: %s", new Date()));
         winston.info(format("Host: '%s'", fuzzingChecker.host));
-        winston.info(format("Port: '%s'", fuzzingChecker.port));
+        winston.info(format("Port: '%d'", fuzzingChecker.port));
         winston.info(Report.SEPARATOR);
     }
 

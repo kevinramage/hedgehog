@@ -13,7 +13,7 @@ export class MethodReport extends Report {
         winston.info(Report.SEPARATOR);
         winston.info(format("Date: %s", new Date()));
         winston.info(format("Host: '%s'", methodChecker.host));
-        winston.info(format("Port: '%s'", methodChecker.port));
+        winston.info(format("Port: '%d'", methodChecker.port));
         winston.info(format("SSL: '%s'", methodChecker.ssl));
         winston.info(format("Path: '%s'", methodChecker.path));
         winston.info(format("HTTP Methods to test: '%s'", methodChecker.methodsToCheck.join(", ")));

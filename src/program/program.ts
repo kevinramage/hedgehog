@@ -83,13 +83,13 @@ export class Program {
             });
 
         // Cipher checker
-        myProgram.command("cipher <hostName> <port>")
+        myProgram.command("cipher <hostName> <port> <path>")
             .description("run cipher checker to identify ciphers allowed")
-            .action(async (hostName, port) => {
-                await this.cipher(hostName, port);
+            .action(async (hostName, port, path) => {
+                await this.cipher(hostName, port, path);
                 resolve();
             }).exitOverride(() => {
-                winston.error("Syntax: cipher <hostName> <port>  run cipher checker to identify ciphers allowed");
+                winston.error("Syntax: cipher <hostName> <port> <path>  run cipher checker to identify ciphers allowed");
                 resolve();
             });
 
@@ -254,13 +254,13 @@ export class Program {
         }
     }
 
-    public async cipher(hostName: string, portValue: string) {
+    public async cipher(hostName: string, portValue: string, path: string) {
         const port = Number.parseInt(portValue, 10);
         if (!isNaN(port)) {
-            const cipherChecker = new CipherChecker(hostName, port);
+            const cipherChecker = new CipherChecker(hostName, port, path);
             await cipherChecker.run();
         } else {
-            winston.error("Syntax: cipher <hostName> <port>  run cipher checker to identify ciphers allowed");
+            winston.error("Syntax: cipher <hostName> <port> <path>  run cipher checker to identify ciphers allowed");
         }
     }
 

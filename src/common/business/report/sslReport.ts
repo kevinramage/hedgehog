@@ -14,7 +14,7 @@ export class SSLReport extends Report{
         winston.info(Report.SEPARATOR);
         winston.info(format("Date: %s", new Date()));
         winston.info(format("Host: '%s'", sslMethodChecker.host));
-        winston.info(format("Port: '%s'", sslMethodChecker.port));
+        winston.info(format("Port: '%d'", sslMethodChecker.port));
         winston.info(format("SSL Methods to test: '%s'", Object.values(SSL_METHOD).join(", ")));
         winston.info(Report.SEPARATOR);
     }

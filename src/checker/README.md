@@ -25,3 +25,7 @@ Several checkers propose to validate some security points:
 ## Certificate checker
 
 [Check certificate validity of the application server](./certificate/README.md)
+
+## Cipher checker
+
+[Check cipher authorized on the application server](./cipher/README.md)
