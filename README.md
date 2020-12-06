@@ -11,7 +11,7 @@ This tool propose some features like:
 * Analyze requests (NOT READY)
 * Navigate through a web application to identify links (web crawler, spider bot) (NOT READY)
 * Attack a web application (NOT READY)
-* Execute checkers (NOT READY)
+* Execute checkers
 
 The goal to this tool is to be included in development life cycle to identify quickly the security isssue, keep a tracking of these issues and check the non regression of this issue in each releases.
 
@@ -39,9 +39,9 @@ npm install
 
 # Usage
 
-This tool based on two importants notions SYSTEM and CHECKER.
-[System link](./src/system/README.md)
-[Checker link](./src/checker/README.md)
+This tool based on severals importants notions:
+* [System](./src/system/README.md)
+* [Checker](./src/checker/README.md)
 
 # Contributions
 
