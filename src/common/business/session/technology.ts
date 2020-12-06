@@ -36,10 +36,12 @@ export class Technology {
         winston.debug("Technology.load");
         const technologies : Technology[] = [];
         try {
-            const data = JSON.parse(content) as any[];
-            data.forEach(t => {
-                technologies.push(new Technology(t.name, t.version));
-            });
+            if (content !== "") {
+                const data = JSON.parse(content) as any[];
+                data.forEach(t => {
+                    technologies.push(new Technology(t.name, t.version));
+                });
+            }
         } catch (ex) {
             winston.error("Technology.load - Error during parsing", ex);
         }

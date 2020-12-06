@@ -1,7 +1,5 @@
 import commander, { program } from "commander";
-import { readFileSync } from "fs";
 import { ProxySystem } from "../system/proxy/proxySystem";
-import * as winston from "winston";
 import { PortListenerChecker } from "../checker/port/portListenerChecker";
 import { SSLMethodChecker } from "../checker/sslMethod/sslMethodChecker";
 import { CipherChecker } from "../checker/cipher/cipherChecker";
@@ -15,6 +13,8 @@ import { PHPFuzzing } from "../checker/fuzzing/phpFuzzing";
 import { TomcatFuzzing } from "../checker/fuzzing/tomcatFuzzing";
 import { CertificateChecker } from "../checker/certificate/certificateChecker";
 import { HedgeHogInfo } from "../common/business/hedgehogInfo";
+
+import * as winston from "winston";
 
 export class Program {
 
@@ -53,7 +53,7 @@ export class Program {
                 await this.proxy(hostName, port);
                 resolve();
             }).exitOverride(() => {
-                winston.error("pproxy <hostName> <port>  run proxy system to analyze incomming request");
+                winston.error("proxy <hostName> <port>  run proxy system to analyze incomming request");
                 resolve();
             });
 

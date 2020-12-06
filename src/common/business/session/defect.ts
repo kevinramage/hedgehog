@@ -45,10 +45,12 @@ export class Defect {
         winston.debug("Defect.load");
         const defects : Defect[] = [];
         try {
-            const data = JSON.parse(content) as any[];
-            data.forEach(t => {
-                defects.push(new Defect(t.test, t.path, t.expected, t.actual));
-            });
+            if (content !== "") {
+                const data = JSON.parse(content) as any[];
+                data.forEach(t => {
+                    defects.push(new Defect(t.test, t.path, t.expected, t.actual));
+                });
+            }
         } catch (ex) {
             winston.error("Defect.load - Error during parsing", ex);
         }

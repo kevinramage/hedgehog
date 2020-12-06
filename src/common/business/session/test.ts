@@ -34,10 +34,12 @@ export class Test {
         winston.debug("Test.load");
         const tests : Test[] = [];
         try {
-            const data = JSON.parse(content) as any[];
-            data.forEach(t => {
-                tests.push(new Test(t.programName, t.args));
-            });
+            if (content !== "") {
+                const data = JSON.parse(content) as any[];
+                data.forEach(t => {
+                    tests.push(new Test(t.programName, t.args));
+                });
+            }
         } catch (ex) {
             winston.error("Test.load - Error during parsing", ex);
         }

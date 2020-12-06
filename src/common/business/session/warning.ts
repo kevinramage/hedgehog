@@ -36,10 +36,12 @@ export class Warning {
         winston.debug("Warning.load");
         const warnings : Warning[] = [];
         try {
-            const data = JSON.parse(content) as any[];
-            data.forEach(w => {
-                warnings.push(new Warning(w.type, w.name, w.severity, w.details));
-            });
+            if (content !== "") {
+                const data = JSON.parse(content) as any[];
+                data.forEach(w => {
+                    warnings.push(new Warning(w.type, w.name, w.severity, w.details));
+                });
+            }
         } catch (ex) {
             winston.error("Warning.load - Error during parsing", ex);
         }
