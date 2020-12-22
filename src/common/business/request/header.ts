@@ -48,5 +48,7 @@ export enum HEADER_NAME {
     CACHECONTROL = "cache-control",
     ETAG = "etag",
     FEATUREPOLICY = "feature-policy",
-    PROXYAUTHORIZATION = "proxy-authorization"
+    PROXYAUTHORIZATION = "proxy-authorization",
+    CONTENTSECURITYPOLICY = "content-security-policy",
+    XCONTENTSECURITYPOLICY = "x-content-security-policy",
 }
