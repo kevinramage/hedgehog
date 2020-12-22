@@ -6,6 +6,7 @@ import { IAnalyzer } from "../IAnalyzer";
 
 /**
  * Access-Control-Allow-Origin header must be not equals to wildcard
+ * RFC 6454: Format scheme "://" host [ ":" port ]
  * Apply this check to all ressources
  */
 export class AccessControlAllowOriginAnalyzer implements IAnalyzer {
