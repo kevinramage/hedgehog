@@ -1,4 +1,4 @@
-import { Request } from "../business/request/request";
+import { Request, REQUEST_METHODS } from "../business/request/request";
 import { Response } from "../business/request/response";
 import { Session } from "../../common/business/session/session";
 import { NumberUtils } from "./numberUtils";
@@ -24,8 +24,8 @@ export class RequestUtil {
         return new Promise<Response>(async (resolve, reject) => {
 
             // Handlers
-            let code = "";
-            const onDataReceived = (chunk: any) => { code += chunk; }
+            let buffers : Buffer[] = [];
+            const onDataReceived = (chunk: Buffer) => { buffers.push(chunk); }
             const onErrorReceived = (err: any) => { reject(err); }
 
             // Define options
@@ -49,7 +49,7 @@ export class RequestUtil {
                 res.on("end", async() => {
 
                     // Add response to session
-                    let response = RequestUtil.convertIncomingMessage(res, code);
+                    let response = RequestUtil.generateResponseFromIncomingMessage(res, buffers);
                     Session.instance.addResponse(response);
 
                     // Manage follow redirect
@@ -98,8 +98,23 @@ export class RequestUtil {
         });
     }
 
-    private static convertIncomingMessage(message: http.IncomingMessage, content: string) {
-        const response = new Response(message.statusCode as number, content);
+    
+    public static generateRequestFromIncomingMessage(message: http.IncomingMessage) {
+        const method = message.method || REQUEST_METHODS.GET;
+        const url = new URL(message.url as string);
+        const port = Number.parseInt(url.port, 10);
+        const request = new Request(url.host, port, method, url.pathname);
+        Object.keys(message.headers).forEach(key => {
+            const value = message.headers[key];
+            request.addHeader(key, value || "");
+        });
+        return request;
+    }
+
+    public static generateResponseFromIncomingMessage(message: http.IncomingMessage, buffers: Buffer[]) {
+        const buffer = Buffer.concat(buffers);
+        const response = new Response(message.statusCode as number, buffer.toString());
+        response.buffer = buffer;
         const socket = (message.socket as TLSSocket);
         if (socket && socket.getCertificate) {
             response.certificate = (socket?.getPeerCertificate(true) as ICertificate);

@@ -10,6 +10,7 @@ export class Response {
     private _status: number | undefined;
     private _headers: Header[];
     private _body: string | undefined;
+    private _buffer ?: Buffer;
     private _certificate ?: ICertificate;
 
     /**
@@ -136,5 +137,13 @@ export class Response {
         } else {
             return false;
         }
+    }
+
+    public get buffer() {
+        return this._buffer;
+    }
+
+    public set buffer(value) {
+        this._buffer = value;
     }
 }

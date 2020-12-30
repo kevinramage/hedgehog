@@ -1,5 +1,5 @@
 import { ISystem } from "../ISystem";
-import { ProxyManager } from "./proxyManager";
+import { ProxyManager } from "./proxyManager4";
 import { Request } from "../../common/business/request/request";
 import { Response } from "../../common/business/request/response";
 import { Context } from "../../common/business/request/context";
