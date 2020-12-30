@@ -7,14 +7,14 @@ import { Session } from "../../common/business/session/session";
 
 /**
  * Analyze the content security policy
- * A security policy must be defined for each HTML resource 
+ * A security policy must be defined for each HTML resource
  * - can be defined by header or meta tag
- * 
+ *
  * # Recommandation: Place CSP meta tag before resource loading statements to apply security policy on all elements
- * 
+ *
  * Avoid allow all option
  * Avoid eval option
- * 
+ *
  * Content-Security-Policy-Report-Only header ?
  */
 export class ContentSecurityPolicyAnalyzer implements IAnalyzer  {
@@ -24,9 +24,9 @@ export class ContentSecurityPolicyAnalyzer implements IAnalyzer  {
      * @param context query context
      */
     public analyze(context: Context): void {
-        if ( context && context.response ) {
+        if (context && context.response) {
             const contentSecurityPolicyHeader = context.response.headers.find(h => { return h.key === HEADER_NAME.CONTENTSECURITYPOLICY; });
-            if ( !contentSecurityPolicyHeader ) {
+            if (!contentSecurityPolicyHeader) {
 
                 // Add warning
                 const warning = new Warning(WARNING_TYPE.DATA_EXPOSURE, WARNING_NAME.CONTENTSECURITYPOLICY_HEADER, WARNING_SEVERITY.MAJOR, "");
@@ -34,7 +34,7 @@ export class ContentSecurityPolicyAnalyzer implements IAnalyzer  {
                 warning.response = context.response;
                 Session.instance.addWarning(warning);
                 DataManager.instance.addWarning(warning);
-            } 
+            }
         }
     }
 

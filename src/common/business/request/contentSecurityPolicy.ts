@@ -40,7 +40,7 @@ export class ContentSecurityPolicy {
     public upgradeInsecureRequests : string;
 
     constructor() {
-        
+
         // Fetch
         this.childSrc = "";
         this.connectSrc = "";
