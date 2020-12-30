@@ -116,6 +116,8 @@ export enum WARNING_NAME {
     CACHECONTROL_HEADER = "Cache-Control header",
     ETAG_HEADER = "ETag header",
     FEATUREPOLICY_HEADER = "Feature-Policy header",
+    CONTENTSECURITYPOLICY_HEADER = "Content-Security-Policy header",
+    XCONTENTSECURITYPOLICY_HEADER = "X-Content-Security-Policy header",
 
     // Connection
     HTTP_VERSION = "Http version"
