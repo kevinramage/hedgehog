@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <link href="resources/test.css" rel="stylesheet">
+    </head>
+    <body>
+        <img class="mainImage" src="resources/security.jpg" alt="security" width="300px" />
+        <div class="banner"></div>
+        <div class="header">
+            <h1>Security report</h1>
+            <div>
+                <label>Company: </label>
+                <span>myCompany</span>
+            </div>
+            <div>
+                <label>Project: </label>
+                <span>myProject</span>
+            </div>
+            <div>
+                <label>Application: </label>
+                <span>myApp</span>
+            </div>
+            <div>
+                <label>Date: </label>
+                <span>01-01-2021</span>
+            </div>
+            <div>
+                <label>Diffusion: </label>
+                <span>internal only</span>
+            </div>
+        </div>
+
+        <div class="summary">
+            <ul>
+                <li class="summaryTab">
+                    <img src="resources/protection-shield-with-a-check-mark.svg" alt="vulnerability" />
+                    <span class="title">Vulnerabilité</span>
+                    <span>20 vulnérabilités identifiés</span>
+                </li>
+                <li class="summaryTab">
+                    <img src="resources/caution-sign.svg" alt="risk" />
+                    <span class="title">Risque</span>
+                    <span>1 faille identifié avec une CVE à 9</span>
+                </li>
+                <li class="summaryTab">
+                    <img src="resources/technics.svg" alt="fix" />
+                    <span class="title">Correction</span>
+                    <span>10 failles avec un coût de correction simple</span>
+                </li>
+                <li class="summaryTab">
+                    <img src="resources/exam.svg" alt="tests" />
+                    <span class="title">Tests</span>
+                    <span>18 tests exécutés en 20s</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="tests">
+            {{__TESTS__}}
+        </div>
+    </body>
+</html>

@@ -1,4 +1,5 @@
 import { RequestUtil } from "../../utils/requestUtil";
+import { Evaluator } from "../evaluator";
 import { Header, HEADER_NAME } from "./header";
 
 /**
@@ -87,6 +88,23 @@ export class Request {
         return RequestUtil.sendRequest(this, 0);
     }
 
+    public clone() {
+        const newRequest = new Request(this.host, this.port, this.method, this.path);
+        newRequest.headers = Header.cloneHeaders(this.headers);
+        newRequest.body = this.body;
+        return newRequest;
+    }
+
+    public evaluate(variables: {[key: string]: string}) {
+        this._host = Evaluator.evaluate(variables, this.host);
+        this._method = Evaluator.evaluate(variables, this.method);
+        this._path = Evaluator.evaluate(variables, this.path);
+        if (this.body) {
+            this._body = Evaluator.evaluate(variables, this.body);
+        }
+        Header.evaluateHeaders(variables, this.headers);
+    }
+
     public get host() {
         return this._host;
     }
@@ -161,6 +179,14 @@ export class Request {
 
     public set ssl(value) {
         this._ssl = value;
+    }
+
+    public static instanciateFromUrl(urlString: string, method: string) {
+        const url = new URL(urlString);
+        const request = new Request(url.host, Number.parseInt(url.port, 10), method, url.pathname);
+        request.protocol = url.protocol;
+        request.ssl = (url.protocol === "https");
+        return request;
     }
 }
 

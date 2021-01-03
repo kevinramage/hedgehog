@@ -1,0 +1,10 @@
+name: Certificate
+goal: Check certificate issues
+description: No certificate issues detected on server
+tags:
+- server
+- ssl
+- certificate
+test:
+  type: CertificateChecker
+  server: myserver.com

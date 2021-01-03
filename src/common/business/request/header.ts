@@ -1,4 +1,5 @@
 import { format } from "util";
+import { Evaluator } from "../evaluator";
 
 /**
  * HTTP header
@@ -17,6 +18,27 @@ export class Header {
         this._value = value;
     }
 
+    /**
+     * Format the header
+     */
+    public toString() {
+        return format("%s: %s", this.key, this.value);
+    }
+
+    public clone() {
+        return new Header(this.key, this.value);
+    }
+
+    public evaluate(variables: {[key: string]: string}) {
+        this._key = Evaluator.evaluate(variables, this.key);
+        if (this.value && typeof this.value === "object" && this.value.length !== undefined) {
+            const array = this.value as string[];
+            array.map(i => { return Evaluator.evaluate(variables, i); })
+        } else if (this.value) {
+            this._value = Evaluator.evaluate(variables, this.value.toString());
+        }
+    }
+
     public get key() {
         return this._key;
     }
@@ -25,11 +47,18 @@ export class Header {
         return this._value;
     }
 
-    /**
-     * Format the header
-     */
-    public toString() {
-        return format("%s: %s", this.key, this.value);
+
+
+    public static cloneHeaders(headers: Header[]) {
+        const newHeaders : Header[] = [];
+        headers.forEach(h => { newHeaders.push(h.clone()); })
+        return newHeaders;
+    }
+
+    public static evaluateHeaders(variables: {[key: string]: string}, headers: Header[]) {
+        if (headers) {
+            headers.forEach(h => { return h.evaluate(variables); })
+        }
     }
 }
 

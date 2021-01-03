@@ -1,0 +1,8 @@
+name: ...SQLUnionInjection
+goal: Check the SQL Union injection ...
+description: The SQL Union injection not worked ...
+tags:
+- injection
+- SQL injection
+test:
+  type: SQLUnionInjection

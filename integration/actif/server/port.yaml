@@ -1,0 +1,11 @@
+name: Port
+goal: Check the server port available
+description: The server listen only on 80
+tags:
+- server
+- port
+test:
+  type: PortListenerChecker
+  server: myserver.com
+  ports:
+  - 80

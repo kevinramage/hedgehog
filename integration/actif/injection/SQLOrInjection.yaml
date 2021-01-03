@@ -1,0 +1,14 @@
+name: LoginSQLOrInjection
+goal: Check the SQL OR injection on login form
+description: The SQL OR injection not worked on login form
+tags:
+- injection
+- SQL injection
+test:
+  type: SQLOrInjection
+  request:
+    url: http://testphp.vulnweb.com/userinfo.php
+    method: POST
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+    body: uname={{payload}}&pass={{payload}}

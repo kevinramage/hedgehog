@@ -1,5 +1,3 @@
-import { Test } from "./test";
-
 import * as winston from 'winston';
 import 'winston-daily-rotate-file';
 import { Program } from "./program/program";
@@ -13,10 +11,14 @@ class Main {
     private init() {
 
         // Configure formats
-        const logFormat = winston.format.printf(({ level, message, timestamp }) => {
-            return `${timestamp} - ${level.toUpperCase()} - ${message}`;
+        const logFormat = winston.format.printf(({ level, message, timestamp, stack }) => {
+            if (stack) {
+                return `${timestamp} - ${level.toUpperCase()} - ${message} - ${stack}`;
+            } else {
+                return `${timestamp} - ${level.toUpperCase()} - ${message}`;
+            }
         });
-        const combinedFormat = winston.format.combine(winston.format.timestamp({format: 'YYYY-MM-DD HH:mm:ss.SSS'}), logFormat);
+        const combinedFormat = winston.format.combine(winston.format.timestamp({format: 'YYYY-MM-DD HH:mm:ss.SSS'}), winston.format.errors({ stack: true }), logFormat);
         const transportOption = { filename: "logs/Hedgehog_%DATE%.log", datePattern: 'YYYY-MM-DD', level: 'debug', zippedArchive: true, maxSize: '20m', maxFiles: '14d', format: combinedFormat};
 
         // Add loggers

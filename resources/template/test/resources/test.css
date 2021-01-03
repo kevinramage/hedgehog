@@ -1,0 +1,190 @@
+body {
+    margin: 0px;
+}
+
+label {
+    display: inline-block;
+    width: 220px;
+    font-weight: bold;
+}
+
+.result {
+    font-weight: bold;
+}
+
+.failed {
+    color: red;
+}
+
+.success {
+    color: green;
+}
+
+h1 {
+    color: #020887;
+}
+
+.mainImage {
+    width: 450px;
+    position: absolute;
+    right: 80px;
+    top: 60px;
+    border-radius: 20px;
+}
+
+.banner {
+    width: 100%;
+    height: 20px;
+    background: #020887;
+    opacity: 0.8;
+}
+
+.header {
+    position: absolute;
+    top: 80px;
+    left: 50px;
+}
+
+.header div {
+    margin-bottom: 2px;
+}
+
+.summary {
+    position: absolute;
+    top: 400px;
+    height: 150px;
+    background: #020887;
+    width: 100%;
+    opacity: 0.8;
+}
+
+.summary ul {
+    list-style-type: none;
+    margin: 0px;
+}
+
+.summaryTab {
+    width: 250px;
+    height: 130px;
+    vertical-align: top;
+    display: inline-block;
+    background: white;
+    margin-right: 10px;
+    margin-top: 12px;
+    padding: 10px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.summaryTab img {
+    width: 30px;
+    display: block;
+    margin-left: 100px;
+    background: #020887;
+    border: solid 1px #020887;
+    border-radius: 10px;
+    padding: 8px;
+    fill: white;
+}
+
+.summaryTab .title {
+    color: #020887;
+    display: block;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+
+.tests {
+    position: absolute;
+    top: 550px;
+    padding-bottom: 100px;
+}
+
+.test {
+    margin-left: 50px;
+}
+
+h2, h3 {
+    color: #020887;
+    margin-bottom: 5px;
+}
+
+h3 {
+    font-size: 16px;
+}
+
+.titleBar {
+    display: block;
+    width: 450px;
+    height: 3px;
+    background: #020887;
+    margin-bottom: 20px;
+}
+
+.titleBar.small {
+    width: 250px;
+    height: 2px;
+    margin-bottom: 15px;
+}
+
+.testDetail {
+    margin: 10px;
+}
+
+.payloadDetail {
+    margin-top: 30px;
+    margin-left: 50px;
+}
+
+table {
+    border-spacing: initial;
+}
+
+tr {
+    height: 20px;
+}
+
+tr:nth-child(odd) {
+    background: #8CB5C877;
+}
+
+tr:nth-child(even) {
+    background: #7CA5B877;
+}
+
+tr:first-child {
+    background: #020887AA;
+    color: white;
+}
+
+tr:first-child th:first-child {
+    min-width: 200px;
+}
+
+td {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.cvssBaseScoreMetrics {
+    margin-top: 30px;
+    margin-left: 50px;
+}
+
+.cvssBaseScoreMetrics th {
+    text-align: left;
+}
+
+.cvssBaseScoreMetrics td:first-child {
+    font-size: large;
+}
+
+.cvssBaseScoreMetrics td:nth-child(2) {
+    font-weight: bold;
+}
+
+.cvssBaseScoreMetrics td:nth-child(3) {
+    max-width: 600px;
+}

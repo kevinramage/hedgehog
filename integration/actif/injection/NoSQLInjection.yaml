@@ -1,0 +1,8 @@
+name: ...NoSQLInjection
+goal: Check the NoSQL injection ...
+description: The NoSQL injection not worked ...
+tags:
+- injection
+- SQL injection
+test:
+  type: NoSQLInjection

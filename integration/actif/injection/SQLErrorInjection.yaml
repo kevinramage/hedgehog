@@ -1,0 +1,8 @@
+name: ...SQLErrorInjection
+goal: Check the SQL Error injection ...
+description: The SQL Error injection not worked ...
+tags:
+- injection
+- SQL injection
+test:
+  type: SQLErrorInjection

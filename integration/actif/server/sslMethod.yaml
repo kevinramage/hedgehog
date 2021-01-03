@@ -1,0 +1,14 @@
+name: SSLMethod
+goal: Check the SSL method available
+description: The SSL methods available are TLS1.1 and TLS1.2
+tags:
+- server
+- ssl
+- ssl method
+test:
+  type: SSLMethodChecker
+  server: myserver.com
+  port: 443
+  sslMethods:
+  - TLS1.1
+  - TLS1.2

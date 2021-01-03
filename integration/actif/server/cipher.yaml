@@ -1,0 +1,13 @@
+name: Cipher
+goal: Check the cipher available
+description: The cipher available are XXX
+tags:
+- server
+- ssl
+- cipher
+test:
+  type: CipherChecker
+  server: myserver.com
+  port: 443
+  ciphers:
+  - XXX

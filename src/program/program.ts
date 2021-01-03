@@ -1,3 +1,4 @@
+import * as winston from "winston";
 import commander, { program } from "commander";
 import { ProxySystem } from "../system/proxy/proxySystem";
 import { PortListenerChecker } from "../checker/port/portListenerChecker";
@@ -13,8 +14,7 @@ import { PHPFuzzing } from "../checker/fuzzing/phpFuzzing";
 import { TomcatFuzzing } from "../checker/fuzzing/tomcatFuzzing";
 import { CertificateChecker } from "../checker/certificate/certificateChecker";
 import { HedgeHogInfo } from "../common/business/hedgehogInfo";
-
-import * as winston from "winston";
+import { TestRunners } from "../common/business/test/testRunners";
 
 export class Program {
 
@@ -189,6 +189,17 @@ export class Program {
             resolve();
         }).exitOverride(() => {
             winston.error("Syntax: certificate <hostName> <port>  run certificate checker to validate the server SSL certificate");
+            resolve();
+        });
+
+        // Test runners
+        myProgram.command("testRunner <fileName>")
+        .description("run a hedgehog test")
+        .action(async (fileName) => {
+            await this.testRunner(fileName);
+            resolve();
+        }).exitOverride(() => {
+            winston.error("Syntax: testRunner run a hedgehog test");
             resolve();
         });
     }
@@ -394,6 +405,14 @@ export class Program {
         } else {
             winston.error("Syntax: certificate <hostName> <port>  run certificate checker to validate the server SSL certificate");
         }
+    }
+
+    public async testRunner(fileName: string) {
+        const testRunners = new TestRunners();
+        testRunners.init();
+        testRunners.addTestFileName(fileName);
+        await testRunners.execute();
+        testRunners.writeReport();
     }
 
     public static get instance() {

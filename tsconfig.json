@@ -66,8 +66,6 @@
   },
   "include": [
     "src/config/**/*.json",
-    "src/config/*.cert",
-    "src/config/*.key",
     "src/**/*.ts"
   ],
   "exclude": [

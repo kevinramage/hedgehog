@@ -1,0 +1,11 @@
+name: ConsultArtistSQLTimeInjection
+goal: Check the SQL Time injection on consult artist view
+description: The SQL Time injection not worked on consult artist view
+tags:
+- injection
+- SQL injection
+test:
+  type: SQLTimeInjection
+  request:
+    url: http://testphp.vulnweb.com/artists.php?artist=1{{payload}}
+    type: GET
