@@ -52,7 +52,7 @@ export class TestRunner {
         });
     }
 
-    private get executor() {
+    public get executor() {
         return this._executor as TestExecutor;
     }
 }

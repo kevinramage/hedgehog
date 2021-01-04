@@ -1,10 +1,26 @@
+import { CVSSBaseScoreMetricsUtils } from "../../utils/cvssBaseScoreMetricsUtils";
 import * as winston from "winston";
 import { Request } from "../request/request";
+import { IBaseScoreMetrics } from "./baseScoreMetrics";
+import { PayloadResultType } from "./payloadResult";
 import { ITestDescriptionHeader } from "./testDescriptionHeader";
+
+export type FIX_COMPLEXITY = "simple" | "medium" | "complexity";
 
 export class TestExecutor {
 
     protected _testDescription : ITestDescriptionHeader | undefined;
+    protected _status : PayloadResultType;
+    protected _reportTemplate : string;
+    protected _time : number;
+    protected _baseScoreMetrics : IBaseScoreMetrics | undefined;
+    protected _fixComplexity : FIX_COMPLEXITY | undefined;
+
+    constructor() {
+        this._status = "NOT_DEFINED";
+        this._reportTemplate = "";
+        this._time = 0;
+    }
 
     public run (testDescription: ITestDescriptionHeader) {
         winston.debug("TestExecutor.run");
@@ -46,5 +62,22 @@ export class TestExecutor {
 
     public get testDescription() {
         return this._testDescription as ITestDescriptionHeader;
+    }
+
+    protected get baseScoreMetrics() {
+        return this._baseScoreMetrics as IBaseScoreMetrics;
+    }
+
+    public get flawScore() {
+        const baseScoreMetrics = new CVSSBaseScoreMetricsUtils(this.baseScoreMetrics);
+        return baseScoreMetrics.baseScore;
+    }
+
+    public get status() {
+        return this._status;
+    }
+
+    public get fixComplexity() {
+        return this._fixComplexity as FIX_COMPLEXITY;
     }
 }

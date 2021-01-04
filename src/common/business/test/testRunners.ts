@@ -2,18 +2,22 @@ import * as winston from "winston";
 import * as fse from "fs-extra";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { TestRunner } from "./testRunner";
+import { Evaluator } from "../evaluator";
+import { PrettyPrint } from "../../utils/prettyPrint";
 
 export class TestRunners {
     private _reportName: string;
     private _testsFileName : string[];
     private _template : string;
     private _runners : TestRunner[];
+    private _time : number;
 
     constructor() {
         this._reportName = "myReport.html";
         this._testsFileName = [];
         this._template = "";
         this._runners = [];
+        this._time = 0;
     }
 
     public init() {
@@ -25,6 +29,9 @@ export class TestRunners {
     public execute() {
         winston.debug("TestRunners.execute");
         return new Promise<void>(async (resolve) => {
+            const startDateTime = new Date();
+
+            // Create runners and execute it
             const promises : Promise<void>[] = [];
             for (const testFileName of this._testsFileName) {
                 const runner = new TestRunner();
@@ -32,6 +39,11 @@ export class TestRunners {
                 promises.push(runner.execute(testFileName));
             }
             await Promise.all(promises);
+
+            // Compute duration
+            const endDateTime = new Date();
+            this._time = endDateTime.getTime() - startDateTime.getTime();
+
             resolve();
         });
     }
@@ -44,10 +56,24 @@ export class TestRunners {
             return r.writeReport();
         }).join("");
 
-        // Write test
-        const content = this._template.replace("{{__TESTS__}}", testsContent);
+        // Collect data
+        const executors = this._runners.map(r => { return r.executor});
+        const maxCVSS = executors.map(e => { return e.flawScore; }).reduce((a, b) => {
+            return (a > b) ? a : b;
+        });
+        const flaws = executors.filter(e => {return e.status !== "NOT_INJECTED"; }).length;
+        const simpleFixs = executors.filter(e => { return e.status !== "NOT_INJECTED" && e.fixComplexity === "simple"}).length;
+        const variables = {
+            flaws,
+            maxCVSS,
+            "simpleFix": simpleFixs,
+            "tests": this._runners.length,
+            "time": PrettyPrint.printTime(this._time)
+        }
 
-        // Evaluate
+        // Write test
+        let content = this._template.replace("{{__TESTS__}}", testsContent);
+        content = Evaluator.evaluate(variables, content);
 
         // Write report
         const outputDirectory = "output";

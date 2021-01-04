@@ -22,20 +22,14 @@ export class SQLOrInjector extends TestExecutor {
     private _referenceLength ?: number;
     private _payloads : string[];
     private _payloadResults : PayloadResult[];
-    private _status : PayloadResultType;
-    private _reportTemplate : string;
-    private _time : number;
-    private _baseScoreMetrics : IBaseScoreMetrics;
 
     constructor() {
         super();
         this._referencePayload = "";
         this._payloads = ArrayUtils.shuffle(PAYLOADS as string[]);
         this._payloadResults = [];
-        this._status = "NOT_DEFINED";
-        this._reportTemplate = "";
-        this._time = 0;
         this._baseScoreMetrics = BASESCOREMETRICS as IBaseScoreMetrics;
+        this._fixComplexity = "simple";
     }
 
     protected init() {
@@ -148,7 +142,7 @@ export class SQLOrInjector extends TestExecutor {
 
     public writeReport() {
         winston.debug("SQLOrInjector.writeReport");
-        const baseScoreMetrics = new CVSSBaseScoreMetricsUtils(this._baseScoreMetrics);
+        const baseScoreMetrics = new CVSSBaseScoreMetricsUtils(this.baseScoreMetrics);
         const variables = {
             "test.name": this.testDescription.name,
             "execution.status": this.status,
@@ -156,26 +150,27 @@ export class SQLOrInjector extends TestExecutor {
             "execution.time": PrettyPrint.printTime(this._time),
             "execution.payloadLength":  this._payloads.length,
             "execution.payloadKOLength": this.payloadResults.filter(r => { return r.status !== "NOT_INJECTED"; }).length,
+            "test.fixComplexity": this._fixComplexity,
             "execution.baseScore": baseScoreMetrics.baseScore,
             "execution.impactScore": baseScoreMetrics.roundUp(baseScoreMetrics.impactScore),
             "execution.exploitationScore": baseScoreMetrics.roundUp(baseScoreMetrics.exploitationScore),
             "payloads": this.generatePayloadsVariable(),
-            "attackVector.value": this._baseScoreMetrics.AttackVector.value,
-            "attackVector.comments": this._baseScoreMetrics.AttackVector.comments,
-            "attackComplexity.value": this._baseScoreMetrics.AttackComplexity.value,
-            "attackComplexity.comments": this._baseScoreMetrics.AttackComplexity.comments,
-            "privilegesRequired.value": this._baseScoreMetrics.PrivilegesRequired.value,
-            "privilegesRequired.comments": this._baseScoreMetrics.PrivilegesRequired.comments,
-            "userInteraction.value": this._baseScoreMetrics.UserInteraction.value,
-            "userInteraction.comments": this._baseScoreMetrics.UserInteraction.comments,
-            "scope.value": this._baseScoreMetrics.Scope.value,
-            "scope.comments": this._baseScoreMetrics.Scope.comments,
-            "confidentialityImpact.value": this._baseScoreMetrics.ConfidentialityImpact.value,
-            "confidentialityImpact.comments": this._baseScoreMetrics.ConfidentialityImpact.comments,
-            "integrityImpact.value": this._baseScoreMetrics.IntegrityImpact.value,
-            "integrityImpact.comments": this._baseScoreMetrics.IntegrityImpact.comments,
-            "availabilityImpact.value": this._baseScoreMetrics.AvailabilityImpact.value,
-            "availabilityImpact.comments": this._baseScoreMetrics.AvailabilityImpact.comments
+            "attackVector.value": this.baseScoreMetrics.AttackVector.value,
+            "attackVector.comments": this.baseScoreMetrics.AttackVector.comments,
+            "attackComplexity.value": this.baseScoreMetrics.AttackComplexity.value,
+            "attackComplexity.comments": this.baseScoreMetrics.AttackComplexity.comments,
+            "privilegesRequired.value": this.baseScoreMetrics.PrivilegesRequired.value,
+            "privilegesRequired.comments": this.baseScoreMetrics.PrivilegesRequired.comments,
+            "userInteraction.value": this.baseScoreMetrics.UserInteraction.value,
+            "userInteraction.comments": this.baseScoreMetrics.UserInteraction.comments,
+            "scope.value": this.baseScoreMetrics.Scope.value,
+            "scope.comments": this.baseScoreMetrics.Scope.comments,
+            "confidentialityImpact.value": this.baseScoreMetrics.ConfidentialityImpact.value,
+            "confidentialityImpact.comments": this.baseScoreMetrics.ConfidentialityImpact.comments,
+            "integrityImpact.value": this.baseScoreMetrics.IntegrityImpact.value,
+            "integrityImpact.comments": this.baseScoreMetrics.IntegrityImpact.comments,
+            "availabilityImpact.value": this.baseScoreMetrics.AvailabilityImpact.value,
+            "availabilityImpact.comments": this.baseScoreMetrics.AvailabilityImpact.comments
         };
         return Evaluator.evaluate(variables, this._reportTemplate);
     }
