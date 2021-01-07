@@ -1,0 +1,34 @@
+{
+    "AttackVector": {
+        "value": "Network",
+        "comments": "The attacker connect to application over a network"
+    },
+    "AttackComplexity": {
+        "value": "Low",
+        "comments": "The attack is easy to reproduce and doesn't need specific access conditions"
+    },
+    "PrivilegesRequired": {
+        "value": "None",
+        "comments": "The attack doesn't need specific privilege"
+    },
+    "UserInteraction": {
+        "value": "None",
+        "comments": "The attack doesn't neeed an action from an user"
+    },
+    "Scope": {
+        "value": "Unchanged",
+        "comments": "The attack impact only the application"
+    },
+    "ConfidentialityImpact": {
+        "value": "Low",
+        "comments": "This kind of attack is often use to identify an entry point to inject others kind of injection (SQL Union, SQL Or injection). This kind of attack can be use to collect informations about the database product"
+    },
+    "IntegrityImpact": {
+        "value": "None",
+        "comments": "Often no integrity impact but depends of processing attacked"
+    },
+    "AvailabilityImpact": {
+        "value": "None",
+        "comments": "Often no availability impact but depends of processing attacked"
+    }
+}

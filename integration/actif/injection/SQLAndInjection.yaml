@@ -7,5 +7,5 @@ tags:
 test:
   type: SQLAndInjection
   request:
-    url: http://testphp.vulnweb.com/artists.php?artist=1{{payload}}
+    url: http://127.0.0.1:8081/bodgeit/search.jsp?q=Th{{payload}}
     type: GET

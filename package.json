@@ -19,7 +19,7 @@
   "private": "true",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && node dist/main.js",
+    "start": "tsc && node --unhandled-rejections=strict dist/main.js",
     "sslProtocol": "tsc && node dist/server/sslProtocol/sslProtocolProgram",
     "portsListener": "tsc && node dist/server/port/portsListenerProgram",
     "doc": "npx typedoc --mode file --out doc src",

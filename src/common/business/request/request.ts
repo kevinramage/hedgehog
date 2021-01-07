@@ -183,9 +183,10 @@ export class Request {
 
     public static instanciateFromUrl(urlString: string, method: string) {
         const url = new URL(urlString);
-        const request = new Request(url.host, Number.parseInt(url.port, 10), method, url.pathname);
-        request.protocol = url.protocol;
-        request.ssl = (url.protocol === "https");
+        const path = url.pathname + url.search;
+        const request = new Request(url.hostname, Number.parseInt(url.port, 10), method, path);
+        request.protocol = url.protocol.substr(0, url.protocol.length-1);
+        request.ssl = (request.protocol === "https");
         return request;
     }
 }

@@ -1,0 +1,113 @@
+<div class="test">
+    <h2>{{ test.name }}</h2>
+    <span class="titleBar"></span>
+    <div>
+        <label>Test: </label>
+        <span>{{ test.name }}</span>
+    </div>
+    <div>
+        <label>Type: </label>
+        <span>SQL Boolean OR injection</span>
+    </div>
+    <div>
+        <label>Status:</label>
+        <span class="result {{ execution.statusClass }}">{{ execution.status }}</span>
+    </div>
+    <div>
+        <label>Execution time:</label>
+        <span>{{ execution.time }}</span>
+    </div>
+    <div>
+        <label>Fix complexity:</label>
+        <span>{{ test.fixComplexity }}</span>
+    </div>
+    <div>
+        <label>CVSS base score:</label>
+        <span>{{ execution.baseScore }}</span>
+    </div>
+    <div>
+        <label>CVSS impact score:</label>
+        <span>{{ execution.impactScore }}</span>
+    </div>
+    <div>
+        <label>CVSS exploitability score:</label>
+        <span>{{ execution.exploitationScore }}</span>
+    </div>
+    <div>
+        <label>Execution summary:</label>
+        <span>{{ execution.payloadLength }} payloads used ({{ execution.payloadKOLength }} payloads impacts application)</span>
+    </div>
+
+    <h3>Payloads:</h3>
+    <span class="titleBar small"></span>
+    <div class="payloadDetail">
+        <table>
+            <tr>
+                <th>Payload</th>
+                <th>Status</th>
+                <th>Time</th>
+                <th>Length</th>
+                <th>Reference</th>
+            </tr>
+            {{LOOP condition=payloads content=<tr>
+                <td>{{content}}</td>
+                <td class="result {{statusClass}}">{{status}}</td>
+                <td>{{time}}</td>
+                <td>{{length}}</td>
+                <td>{{reference}}</td>
+            </tr>
+            END}}
+        </table>
+    </div>
+    <h3>CVSS Base Score Metrics:</h3>
+    <span class="titleBar small"></span>
+    <div class="cvssBaseScoreMetrics">
+        <table>
+            <tr>
+                <th>Metric</th>
+                <th>Value</th>
+                <th>Comments</th>
+            </tr>
+            <tr>
+                <td>Attack Vector</td>
+                <td>{{ attackVector.value }}</td>
+                <td>{{ attackVector.comments }}</td>
+            </tr>
+            <tr>
+                <td>Attack Complexity</td>
+                <td>{{ attackComplexity.value }}</td>
+                <td>{{ attackComplexity.comments }}</td>
+            </tr>
+            <tr>
+                <td>Privileges required</td>
+                <td>{{ privilegesRequired.value }}</td>
+                <td>{{ privilegesRequired.comments }}</td>
+            </tr>
+            <tr>
+                <td>User interaction</td>
+                <td>{{ userInteraction.value }}</td>
+                <td>{{ userInteraction.comments }}</td>
+            </tr>
+            <tr>
+                <td>Scope</td>
+                <td>{{ scope.value }}</td>
+                <td>{{ scope.comments }}</td>
+            </tr>
+            <tr>
+                <td>Confidentiality Impact</td>
+                <td>{{ confidentialityImpact.value }}</td>
+                <td>{{ confidentialityImpact.comments }}</td>
+            </tr>
+            <tr>
+                <td>Integrity Impact</td>
+                <td>{{ integrityImpact.value }}</td>
+                <td>{{ integrityImpact.comments }}</td>
+            </tr>
+            <tr>
+                <td>Availability Impact</td>
+                <td>{{ availabilityImpact.value }}</td>
+                <td>{{ availabilityImpact.comments }}</td>
+            </tr>
+        </table>
+    </div>
+</div>

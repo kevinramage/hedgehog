@@ -4,6 +4,7 @@ import { Request } from "../request/request";
 import { IBaseScoreMetrics } from "./baseScoreMetrics";
 import { PayloadResultType } from "./payloadResult";
 import { ITestDescriptionHeader } from "./testDescriptionHeader";
+import { PrettyPrint } from "../../utils/prettyPrint";
 
 export type FIX_COMPLEXITY = "simple" | "medium" | "complexity";
 
@@ -15,11 +16,42 @@ export class TestExecutor {
     protected _time : number;
     protected _baseScoreMetrics : IBaseScoreMetrics | undefined;
     protected _fixComplexity : FIX_COMPLEXITY | undefined;
+    protected _reportingVariables : {[key: string]: any} | undefined;
 
     constructor() {
         this._status = "NOT_DEFINED";
         this._reportTemplate = "";
         this._time = 0;
+    }
+
+    protected initReportingVariables() {
+        const baseScoreMetrics = new CVSSBaseScoreMetricsUtils(this.baseScoreMetrics);
+        this._reportingVariables = {
+            "test.name": this.testDescription.name,
+            "execution.status": this.status,
+            "execution.statusClass": this.status === "NOT_INJECTED" ? "SUCCESS" : "FAILED",
+            "execution.time": PrettyPrint.printTime(this._time),
+            "test.fixComplexity": this._fixComplexity,
+            "execution.baseScore": baseScoreMetrics.baseScore,
+            "execution.impactScore": baseScoreMetrics.roundUp(baseScoreMetrics.impactScore),
+            "execution.exploitationScore": baseScoreMetrics.roundUp(baseScoreMetrics.exploitationScore),
+            "attackVector.value": this.baseScoreMetrics.AttackVector.value,
+            "attackVector.comments": this.baseScoreMetrics.AttackVector.comments,
+            "attackComplexity.value": this.baseScoreMetrics.AttackComplexity.value,
+            "attackComplexity.comments": this.baseScoreMetrics.AttackComplexity.comments,
+            "privilegesRequired.value": this.baseScoreMetrics.PrivilegesRequired.value,
+            "privilegesRequired.comments": this.baseScoreMetrics.PrivilegesRequired.comments,
+            "userInteraction.value": this.baseScoreMetrics.UserInteraction.value,
+            "userInteraction.comments": this.baseScoreMetrics.UserInteraction.comments,
+            "scope.value": this.baseScoreMetrics.Scope.value,
+            "scope.comments": this.baseScoreMetrics.Scope.comments,
+            "confidentialityImpact.value": this.baseScoreMetrics.ConfidentialityImpact.value,
+            "confidentialityImpact.comments": this.baseScoreMetrics.ConfidentialityImpact.comments,
+            "integrityImpact.value": this.baseScoreMetrics.IntegrityImpact.value,
+            "integrityImpact.comments": this.baseScoreMetrics.IntegrityImpact.comments,
+            "availabilityImpact.value": this.baseScoreMetrics.AvailabilityImpact.value,
+            "availabilityImpact.comments": this.baseScoreMetrics.AvailabilityImpact.comments
+        };
     }
 
     public run (testDescription: ITestDescriptionHeader) {
@@ -48,7 +80,7 @@ export class TestExecutor {
 
     protected readRequest(req: any) {
         winston.debug("TestExecutor.readRequest");
-        const request = Request.instanciateFromUrl(req.url, req.method);
+        const request = Request.instanciateFromUrl(req.url, req.method || "GET");
         if (req.headers) {
             Object.keys(req.headers).forEach(key => {
                 request.addHeader(key, req.headers[key]);
@@ -56,6 +88,8 @@ export class TestExecutor {
         }
         if (req.body) {
             request.body = req.body;
+        } else {
+            request.body = "";
         }
         return request;
     }
@@ -79,5 +113,9 @@ export class TestExecutor {
 
     public get fixComplexity() {
         return this._fixComplexity as FIX_COMPLEXITY;
+    }
+
+    protected get reportingVariables() {
+        return this._reportingVariables as {[key: string]: any};
     }
 }

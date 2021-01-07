@@ -46,7 +46,7 @@ export class Evaluator {
             const templateContent = match[2];
             if (conditionKey) {
                 const conditionValue = variables[conditionKey];
-                if (conditionValue && conditionValue.length) {
+                if (conditionValue && conditionValue.length !== undefined) {
                     const conditionArray = conditionValue as any[];
                     const loopContent = conditionArray.map((i : any) => {
                         return Evaluator.evaluateLoopItem(i, templateContent);
