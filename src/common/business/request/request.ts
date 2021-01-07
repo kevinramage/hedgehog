@@ -185,7 +185,7 @@ export class Request {
         const url = new URL(urlString);
         const path = url.pathname + url.search;
         const request = new Request(url.hostname, Number.parseInt(url.port, 10), method, path);
-        request.protocol = url.protocol.substr(0, url.protocol.length-1);
+        request.protocol = url.protocol.substr(0, url.protocol.length - 1);
         request.ssl = (request.protocol === "https");
         return request;
     }

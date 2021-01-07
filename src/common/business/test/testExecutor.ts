@@ -86,11 +86,8 @@ export class TestExecutor {
                 request.addHeader(key, req.headers[key]);
             });
         }
-        if (req.body) {
-            request.body = req.body;
-        } else {
-            request.body = "";
-        }
+        request.body = req.body ? req.body : "";
+
         return request;
     }
 

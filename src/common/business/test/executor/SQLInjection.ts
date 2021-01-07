@@ -70,7 +70,7 @@ export class SQLInjection extends TestExecutor {
             } catch (err) {
                 winston.error("SQLOrInjector.execute - Internal error: ", err);
                 this._status = "ERROR";
-                
+
                 // Compute duration
                 const endDateTime = new Date();
                 this._time = endDateTime.getTime() - startDateTime.getTime();
@@ -138,10 +138,11 @@ export class SQLInjection extends TestExecutor {
 
     public writeReport() {
         winston.debug("SQLInjector.writeReport");
+        const payloadsKey = "payloads";
         this.initReportingVariables();
         this.reportingVariables["execution.payloadLength"] = this._payloads.length;
         this.reportingVariables["execution.payloadKOLength"] = this.payloadResults.filter(r => { return r.status !== "NOT_INJECTED"; }).length;
-        this.reportingVariables["payloads"] = this.generatePayloadsVariable();
+        this.reportingVariables[payloadsKey] = this.generatePayloadsVariable();
         return Evaluator.evaluate(this.reportingVariables, this._reportTemplate);
     }
 
