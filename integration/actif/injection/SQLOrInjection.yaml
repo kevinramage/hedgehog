@@ -1,4 +1,4 @@
-name: LoginSQLOrInjection
+name: Login SQL Or Injection
 goal: Check the SQL OR injection on login form
 description: The SQL OR injection not worked on login form
 tags:

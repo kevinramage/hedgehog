@@ -5,26 +5,24 @@
 
 
 # Hedgehog
-A security black box testing tool to analyze your application security 
+A security black box testing tool to analyze your application security and provide feature like security tests to help you to implement integrate security in your industrialization process (DevSecOps)
 
 This tool propose some features like:
+* Execute checkers
+* Execute security tests
 * Analyze requests (NOT READY)
 * Navigate through a web application to identify links (web crawler, spider bot) (NOT READY)
 * Attack a web application (NOT READY)
-* Execute checkers
 
 The goal to this tool is to be included in development life cycle to identify quickly the security isssue, keep a tracking of these issues and check the non regression of this issue in each releases.
 
 # How it works
 
-Include it in your CI / CD pipeline to:
-* Collect data during the integration testing
-Use this tool as proxy of your integration testing
-The tool will analyze requests, identify server technology and identify application misconfiguration
-It will propose an attack plan to identify potentials issues
+For security auditing:
+* Use checkers to valide some security points
 
-* Run the tool to attack your web application
-From an an attack plan, a security check list and a defect list, select some attacks to process and run it
+For DevSecOps implementation:
+* Use security tests in your CI pipeline to test new developments or to check non regression
 
 # Installation
 
@@ -40,8 +38,8 @@ npm install
 # Usage
 
 This tool based on severals importants notions:
-* [System](./src/system/README.md)
 * [Checker](./src/checker/README.md)
+* [Test runner](./src/common/business/test/README.md)
 
 # Contributions
 

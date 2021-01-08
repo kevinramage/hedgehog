@@ -1,6 +1,5 @@
-name: ConsultArtistSQLAndInjection
-goal: Check the SQL AND injection on consult artist view
-description: The SQL AND injection not worked on consult artist view
+name: SQL And Injection
+goal: Check the SQL AND injection
 tags:
 - injection
 - SQL injection
