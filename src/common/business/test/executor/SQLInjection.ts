@@ -157,7 +157,7 @@ export class SQLInjection extends TestExecutor {
         });
     }
 
-    protected evaluateInjectionResult(length: number) :boolean {
+    protected evaluateInjectionResult(length: number) : boolean {
         throw new Error("Method not implemented.");
     }
 
