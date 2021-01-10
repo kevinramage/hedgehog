@@ -1,8 +1,10 @@
-name: ...SQLUnionInjection
-goal: Check the SQL Union injection ...
-description: The SQL Union injection not worked ...
+name: SQL Union Injection
+goal: Check the SQL Union injection
 tags:
 - injection
 - SQL injection
 test:
   type: SQLUnionInjection
+  request:
+    url: http://127.0.0.1:8081/bodgeit/search.jsp?q={{payload}}
+    type: GET

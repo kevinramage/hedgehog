@@ -3,6 +3,7 @@ import { SQLAndInjector } from "./executor/SQLAndInjector";
 import { SQLErrorInjector } from "./executor/SQLErrorInjector";
 import { SQLOrInjector } from "./executor/SQLOrInjector";
 import { SQLTimeInjector } from "./executor/SQLTimeInjector";
+import { SQLUnionInjector } from "./executor/SQLUnionInjection";
 import { TestExecutor } from "./testExecutor";
 
 export class TestFactory {
@@ -14,6 +15,7 @@ export class TestFactory {
         this.register(SQLAndInjector.executorName, new SQLAndInjector());
         this.register(SQLErrorInjector.executorName, new SQLErrorInjector());
         this.register(SQLTimeInjector.executorName, new SQLTimeInjector());
+        this.register(SQLUnionInjector.executorName, new SQLUnionInjector());
     }
 
     public register(name: string, instance: TestExecutor) {

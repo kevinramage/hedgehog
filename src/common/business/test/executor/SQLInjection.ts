@@ -16,7 +16,6 @@ export class SQLInjection extends TestExecutor {
     protected _payloads : string[];
     protected _payloadResults : PayloadResult[];
     protected _templateFileName : string;
-    protected _mustHaveSimilarLength : boolean;
 
     constructor() {
         super();
@@ -25,7 +24,6 @@ export class SQLInjection extends TestExecutor {
         this._payloadResults = [];
         this._fixComplexity = "simple";
         this._templateFileName = "";
-        this._mustHaveSimilarLength = true;
     }
 
     protected init() {
@@ -107,8 +105,7 @@ export class SQLInjection extends TestExecutor {
             this.executePayload(payload).then((length) => {
                 const endDateTime = new Date();
                 const duration = endDateTime.getTime() - startDateTime.getTime();
-                let injected = length < this.referenceLength - this._delta || length > this.referenceLength + this._delta;
-                if (!this._mustHaveSimilarLength) { injected = !injected; }
+                const injected = this.evaluateInjectionResult(length);
                 resolve({
                     status: injected ? "INJECTED" : "NOT_INJECTED",
                     data: length,
@@ -160,6 +157,9 @@ export class SQLInjection extends TestExecutor {
         });
     }
 
+    protected evaluateInjectionResult(length: number) :boolean {
+        throw new Error("Method not implemented.");
+    }
 
     private get request() {
         return this._request as Request;

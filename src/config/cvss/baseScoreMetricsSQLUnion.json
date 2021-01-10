@@ -1,0 +1,34 @@
+{
+    "AttackVector": {
+        "value": "Network",
+        "comments": "The attacker connect to application over a network"
+    },
+    "AttackComplexity": {
+        "value": "Low",
+        "comments": "The attack is easy to reproduce and doesn't need specific access conditions"
+    },
+    "PrivilegesRequired": {
+        "value": "None",
+        "comments": "The attack doesn't need specific privilege"
+    },
+    "UserInteraction": {
+        "value": "None",
+        "comments": "The attack doesn't neeed an action from an user"
+    },
+    "Scope": {
+        "value": "Unchanged",
+        "comments": "The attack impact only the application"
+    },
+    "ConfidentialityImpact": {
+        "value": "High",
+        "comments": "This kind of attack is often use to collect data. You can collect all data present in database"
+    },
+    "IntegrityImpact": {
+        "value": "None",
+        "comments": "Often no integrity impact but depends of processing attacked"
+    },
+    "AvailabilityImpact": {
+        "value": "None",
+        "comments": "Often no availability impact but depends of processing attacked"
+    }
+}

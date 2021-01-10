@@ -15,6 +15,9 @@ export class SQLOrInjector extends SQLInjection {
         this._templateFileName = "resources/template/test/SQLOrTemplate.html";
     }
 
+    protected evaluateInjectionResult(length: number) {
+        return length < this.referenceLength - this._delta || length > this.referenceLength + this._delta;
+    }
 
     public static get executorName() {
         return "SQLOrInjection";
