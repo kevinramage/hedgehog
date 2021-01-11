@@ -46,14 +46,12 @@
                 <th>Payload</th>
                 <th>Status</th>
                 <th>Time</th>
-                <th>Length</th>
                 <th>Reference</th>
             </tr>
             {{LOOP condition=payloads content=<tr>
                 <td>{{content}}</td>
                 <td class="result {{statusClass}}">{{status}}</td>
                 <td>{{time}}</td>
-                <td>{{length}}</td>
                 <td>{{reference}}</td>
             </tr>
             END}}

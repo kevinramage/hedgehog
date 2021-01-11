@@ -50,6 +50,8 @@ export class RequestUtil {
 
                     // Add response to session
                     let response = RequestUtil.convertIncomingMessage(res, code);
+                    response.endDateTime = new Date();
+                    response.executionTime = response.endDateTime.getTime() - request.startDateTime.getTime();
                     Session.instance.addResponse(response);
 
                     // Manage follow redirect

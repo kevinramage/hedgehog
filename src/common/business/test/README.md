@@ -34,5 +34,7 @@ We can find three kind of test:
 * injections
     * [SQL OR Injection](./executor/doc/SQLOrInjection.MD)
     * [SQL AND Injection](./executor/doc/SQLAndInjection.MD)
+    * [SQL UNION Injection](./executor/doc/SQLUnionInjection.MD)
+    * [SQL TIME Injection](./executor/doc/SQLTimeInjection.MD)
 * application configuration
 * server configuration

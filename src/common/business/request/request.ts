@@ -17,6 +17,7 @@ export class Request {
     private _headers : Header[];
     private _body : string | undefined;
     private _followRedirect : boolean;
+    private _startDateTime ?: Date;
 
     /**
      * Constructor
@@ -85,6 +86,7 @@ export class Request {
      * @returns a promise of response
      */
     public send() {
+        this._startDateTime = new Date();
         return RequestUtil.sendRequest(this, 0);
     }
 
@@ -179,6 +181,10 @@ export class Request {
 
     public set ssl(value) {
         this._ssl = value;
+    }
+
+    public get startDateTime() {
+        return this._startDateTime as Date;
     }
 
     public static instanciateFromUrl(urlString: string, method: string) {

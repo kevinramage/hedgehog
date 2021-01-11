@@ -16,7 +16,7 @@ export class SQLUnionInjector extends SQLInjection {
     }
 
     protected evaluateInjectionResult(length: number) {
-        return length > this.referenceLength;
+        return length > this.reference;
     }
 
     public static get executorName() {

@@ -16,7 +16,7 @@ export class SQLAndInjector extends SQLInjection {
     }
 
     protected evaluateInjectionResult(length: number) {
-        return length > this.referenceLength - this._delta && length < this.referenceLength + this._delta;
+        return length > this.reference - this._delta && length < this.reference + this._delta;
     }
 
     public static get executorName() {

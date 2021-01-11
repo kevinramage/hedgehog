@@ -10,7 +10,9 @@ export class Response {
     private _status: number | undefined;
     private _headers: Header[];
     private _body: string | undefined;
+    private _endDateTime ?: Date;
     private _certificate ?: ICertificate;
+    private _executionTime ?: number;
 
     /**
      * Constructor
@@ -123,6 +125,22 @@ export class Response {
 
     public set certificate(value) {
         this._certificate = value;
+    }
+
+    public get endDateTime() {
+        return this._endDateTime;
+    }
+
+    public set endDateTime(value) {
+        this._endDateTime = value;
+    }
+
+    public get executionTime() {
+        return this._executionTime;
+    }
+
+    public set executionTime(value) {
+        this._executionTime = value;
     }
 
     public get inlineBody() {

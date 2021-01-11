@@ -3,6 +3,7 @@ import { ISQLDescription } from "../description/SQLDescription";
 import { PayloadResult } from "../payloadResult";
 import { TestExecutor } from "../testExecutor";
 import { Request } from "../../request/request";
+import { Response } from "../../request/response";
 import { readFileSync } from "fs";
 import { Evaluator } from "../../evaluator";
 import { PrettyPrint } from "../../../utils/prettyPrint";
@@ -12,7 +13,7 @@ export class SQLInjection extends TestExecutor {
     protected _request ?: Request;
     protected _delta : number = 20;
     protected _referencePayload : string;
-    protected _referenceLength ?: number;
+    protected _reference ?: number;
     protected _payloads : string[];
     protected _payloadResults : PayloadResult[];
     protected _templateFileName : string;
@@ -52,7 +53,7 @@ export class SQLInjection extends TestExecutor {
             try {
 
                 // Get reference
-                this._referenceLength = await this.executeReference();
+                this._reference = await this.executeReference();
 
                 // Execute payloads
                 this._payloadResults = await this.evaluatePayloads(this._payloads);
@@ -90,7 +91,8 @@ export class SQLInjection extends TestExecutor {
             const request = this.request.clone();
             request.evaluate(variables);
             request.send().then((response) => {
-                resolve(response.body?.length || 0);
+                const metric = this.returnMetric(response);
+                resolve(metric);
             }).catch((err) => {
                 winston.error("SQLInjector.executePayload - Internal error: ", err);
                 reject(err);
@@ -98,17 +100,25 @@ export class SQLInjection extends TestExecutor {
         });
     }
 
+    protected returnMetric(response: Response) : number {
+        return response.body?.length || 0;
+    }
+
+    protected interpolatePayloadContent(payload: string) {
+        return payload;
+    }
+
     protected evaluatePayload(payload: string) {
         winston.debug("SQLInjector.evaluatePayload: " + payload);
         return new Promise<PayloadResult>((resolve) => {
             const startDateTime = new Date();
-            this.executePayload(payload).then((length) => {
+            this.executePayload(this.interpolatePayloadContent(payload)).then((metric) => {
                 const endDateTime = new Date();
                 const duration = endDateTime.getTime() - startDateTime.getTime();
-                const injected = this.evaluateInjectionResult(length);
+                const injected = this.evaluateInjectionResult(metric);
                 resolve({
                     status: injected ? "INJECTED" : "NOT_INJECTED",
-                    data: length,
+                    data: metric,
                     payload,
                     time: duration
                 });
@@ -143,21 +153,21 @@ export class SQLInjection extends TestExecutor {
         return Evaluator.evaluate(this.reportingVariables, this._reportTemplate);
     }
 
-    protected generatePayloadsVariable() {
+    protected generatePayloadsVariable() : any[] {
         winston.debug("SQLInjector.generatePayloadsVariable");
         return this._payloadResults.map(r => {
             return {
                 "content": r.payload,
                 "statusClass": (r.status === "NOT_INJECTED") ? "SUCCESS" : "FAILED",
                 "status": r.status,
-                "time": PrettyPrint.printTime(r.time),
+                "time": PrettyPrint.printTime(r.time as number),
                 "length": PrettyPrint.printSize(r.data as number),
-                "reference": PrettyPrint.printSize(this.referenceLength)
+                "reference": PrettyPrint.printSize(this.reference)
             }
         });
     }
 
-    protected evaluateInjectionResult(length: number) : boolean {
+    protected evaluateInjectionResult(metric: number) : boolean {
         throw new Error("Method not implemented.");
     }
 
@@ -165,8 +175,8 @@ export class SQLInjection extends TestExecutor {
         return this._request as Request;
     }
 
-    public get referenceLength() {
-        return this._referenceLength as number;
+    public get reference() {
+        return this._reference as number;
     }
 
     public get status() {
