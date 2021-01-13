@@ -80,4 +80,5 @@ export enum HEADER_NAME {
     PROXYAUTHORIZATION = "proxy-authorization",
     CONTENTSECURITYPOLICY = "content-security-policy",
     XCONTENTSECURITYPOLICY = "x-content-security-policy",
+    CONTENTLENGTH = "content-length"
 }

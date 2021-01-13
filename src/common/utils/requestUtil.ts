@@ -11,6 +11,7 @@ import * as http from "http";
 import * as https from "https";
 import { Proxy } from "../business/request/proxy";
 import { HedgeHogInfo } from "../business/hedgehogInfo";
+import { HEADER_NAME } from "../business/request/header";
 
 
 
@@ -76,6 +77,13 @@ export class RequestUtil {
             // Create request
             req = request.ssl ? https.request(options, responseHandler) : http.request(options, responseHandler);
 
+            // Content type
+            const contentTypeHeader = request.headers.find(h => { return h.key.toLowerCase() === HEADER_NAME.CONTENTLENGTH; });
+            if (!contentTypeHeader) {
+                const bodyLength = request.body ? request.body.length : 0;
+                request.addHeader(HEADER_NAME.CONTENTLENGTH, bodyLength.toString());
+            }
+
             // Headers
             request.headers.forEach((header) => {
                 req.setHeader(header.key, header.value);
@@ -139,5 +147,15 @@ export class RequestUtil {
         if (Options.instance.option(OPTIONS.REQUEST_HEDGEHOG_ENABLED) === true) {
             request.setHeader("HedgeHog-Version", HedgeHogInfo.version);
         }
+    }
+
+    public static encodeBodyContent(content: string) {
+        const payloadEncoded = encodeURI(content)
+            .replace(/\//g, "%2F")
+            .replace(/\(/g, "%28")
+            .replace(/\)/g, "%29")
+            .replace(/'/g, "%27")
+            .replace(/;/g, "%3B");
+        return payloadEncoded;
     }
 }

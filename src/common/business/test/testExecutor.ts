@@ -2,14 +2,15 @@ import { CVSSBaseScoreMetricsUtils } from "../../utils/cvssBaseScoreMetricsUtils
 import * as winston from "winston";
 import { Request } from "../request/request";
 import { IBaseScoreMetrics } from "./baseScoreMetrics";
-import { PayloadResultType } from "./payloadResult";
-import { ITestDescriptionHeader } from "./testDescriptionHeader";
+import { PayloadResult, PayloadResultType } from "./payloadResult";
+import { ITestDescriptionHeader } from "./description/testDescriptionHeader";
 import { PrettyPrint } from "../../utils/prettyPrint";
 
 export type FIX_COMPLEXITY = "simple" | "medium" | "complexity";
 
 export class TestExecutor {
 
+    protected _request ?: Request;
     protected _testDescription : ITestDescriptionHeader | undefined;
     protected _status : PayloadResultType;
     protected _reportTemplate : string;
@@ -17,11 +18,15 @@ export class TestExecutor {
     protected _baseScoreMetrics : IBaseScoreMetrics | undefined;
     protected _fixComplexity : FIX_COMPLEXITY | undefined;
     protected _reportingVariables : {[key: string]: any} | undefined;
+    protected _templateFileName : string;
+    protected _payloadResults : PayloadResult[];
 
     constructor() {
         this._status = "NOT_DEFINED";
         this._reportTemplate = "";
         this._time = 0;
+        this._templateFileName = "";
+        this._payloadResults = [];
     }
 
     protected initReportingVariables() {
@@ -114,5 +119,13 @@ export class TestExecutor {
 
     protected get reportingVariables() {
         return this._reportingVariables as {[key: string]: any};
+    }
+
+    protected get request() {
+        return this._request as Request;
+    }
+
+    public get payloadResults() {
+        return this._payloadResults;
     }
 }

@@ -2,7 +2,7 @@ import { readFile } from "fs";
 import * as yaml from "yaml";
 import * as winston from "winston";
 import { TestFactory } from "./testFactory";
-import { ITestDescriptionHeader } from "./testDescriptionHeader";
+import { ITestDescriptionHeader } from "./description/testDescriptionHeader";
 import { TestExecutor } from "./testExecutor";
 
 export class TestRunner {

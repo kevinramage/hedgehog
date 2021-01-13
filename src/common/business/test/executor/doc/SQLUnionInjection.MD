@@ -24,5 +24,5 @@ test:
   type: SQLUnionInjection
   request:
     url: http://127.0.0.1:8081/bodgeit/search.jsp?q={{payload}}
-    type: GET
+    method: GET
 ```

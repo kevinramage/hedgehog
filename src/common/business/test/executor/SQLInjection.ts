@@ -2,7 +2,6 @@ import * as winston from "winston";
 import { ISQLDescription } from "../description/SQLDescription";
 import { PayloadResult } from "../payloadResult";
 import { TestExecutor } from "../testExecutor";
-import { Request } from "../../request/request";
 import { Response } from "../../request/response";
 import { readFileSync } from "fs";
 import { Evaluator } from "../../evaluator";
@@ -10,21 +9,16 @@ import { PrettyPrint } from "../../../utils/prettyPrint";
 
 export class SQLInjection extends TestExecutor {
 
-    protected _request ?: Request;
     protected _delta : number = 20;
     protected _referencePayload : string;
     protected _reference ?: number;
     protected _payloads : string[];
-    protected _payloadResults : PayloadResult[];
-    protected _templateFileName : string;
 
     constructor() {
         super();
-        this._payloads = [];
         this._referencePayload = "";
-        this._payloadResults = [];
         this._fixComplexity = "simple";
-        this._templateFileName = "";
+        this._payloads = [];
     }
 
     protected init() {
@@ -171,19 +165,11 @@ export class SQLInjection extends TestExecutor {
         throw new Error("Method not implemented.");
     }
 
-    private get request() {
-        return this._request as Request;
-    }
-
     public get reference() {
         return this._reference as number;
     }
 
     public get status() {
         return this._status;
-    }
-
-    public get payloadResults() {
-        return this._payloadResults;
     }
 }

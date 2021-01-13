@@ -12,8 +12,8 @@
         "comments": "The attack doesn't need specific privilege"
     },
     "UserInteraction": {
-        "value": "None",
-        "comments": "The attack doesn't need an action from an user"
+        "value": "Required",
+        "comments": "The attack need an action from an user, user must click on a link"
     },
     "Scope": {
         "value": "Unchanged",
@@ -21,7 +21,7 @@
     },
     "ConfidentialityImpact": {
         "value": "High",
-        "comments": "This kind of attack is often use to collect data. You can collect all data present in database"
+        "comments": "This kind of attack can be used to redirect user to external website to steal session cookie or to collect private informations"
     },
     "IntegrityImpact": {
         "value": "None",

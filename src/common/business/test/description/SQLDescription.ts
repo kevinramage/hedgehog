@@ -1,8 +1,6 @@
-import { ITestDescription } from "../testDescription";
-import { IRequestDescription } from "./requestDescription";
+import { ITestDescription } from "./testDescription";
 
 export interface ISQLDescription extends ITestDescription {
-    request: IRequestDescription;
     delta ?: number;
     referencePayload ?: string;
 }

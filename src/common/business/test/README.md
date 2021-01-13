@@ -36,5 +36,6 @@ We can find three kind of test:
     * [SQL AND Injection](./executor/doc/SQLAndInjection.MD)
     * [SQL UNION Injection](./executor/doc/SQLUnionInjection.MD)
     * [SQL TIME Injection](./executor/doc/SQLTimeInjection.MD)
+    * [Reflected XSS Injection](./executor/doc/ReflectedXSSInjection.MD)
 * application configuration
 * server configuration

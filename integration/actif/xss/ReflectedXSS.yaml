@@ -1,0 +1,13 @@
+name: Reflected XSS Injection
+goal: Check the reflected XSS injection
+tags:
+- injection
+- XSS
+test:
+  type: ReflectedXSSInjection
+  request:
+    url: http://localhost:8081/bodgeit/contact.jsp
+    method: POST
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+    body: null=&anticsrf=0.7117213663846246&comments={{payload}}

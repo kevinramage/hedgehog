@@ -1,4 +1,4 @@
-import { ISQLDescription } from "./description/SQLDescription";
+import { ISQLDescription } from "./SQLDescription";
 
 export interface ITestDescriptionHeader {
     name : string;

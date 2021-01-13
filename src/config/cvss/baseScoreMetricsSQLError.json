@@ -13,7 +13,7 @@
     },
     "UserInteraction": {
         "value": "None",
-        "comments": "The attack doesn't neeed an action from an user"
+        "comments": "The attack doesn't need an action from an user"
     },
     "Scope": {
         "value": "Unchanged",
