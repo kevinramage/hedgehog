@@ -85,13 +85,29 @@ export class TestExecutor {
 
     protected readRequest(req: any) {
         winston.debug("TestExecutor.readRequest");
+
+        // Method
         const request = Request.instanciateFromUrl(req.url, req.method || "GET");
+
+        // Headers
         if (req.headers) {
             Object.keys(req.headers).forEach(key => {
                 request.addHeader(key, req.headers[key]);
             });
         }
+
+        // Method
         request.body = req.body ? req.body : "";
+
+        // Proxy
+        if (req.proxy && req.proxy.server && req.proxy.port) {
+            request.proxyServer = req.proxy.server;
+            request.proxyPort = Number.parseInt(req.proxy.port, 10);
+            if (req.proxy.username && req.proxy.password) {
+                request.proxyUsername = req.proxy.username;
+                request.proxyPassword = req.proxy.password;
+            }
+        }
 
         return request;
     }

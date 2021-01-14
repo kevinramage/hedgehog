@@ -18,6 +18,10 @@ export class Request {
     private _body : string | undefined;
     private _followRedirect : boolean;
     private _startDateTime ?: Date;
+    private _proxyServer ?: string;
+    private _proxyPort ?: number;
+    private _proxyUsername ?: string;
+    private _proxyPassword ?: string;
 
     /**
      * Constructor
@@ -94,6 +98,10 @@ export class Request {
         const newRequest = new Request(this.host, this.port, this.method, this.path);
         newRequest.headers = Header.cloneHeaders(this.headers);
         newRequest.body = this.body;
+        newRequest.proxyServer = this.proxyServer;
+        newRequest.proxyPort = this.proxyPort;
+        newRequest.proxyUsername = this.proxyUsername;
+        newRequest.proxyPassword = this.proxyPassword;
         return newRequest;
     }
 
@@ -185,6 +193,38 @@ export class Request {
 
     public get startDateTime() {
         return this._startDateTime as Date;
+    }
+
+    public get proxyServer() {
+        return this._proxyServer;
+    }
+
+    public set proxyServer(value) {
+        this._proxyServer = value;
+    }
+
+    public get proxyPort() {
+        return this._proxyPort;
+    }
+
+    public set proxyPort(value) {
+        this._proxyPort = value;
+    }
+
+    public get proxyUsername() {
+        return this._proxyUsername;
+    }
+
+    public set proxyUsername(value) {
+        this._proxyUsername = value;
+    }
+
+    public get proxyPassword() {
+        return this._proxyPassword;
+    }
+
+    public set proxyPassword(value) {
+        this._proxyPassword = value;
     }
 
     public static instanciateFromUrl(urlString: string, method: string) {

@@ -3,6 +3,7 @@ import * as os from "os";
 import { OPTIONS, Options } from '../options';
 import { HEADER_NAME } from './header';
 import { format } from 'util';
+import { Request } from "../request/request";
 import * as http from "http";
 
 /**
@@ -64,9 +65,15 @@ export class Proxy {
     /**
      * Get proxy manually defined on system options or automatically from the system
      */
-    public static getProxy() {
+    public static getProxy(request ?: Request) {
         return new Promise<Proxy | undefined>(async (resolve) => {
-            if (Options.instance.option(OPTIONS.REQUEST_PROXY_TYPE) === PROXY_TYPE.MANUAL) {
+
+            // If proxy defined on request
+            if (request && request.proxyServer && request.proxyPort) {
+                resolve(new Proxy(request.proxyServer, request.proxyPort));
+
+            // If manual proxy defined
+            } else if (Options.instance.option(OPTIONS.REQUEST_PROXY_TYPE) === PROXY_TYPE.MANUAL) {
                 const proxyHost = Options.instance.option(OPTIONS.REQUEST_PROXY_HOST);
                 const proxyPort = Options.instance.option(OPTIONS.REQUEST_PROXY_PORT);
                 const proxyUserName = Options.instance.option(OPTIONS.REQUEST_PROXY_USERNAME);
@@ -76,6 +83,8 @@ export class Proxy {
                 } else {
                     resolve(undefined);
                 }
+
+            // If system proxy used
             } else if (Options.instance.option(OPTIONS.REQUEST_PROXY_TYPE) === PROXY_TYPE.SYSTEM) {
                 const proxy = await Proxy.getSystemProxy();
                 resolve(proxy);
@@ -197,10 +206,29 @@ export class Proxy {
      * @param request request to update
      * @param proxy proxy instance to use
      */
-    public static addProxyAuthorization(request: http.ClientRequest, proxy: Proxy | undefined) {
+    public static addProxyAuthorization(request: Request | http.ClientRequest, proxy: Proxy | undefined) {
+        if (request instanceof http.ClientRequest) {
+            this.addProxyAuthorizationToInternalRequest(request, proxy);
+        } else {
+            this.addProxyAuthorizationToBusinessRequest(request, proxy);
+        }
+    }
+
+    private static addProxyAuthorizationToInternalRequest(request: http.ClientRequest, proxy: Proxy | undefined) {
         if (proxy && proxy.userName && proxy.userName !== "" && proxy.password && proxy.password !== "") {
             const authorizationValue = 'Basic ' + Buffer.from(format("%s:%s", proxy.userName, proxy.password)).toString('base64');
             request.setHeader(HEADER_NAME.PROXYAUTHORIZATION, authorizationValue);
+        }
+    }
+
+    public static addProxyAuthorizationToBusinessRequest(request: Request, proxy: Proxy | undefined) {
+        if (request.proxyUsername && request.proxyPassword) {
+            const authorizationValue = 'Basic ' + Buffer.from(format("%s:%s", request.proxyUsername, request.proxyPassword)).toString('base64');
+            request.addHeader(HEADER_NAME.PROXYAUTHORIZATION, authorizationValue);
+        }
+        else if (proxy && proxy.userName && proxy.userName !== "" && proxy.password && proxy.password !== "") {
+            const authorizationValue = 'Basic ' + Buffer.from(format("%s:%s", proxy.userName, proxy.password)).toString('base64');
+            request.addHeader(HEADER_NAME.PROXYAUTHORIZATION, authorizationValue);
         }
     }
 }

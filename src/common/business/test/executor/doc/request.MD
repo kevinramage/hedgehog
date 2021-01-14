@@ -8,6 +8,7 @@
 | method         | No       | GET     | Method to use for this HTTP Request
 | headers        | no       |         | A dictionnary key / value which contains the HTTP headers to sent
 | body           | No       | empty   | The HTTP body to send
+| proxy          | No       | empty   | Define [proxy](./proxy.MD) to use for this injection
 
 ## Example
 

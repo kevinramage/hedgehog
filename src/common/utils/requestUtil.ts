@@ -33,7 +33,7 @@ export class RequestUtil {
             const options = { host: request.host, port: request.port, method: request.method, path: encodeURI(request.path) };
 
             // Update options when proxy defined
-            const proxy = await Proxy.getProxy();
+            const proxy = await Proxy.getProxy(request);
             Proxy.updateRequestWithProxy(proxy, request.ssl, options);
 
             // Define response handler
@@ -84,13 +84,13 @@ export class RequestUtil {
                 request.addHeader(HEADER_NAME.CONTENTLENGTH, bodyLength.toString());
             }
 
+            // Add proxy authorization if required
+            Proxy.addProxyAuthorization(request, proxy);
+
             // Headers
             request.headers.forEach((header) => {
                 req.setHeader(header.key, header.value);
             });
-
-            // Add proxy authorization if required
-            Proxy.addProxyAuthorization(req, proxy);
 
             // Add additional headers
             RequestUtil.addAdditionalHeaders(req);
