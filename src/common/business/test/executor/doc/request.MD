@@ -8,6 +8,7 @@
 | method         | No       | GET     | Method to use for this HTTP Request
 | headers        | no       |         | A dictionnary key / value which contains the HTTP headers to sent
 | body           | No       | empty   | The HTTP body to send
+| bodyFile       | No       |         | Relative path of the HTTP body to send. Must be a relative path to the injection file 
 | proxy          | No       |         | Define [proxy](./proxy.MD) to use for this injection
 | extracts       | No       |         | Define [extracts](./extract.MD) to extract data from response body
 

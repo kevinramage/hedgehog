@@ -1,5 +1,6 @@
-import { CVSSBaseScoreMetricsUtils } from "../../utils/cvssBaseScoreMetricsUtils";
 import * as winston from "winston";
+import * as path from "path";
+import { CVSSBaseScoreMetricsUtils } from "../../utils/cvssBaseScoreMetricsUtils";
 import { Request } from "../request/request";
 import { Requests } from "../request/requests";
 import { IBaseScoreMetrics } from "./baseScoreMetrics";
@@ -7,6 +8,7 @@ import { PayloadResult, PayloadResultType } from "./payloadResult";
 import { ITestDescriptionHeader } from "./description/testDescriptionHeader";
 import { PrettyPrint } from "../../utils/prettyPrint";
 import { Extract } from "./extract";
+import { readFileSync } from "fs-extra";
 
 export type FIX_COMPLEXITY = "simple" | "medium" | "complexity";
 
@@ -22,6 +24,7 @@ export class TestExecutor {
     protected _reportingVariables : {[key: string]: any} | undefined;
     protected _templateFileName : string;
     protected _payloadResults : PayloadResult[];
+    protected _fileName : string;
 
     constructor() {
         this._status = "NOT_DEFINED";
@@ -29,6 +32,7 @@ export class TestExecutor {
         this._time = 0;
         this._templateFileName = "";
         this._payloadResults = [];
+        this._fileName = "";
     }
 
     protected initReportingVariables() {
@@ -107,8 +111,13 @@ export class TestExecutor {
             });
         }
 
-        // Method
+        // Body
         request.body = req.body ? req.body : "";
+        if (req.bodyFile) {
+            const dirname = path.dirname(this._fileName);
+            const fileName = path.join(dirname, req.bodyFile);
+            request.body = readFileSync(fileName).toString();
+        }
 
         // Proxy
         if (req.proxy && req.proxy.server && req.proxy.port) {
@@ -173,5 +182,13 @@ export class TestExecutor {
 
     public get payloadResults() {
         return this._payloadResults;
+    }
+
+    public get fileName() {
+        return this._fileName;
+    }
+
+    public set fileName(value) {
+        this._fileName = value;
     }
 }

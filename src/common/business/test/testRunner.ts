@@ -16,6 +16,7 @@ export class TestRunner {
                 // Create executor
                 const testDescription = await this.readTestFile(fileName);
                 this._executor = TestFactory.instance.getExecutor(testDescription.test.type);
+                this._executor.fileName = fileName;
 
                 // Execute it
                 await this._executor.run(testDescription);
