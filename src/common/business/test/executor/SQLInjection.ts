@@ -26,7 +26,7 @@ export class SQLInjection extends TestExecutor {
 
         // Read test
         const test = this.testDescription.test as ISQLDescription;
-        this._request = this.readRequest(test.request);
+        this._requests = this.readRequests(test.requests);
         if (test.delta) {
             this._delta = test.delta;
         }
@@ -82,9 +82,8 @@ export class SQLInjection extends TestExecutor {
         winston.debug("SQLInjector.executePayload: " + payload);
         return new Promise<number>((resolve, reject) => {
             const variables = { payload };
-            const request = this.request.clone();
-            request.evaluate(variables);
-            request.send().then((response) => {
+            const requests = this.requests.clone();
+            requests.send(variables).then((response) => {
                 const metric = this.returnMetric(response);
                 resolve(metric);
             }).catch((err) => {

@@ -1,16 +1,18 @@
 import { CVSSBaseScoreMetricsUtils } from "../../utils/cvssBaseScoreMetricsUtils";
 import * as winston from "winston";
 import { Request } from "../request/request";
+import { Requests } from "../request/requests";
 import { IBaseScoreMetrics } from "./baseScoreMetrics";
 import { PayloadResult, PayloadResultType } from "./payloadResult";
 import { ITestDescriptionHeader } from "./description/testDescriptionHeader";
 import { PrettyPrint } from "../../utils/prettyPrint";
+import { Extract } from "./extract";
 
 export type FIX_COMPLEXITY = "simple" | "medium" | "complexity";
 
 export class TestExecutor {
 
-    protected _request ?: Request;
+    protected _requests ?: Requests;
     protected _testDescription : ITestDescriptionHeader | undefined;
     protected _status : PayloadResultType;
     protected _reportTemplate : string;
@@ -83,6 +85,15 @@ export class TestExecutor {
         throw new Error("not implemented");
     }
 
+    protected readRequests(reqs: any[]) {
+        winston.debug("TestExecutor.readRequest");
+        const requests = new Requests();
+        reqs.forEach(r => {
+            requests.addRequest(this.readRequest(r));
+        });
+        return requests;
+    }
+
     protected readRequest(req: any) {
         winston.debug("TestExecutor.readRequest");
 
@@ -109,7 +120,26 @@ export class TestExecutor {
             }
         }
 
+        // Extracts
+        if (req.extracts) {
+            Object.keys(req.extracts).forEach(key => {
+                const extract = this.readExtract(key, req.extracts[key]);
+                request.addExtract(extract);
+            });
+        }
+
         return request;
+    }
+
+    private readExtract(name: string, extractObject: any) {
+        const extract = new Extract();
+        extract.name = name;
+        extract.extractType = extractObject.content;
+        extract.extractRegex = extractObject.regex;
+        if (extractObject.flags) {
+            extract.extractFlags = extractObject.flags;
+        }
+        return extract;
     }
 
     public get testDescription() {
@@ -137,8 +167,8 @@ export class TestExecutor {
         return this._reportingVariables as {[key: string]: any};
     }
 
-    protected get request() {
-        return this._request as Request;
+    protected get requests() {
+        return this._requests as Requests;
     }
 
     public get payloadResults() {

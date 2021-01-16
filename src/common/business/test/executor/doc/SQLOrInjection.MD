@@ -8,7 +8,7 @@ This kind of injection can be use to by pass access control (login form).
 | Name        | Required | Description 
 | ----------- | -------- | ------------
 | type        | Yes      | Must equals to value "SQLOrInjection"
-| request     | Yes      | [Request object](./request.MD)
+| requests    | Yes      | [Request array](./request.MD)
 
 The payload variable must be add in request parameters to inject some malicious SQL code (url, headers, body)
 
@@ -23,10 +23,10 @@ tags:
 - SQL injection
 test:
   type: SQLOrInjection
-  request:
-    url: http://testphp.vulnweb.com/userinfo.php
-    method: POST
-    headers:
-      Content-Type: application/x-www-form-urlencoded
-    body: uname={{payload}}&pass={{payload}}
+  requests:
+    - url: http://testphp.vulnweb.com/userinfo.php
+      method: POST
+      headers:
+        Content-Type: application/x-www-form-urlencoded
+      body: uname={{payload}}&pass={{payload}}
 ```

@@ -8,7 +8,7 @@ This kind of injection can be use to steal user cookies
 | Name        | Required | Description 
 | ----------- | -------- | ------------
 | type        | Yes      | Must equals to value "ReflectedXSSInjection"
-| request     | Yes      | [Request object](./request.MD)
+| requests    | Yes      | [Request array](./request.MD)
 
 The payload variable must be add in request parameters to inject some malicious XSS code (url, headers, body)
 
@@ -22,10 +22,10 @@ tags:
 - XSS
 test:
   type: ReflectedXSSInjection
-  request:
-    url: http://localhost:8081/bodgeit/contact.jsp
-    method: POST
-    headers:
-      Content-Type: application/x-www-form-urlencoded
-    body: null=&anticsrf=0.7117213663846246&comments={{payload}}
+  requests:
+    - url: http://localhost:8081/bodgeit/contact.jsp
+      method: POST
+      headers:
+        Content-Type: application/x-www-form-urlencoded
+      body: null=&anticsrf=0.7117213663846246&comments={{payload}}
 ```

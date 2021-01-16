@@ -32,7 +32,7 @@ export class ReflectedXSSInjector extends TestExecutor {
 
         // Read test
         const test = this.testDescription.test as ITestDescription;
-        this._request = this.readRequest(test.request);
+        this._requests = this.readRequests(test.requests);
 
         // Read report template
         const buffer = readFileSync(this._templateFileName);
@@ -85,9 +85,8 @@ export class ReflectedXSSInjector extends TestExecutor {
             const id = new Date().getTime();
             const payloadInterpolate = payload.content.replace("{{message}}", id.toString());
             const variables = { payload: RequestUtil.encodeBodyContent(payloadInterpolate)};
-            const request = this.request.clone();
-            request.evaluate(variables);
-            request.send().then((response) => {
+            const requests = this.requests.clone();
+            requests.send(variables).then((response) => {
                 const check = payload.check.replace("{{message}}", id.toString());
                 const isInjected = response.body?.toLowerCase().includes(check);
                 const endDateTime = new Date();

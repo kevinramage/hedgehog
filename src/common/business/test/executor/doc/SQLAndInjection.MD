@@ -8,7 +8,7 @@ This kind of injection will not change the query behaviour but can be use to ide
 | Name        | Required | Description 
 | ----------- | -------- | ------------
 | type        | Yes      | Must equals to value "SQLAndInjection"
-| request     | Yes      | [Request object](./request.MD)
+| requests    | Yes      | [Requests array](./request.MD)
 
 The payload variable must be add in request parameters to inject some malicious SQL code (url, headers, body)
 
@@ -22,7 +22,7 @@ tags:
 - SQL injection
 test:
   type: SQLAndInjection
-  request:
-    url: http://127.0.0.1:8081/bodgeit/search.jsp?q=Th{{payload}}
-    method: GET
+  requests:
+    - url: http://127.0.0.1:8081/bodgeit/search.jsp?q=Th{{payload}}
+      method: GET
 ```

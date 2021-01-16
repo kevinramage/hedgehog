@@ -8,7 +8,7 @@ This kind of injection can be to collect data. You can collect all data present 
 | Name        | Required | Description 
 | ----------- | -------- | ------------
 | type        | Yes      | Must equals to value "SQLUnionInjection"
-| request     | Yes      | [Request object](./request.MD)
+| requests    | Yes      | [Request array](./request.MD)
 
 The payload variable must be add in request parameters to inject some malicious SQL code (url, headers, body)
 
@@ -22,7 +22,7 @@ tags:
 - SQL injection
 test:
   type: SQLUnionInjection
-  request:
-    url: http://127.0.0.1:8081/bodgeit/search.jsp?q={{payload}}
-    method: GET
+  requests:
+    - url: http://127.0.0.1:8081/bodgeit/search.jsp?q={{payload}}
+      method: GET
 ```

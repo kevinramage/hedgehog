@@ -1,5 +1,6 @@
 import { RequestUtil } from "../../utils/requestUtil";
 import { Evaluator } from "../evaluator";
+import { Extract } from "../test/extract";
 import { Header, HEADER_NAME } from "./header";
 
 /**
@@ -22,6 +23,7 @@ export class Request {
     private _proxyPort ?: number;
     private _proxyUsername ?: string;
     private _proxyPassword ?: string;
+    private _extracts : Extract[];
 
     /**
      * Constructor
@@ -39,6 +41,7 @@ export class Request {
         this._followRedirect = true;
         this._url = "";
         this._ssl = false;
+        this._extracts = [];
     }
 
     /**
@@ -102,6 +105,7 @@ export class Request {
         newRequest.proxyPort = this.proxyPort;
         newRequest.proxyUsername = this.proxyUsername;
         newRequest.proxyPassword = this.proxyPassword;
+        newRequest._extracts = this.extracts.map(e => { return e.clone(); })
         return newRequest;
     }
 
@@ -113,6 +117,10 @@ export class Request {
             this._body = Evaluator.evaluate(variables, this.body);
         }
         Header.evaluateHeaders(variables, this.headers);
+    }
+
+    public addExtract(extract: Extract) {
+        this._extracts.push(extract);
     }
 
     public get host() {
@@ -225,6 +233,10 @@ export class Request {
 
     public set proxyPassword(value) {
         this._proxyPassword = value;
+    }
+
+    public get extracts() {
+        return this._extracts;
     }
 
     public static instanciateFromUrl(urlString: string, method: string) {

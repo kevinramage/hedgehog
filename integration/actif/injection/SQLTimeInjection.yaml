@@ -6,9 +6,9 @@ tags:
 - SQL injection
 test:
   type: SQLTimeInjection
-  request:
-    url: http://testphp.vulnweb.com/userinfo.php
-    method: POST
-    headers:
-      Content-Type: application/x-www-form-urlencoded
-    body: uname={{payload}}&pass={{payload}}
+  requests:
+    - url: http://testphp.vulnweb.com/userinfo.php
+      method: POST
+      headers:
+        Content-Type: application/x-www-form-urlencoded
+      body: uname={{payload}}&pass={{payload}}

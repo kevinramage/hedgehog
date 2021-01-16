@@ -2,7 +2,7 @@ import { IRequestDescription } from "./requestDescription";
 
 export interface ITestDescription {
     type: TestDescriptionType;
-    request: IRequestDescription;
+    requests: IRequestDescription[];
 }
 
 export type TestDescriptionType =
