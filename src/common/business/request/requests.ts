@@ -13,11 +13,11 @@ export class Requests {
     public send(variables: {[key: string]: string}) {
         return new Promise<Response>(async (resolve) => {
             let currentResponse = null;
-            for ( var i = 0; i < this._requests.length; i++) {
-                this.injectCookie(this._requests[i]);
-                this._requests[i].evaluate(variables);
-                currentResponse = await this._requests[i].send();
-                this.updateVariables(variables, this._requests[i], currentResponse);
+            for (const request of this._requests) {
+                this.injectCookie(request);
+                request.evaluate(variables);
+                currentResponse = await request.send();
+                this.updateVariables(variables, request, currentResponse);
                 this.updateCookies(currentResponse);
             }
             if (currentResponse == null) {
