@@ -1,13 +1,13 @@
 import * as winston from "winston";
 import { ISQLDescription } from "../description/SQLDescription";
 import { PayloadResult } from "../payloadResult";
-import { TestExecutor } from "../testExecutor";
 import { Response } from "../../request/response";
 import { readFileSync } from "fs";
 import { Evaluator } from "../../evaluator";
 import { PrettyPrint } from "../../../utils/prettyPrint";
+import { InjectionTestExecutor } from "../injectionTestExecutor";
 
-export class SQLInjection extends TestExecutor {
+export class SQLInjection extends InjectionTestExecutor {
 
     protected _delta : number = 20;
     protected _referencePayload : string;
@@ -42,7 +42,6 @@ export class SQLInjection extends TestExecutor {
     protected execute() {
         winston.debug("SQLInjector.execute");
         return new Promise<void>(async resolve => {
-            const startDateTime = new Date();
 
             try {
 
@@ -52,10 +51,6 @@ export class SQLInjection extends TestExecutor {
                 // Execute payloads
                 this._payloadResults = await this.evaluatePayloads(this._payloads);
 
-                // Compute duration
-                const endDateTime = new Date();
-                this._time = endDateTime.getTime() - startDateTime.getTime();
-
                 // Update status
                 const isInjected = this._payloadResults.find(p => { return p.status !== "NOT_INJECTED"; }) !== undefined;
                 this._status = isInjected ? "INJECTED" : "NOT_INJECTED";
@@ -63,10 +58,6 @@ export class SQLInjection extends TestExecutor {
             } catch (err) {
                 winston.error("SQLOrInjector.execute - Internal error: ", err);
                 this._status = "ERROR";
-
-                // Compute duration
-                const endDateTime = new Date();
-                this._time = endDateTime.getTime() - startDateTime.getTime();
             }
 
             resolve();

@@ -1,10 +1,8 @@
-import * as net from "net";
-import { PortReport } from "../../common/business/report/portReport";
-import { Report } from "../../common/business/report/report";
-import { format } from "util";
+
 import { IChecker } from "../IChecker";
-import { PortResult } from "./portResult";
-import { OPTIONS, Options } from "../../common/business/options";
+import { PortResult } from "../../common/business/checker/portResult";
+import { PortListener } from "../../common/business/checker/portListener";
+import { PortReport } from "../../common/business/report/portReport";
 
 /**
  * Checker to analyze the server port allowed
@@ -15,7 +13,6 @@ export class PortListenerChecker implements IChecker {
     private _host : string;
     private _ports : number[];
     private _results : PortResult[];
-    private _report : Report;
 
     /**
      * Constructor
@@ -26,7 +23,6 @@ export class PortListenerChecker implements IChecker {
         this._host = host;
         this._ports = ports;
         this._results = [];
-        this._report = new PortReport();
     }
 
     /**
@@ -35,39 +31,14 @@ export class PortListenerChecker implements IChecker {
      */
     run(): Promise<void> {
         return new Promise<void>(async (resolve) => {
-
-            // Write user request
-            this._report.writeRequest(this);
-
-            // Run query
-            const promises = this._ports.map(p => { return this.checkPort(p); });
-            this._results = await Promise.all(promises);
-
-            // Write summary
-            this._report.writeSummary(this);
-
+            const portListener = new PortListener(this._host, this._ports, new PortReport());
+            await portListener.run();
+            this._results = portListener.results;
             resolve();
         });
     }
 
-    private checkPort(port: number) {
-        return new Promise<PortResult>((resolve) => {
-            const timeout = Options.instance.option(OPTIONS.PORTLISTENER_TIMEOUT);
-            const socket = net.connect(port, this._host);
-            if (timeout && timeout !== -1) {
-                socket.setTimeout(timeout);
-            }
-            socket.on("connect", () => {
-                this._report.changeStep(format("Listen %d port", port))
-                socket.destroy();
-                resolve(new PortResult(port, true));
-            });
-            socket.on("error", () => {
-                socket.destroy();
-                resolve(new PortResult(port, false));
-            });
-        });
-    }
+
 
     public get host() {
         return this._host;

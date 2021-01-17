@@ -1,4 +1,5 @@
 import * as winston from "winston";
+import { PortListenerExecutor } from "./executor/PortListenerExecutor";
 import { ReflectedXSSInjector } from "./executor/ReflectedXSSInjector";
 import { SQLAndInjector } from "./executor/SQLAndInjector";
 import { SQLErrorInjector } from "./executor/SQLErrorInjector";
@@ -18,6 +19,7 @@ export class TestFactory {
         this.register(SQLTimeInjector.executorName, new SQLTimeInjector());
         this.register(SQLUnionInjector.executorName, new SQLUnionInjector());
         this.register(ReflectedXSSInjector.executorName, new ReflectedXSSInjector());
+        this.register(PortListenerExecutor.executorName, new PortListenerExecutor());
     }
 
     public register(name: string, instance: TestExecutor) {

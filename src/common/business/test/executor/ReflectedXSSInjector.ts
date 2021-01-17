@@ -1,22 +1,20 @@
 import * as winston from "winston";
-
-import { TestExecutor } from "../testExecutor";
 import { ArrayUtils } from "../../../utils/arrayUtils";
 import { IBaseScoreMetrics } from "../baseScoreMetrics";
 import { readFileSync } from "fs-extra";
 import { ITestDescription } from "../description/testDescription";
 import { PayloadResult } from "../payloadResult";
-import { format } from "util";
 import { Evaluator } from "../../evaluator";
 import { PrettyPrint } from "../../../utils/prettyPrint";
-
-import PAYLOADS = require("../../../../config/payloads/XSSPayloads.json");
-import BASESCOREMETRICS = require("../../../../config/cvss/baseScoreMetricsReflectedXSS.json");
 import { inHTMLData } from "xss-filters";
 import { ICheckPayload } from "../description/checkPayload";
 import { RequestUtil } from "../../../utils/requestUtil";
+import { InjectionTestExecutor } from "../injectionTestExecutor";
 
-export class ReflectedXSSInjector extends TestExecutor {
+import PAYLOADS = require("../../../../config/payloads/XSSPayloads.json");
+import BASESCOREMETRICS = require("../../../../config/cvss/baseScoreMetricsReflectedXSS.json");
+
+export class ReflectedXSSInjector extends InjectionTestExecutor {
 
     protected _payloads : ICheckPayload[];
 
@@ -42,15 +40,10 @@ export class ReflectedXSSInjector extends TestExecutor {
     protected execute() {
         winston.debug("ReflectedXSS.execute");
         return new Promise<void>(async resolve => {
-            const startDateTime = new Date();
             try {
 
                 // Execute payloads
                 await this.executionPayloads();
-
-                // Compute duration
-                const endDateTime = new Date();
-                this._time = endDateTime.getTime() - startDateTime.getTime();
 
                 // Update status
                 const isInjected = this._payloadResults.find(p => { return p.status !== "NOT_INJECTED"; }) !== undefined;
@@ -59,10 +52,6 @@ export class ReflectedXSSInjector extends TestExecutor {
             } catch (err) {
                 winston.error("ReflectedXSS.execute - Internal error: ", err);
                 this._status = "ERROR";
-
-                // Compute duration
-                const endDateTime = new Date();
-                this._time = endDateTime.getTime() - startDateTime.getTime();
             }
 
             resolve();

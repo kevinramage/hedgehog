@@ -4,17 +4,17 @@ import { CVSSBaseScoreMetricsUtils } from "../../utils/cvssBaseScoreMetricsUtils
 import { Request } from "../request/request";
 import { Requests } from "../request/requests";
 import { IBaseScoreMetrics } from "./baseScoreMetrics";
-import { PayloadResult, PayloadResultType } from "./payloadResult";
+import { PayloadResultType } from "./payloadResult";
 import { ITestDescriptionHeader } from "./description/testDescriptionHeader";
 import { PrettyPrint } from "../../utils/prettyPrint";
 import { Extract } from "./extract";
 import { readFileSync } from "fs-extra";
+import { start } from "repl";
 
 export type FIX_COMPLEXITY = "simple" | "medium" | "complexity";
 
 export class TestExecutor {
 
-    protected _requests ?: Requests;
     protected _testDescription : ITestDescriptionHeader | undefined;
     protected _status : PayloadResultType;
     protected _reportTemplate : string;
@@ -23,7 +23,6 @@ export class TestExecutor {
     protected _fixComplexity : FIX_COMPLEXITY | undefined;
     protected _reportingVariables : {[key: string]: any} | undefined;
     protected _templateFileName : string;
-    protected _payloadResults : PayloadResult[];
     protected _fileName : string;
 
     constructor() {
@@ -31,7 +30,6 @@ export class TestExecutor {
         this._reportTemplate = "";
         this._time = 0;
         this._templateFileName = "";
-        this._payloadResults = [];
         this._fileName = "";
     }
 
@@ -70,8 +68,14 @@ export class TestExecutor {
         return new Promise<void>(async resolve => {
             this._testDescription = testDescription;
 
+            // Init
             this.init();
+
+            // Execute
+            const startDateTime = new Date();
             await this.execute();
+            const endDateTime = new Date();
+            this._time = endDateTime.getTime() - startDateTime.getTime();
 
             resolve();
         });
@@ -174,14 +178,6 @@ export class TestExecutor {
 
     protected get reportingVariables() {
         return this._reportingVariables as {[key: string]: any};
-    }
-
-    protected get requests() {
-        return this._requests as Requests;
-    }
-
-    public get payloadResults() {
-        return this._payloadResults;
     }
 
     public get fileName() {

@@ -4,6 +4,7 @@ import * as winston from "winston";
 import { TestFactory } from "./testFactory";
 import { ITestDescriptionHeader } from "./description/testDescriptionHeader";
 import { TestExecutor } from "./testExecutor";
+import { format } from "util";
 
 export class TestRunner {
 
@@ -16,6 +17,9 @@ export class TestRunner {
                 // Create executor
                 const testDescription = await this.readTestFile(fileName);
                 this._executor = TestFactory.instance.getExecutor(testDescription.test.type);
+                if (!this._executor) {
+                    throw new Error(format("Invalid test type '%s'", testDescription.test.type));
+                }
                 this._executor.fileName = fileName;
 
                 // Execute it
