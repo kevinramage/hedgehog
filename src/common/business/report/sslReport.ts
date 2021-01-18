@@ -4,10 +4,11 @@ import * as winston from "winston";
 import { format } from "util";
 import { SSLMethodChecker } from "../../../checker/sslMethod/sslMethodChecker";
 import { SSL_METHOD } from "../checker/SSLMethod";
+import { SSLMethodListener } from "../checker/sslMethodListener";
 
 export class SSLReport extends Report{
 
-    writeRequest(sslMethodChecker: SSLMethodChecker) {
+    writeRequest(sslMethodChecker: SSLMethodListener) {
         super.writeRequest(sslMethodChecker);
 
         winston.info(Report.SEPARATOR);

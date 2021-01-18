@@ -111,6 +111,18 @@ export class CipherListener {
         });
     }
 
+    public get host() {
+        return this._host;
+    }
+
+    public get port() {
+        return this._port;
+    }
+
+    public get path() {
+        return this._path;
+    }
+
     public get results() {
         return this._results;
     }

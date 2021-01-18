@@ -2,10 +2,11 @@ import { Report } from "./report";
 import * as winston from "winston";
 import { format } from "util";
 import { CipherChecker } from "../../../checker/cipher/cipherChecker";
+import { CipherListener } from "../checker/cipherListener";
 
 export class CipherReport extends Report {
 
-    writeRequest(cipherChecker: CipherChecker) {
+    writeRequest(cipherChecker: CipherListener) {
         super.writeRequest(cipherChecker);
 
         winston.info(Report.SEPARATOR);
@@ -19,7 +20,7 @@ export class CipherReport extends Report {
         winston.info(Report.SEPARATOR);
     }
 
-    writeSummary(cipherChecker: CipherChecker) {
+    writeSummary(cipherChecker: CipherListener) {
         super.writeSummary(cipherChecker);
 
         const ciphersAvailable = cipherChecker.results.filter(c => { return c.isListening; })

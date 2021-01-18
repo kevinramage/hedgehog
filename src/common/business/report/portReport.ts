@@ -2,14 +2,16 @@ import { PortListenerChecker } from "../../../checker/port/portListenerChecker";
 import { Report } from "./report";
 import * as winston from "winston";
 import { format } from "util";
+import { PortListener } from "../checker/portListener";
 
 export class PortReport extends Report{
 
-    writeRequest(portListener: PortListenerChecker) {
+    writeRequest(portListener: PortListener) {
         super.writeRequest(portListener);
 
         // Pretty print ports
         let ports;
+        console.info("Ports: " + portListener.ports);
         if (portListener.ports.length > 20) {
             const start = portListener.ports.filter((p, i) => { return i < 3; }).join(", ");
             const end = portListener.ports.filter((p, i) => { return i > portListener.ports.length - 4; }).join(", ");
@@ -27,7 +29,7 @@ export class PortReport extends Report{
         winston.info(Report.SEPARATOR);
     }
 
-    writeSummary(portListener: PortListenerChecker) {
+    writeSummary(portListener: PortListener) {
         super.writeSummary(portListener);
         const compare = (a: number, b: number) => { return a > b ? 1 : -1; };
         const results = portListener.results;

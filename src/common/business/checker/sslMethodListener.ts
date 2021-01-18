@@ -118,6 +118,14 @@ export class SSLMethodListener {
         });
     }
 
+    public get host() {
+        return this._server;
+    }
+
+    public get port() {
+        return this._port;
+    }
+
     public get results() {
         return this._results;
     }

@@ -6,13 +6,13 @@ import { PortResult } from "./portResult";
 
 export class PortListener {
     private _server : string;
-    private _portsToCheck : number[];
+    private _ports : number[];
     private _report ?: Report;
     private _results : PortResult[];
 
     constructor(server: string, ports: number[], report ?: Report) {
         this._server = server;
-        this._portsToCheck = ports;
+        this._ports = ports;
         this._results = [];
         this._report = report;
     }
@@ -26,7 +26,7 @@ export class PortListener {
             }
 
             // Run query
-            const promises = this._portsToCheck.map(p => { return this.checkPort(p); });
+            const promises = this._ports.map(p => { return this.checkPort(p); });
             this._results = await Promise.all(promises);
 
             // Write summary
@@ -61,5 +61,13 @@ export class PortListener {
 
     public get results() {
         return this._results;
+    }
+
+    public get host() {
+        return this._server;
+    }
+
+    public get ports() {
+        return this._ports;
     }
 }
