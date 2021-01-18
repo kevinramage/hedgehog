@@ -21,8 +21,9 @@ export class SSLMethodExecutor extends TestExecutor {
         this._port = 0;
         this._validSSLMethods = [];
         this._sslMethodResults = [];
+        this._fixComplexity = "simple";
         this._baseScoreMetrics = BASESCOREMETRICS as IBaseScoreMetrics;
-        this._templateFileName = "resources/template/test/SSLMethodTemplate.html";        
+        this._templateFileName = "resources/template/test/SSLMethodTemplate.html";
     }
 
     init() {
@@ -101,5 +102,5 @@ export class SSLMethodExecutor extends TestExecutor {
 
     public static get executorName() {
         return "SSLMethodExecutor";
-    }    
+    }
 }

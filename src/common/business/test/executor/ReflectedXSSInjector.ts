@@ -21,6 +21,7 @@ export class ReflectedXSSInjector extends InjectionTestExecutor {
     constructor() {
         super();
         this._payloads = ArrayUtils.shuffle(PAYLOADS as ICheckPayload[]);
+        this._fixComplexity = "simple";
         this._baseScoreMetrics = BASESCOREMETRICS as IBaseScoreMetrics;
         this._templateFileName = "resources/template/test/ReflectedXSSTemplate.html";
     }

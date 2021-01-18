@@ -21,6 +21,7 @@ export class PortListenerExecutor extends TestExecutor {
         this._host = "";
         this._portsToCheck = [];
         this._validPorts = [];
+        this._fixComplexity = "medium";
         this._baseScoreMetrics = BASESCOREMETRICS as IBaseScoreMetrics;
         this._templateFileName = "resources/template/test/PortListenerTemplate.html";
         this._portResults = [];
@@ -76,7 +77,7 @@ export class PortListenerExecutor extends TestExecutor {
     }
 
     protected generatePortsVariable() : any[] {
-        winston.debug("ReflectedXSS.generatePayloadsVariable");
+        winston.debug("PortListenerExecutor.generatePayloadsVariable");
         return this._portResults.map(r => {
             return {
                 "content": r.port,

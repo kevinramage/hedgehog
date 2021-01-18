@@ -6,8 +6,6 @@ tags:
 - ssl
 - cipher
 test:
-  type: CipherChecker
-  server: myserver.com
+  type: CipherListenerExecutor
+  host: defendtheweb.net
   port: 443
-  ciphers:
-  - XXX

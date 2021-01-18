@@ -26,7 +26,7 @@ export class SSLMethodListener {
             if (this._report) {
                 this._report.writeRequest(this);
             }
-            
+
             const methods = [SSL_METHOD.SSLV3, SSL_METHOD.TLSV1, SSL_METHOD.TLSV1_1, SSL_METHOD.TLSV1_2, SSL_METHOD.TLSV1_3];
             const promises = methods.map(m => { return this.runQuery(m); });
             this._results = await Promise.all(promises);
