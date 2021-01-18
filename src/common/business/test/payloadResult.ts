@@ -6,4 +6,4 @@ export interface PayloadResult {
     time : number;
 }
 
-export type PayloadResultType = "INJECTED" | "NOT_INJECTED" | "ERROR" | "NOT_DEFINED";
+export type PayloadResultType = "INJECTED" | "NOT_INJECTED" | "ERROR" | "NOT_DEFINED" | "WARNING";

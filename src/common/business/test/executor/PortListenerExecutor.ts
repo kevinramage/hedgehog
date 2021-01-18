@@ -3,11 +3,11 @@ import { PortListener } from "../../checker/portListener";
 import { IPortListenerDescription } from "../description/portListenerDescription";
 import { TestExecutor } from "../testExecutor";
 import { IBaseScoreMetrics } from "../baseScoreMetrics";
-import BASESCOREMETRICS = require("../../../../config/cvss/baseScoreMetricsPortListener.json");
 import { Evaluator } from "../../evaluator";
 import { readFileSync } from "fs-extra";
 import { PortResult } from "../../checker/portResult";
 
+import BASESCOREMETRICS = require("../../../../config/cvss/baseScoreMetricsPortListener.json");
 
 export class PortListenerExecutor extends TestExecutor {
 
@@ -72,7 +72,6 @@ export class PortListenerExecutor extends TestExecutor {
         const portsKey = "ports";
         this.reportingVariables[portsKey] = this.generatePortsVariable();
 
-        // this.reportingVariables[payloadsKey] = this.generatePayloadsVariable();
         return Evaluator.evaluate(this.reportingVariables, this._reportTemplate);
     }
 

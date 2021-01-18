@@ -6,7 +6,7 @@ tags:
 - port
 test:
   type: PortListenerExecutor
-  server: localhost
+  host: localhost
   portsToCheck:
     min: 1
     max: 1023

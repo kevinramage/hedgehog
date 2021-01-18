@@ -38,7 +38,7 @@ export class TestExecutor {
         this._reportingVariables = {
             "test.name": this.testDescription.name,
             "execution.status": this.status,
-            "execution.statusClass": this.status === "NOT_INJECTED" ? "SUCCESS" : "FAILED",
+            "execution.statusClass": this.status !== "NOT_INJECTED" ? (this.status === "WARNING") ? "WARNING" : "FAILED" : "SUCCESS" ,
             "execution.time": PrettyPrint.printTime(this._time),
             "test.fixComplexity": this._fixComplexity,
             "execution.baseScore": baseScoreMetrics.baseScore,

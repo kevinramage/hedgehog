@@ -6,9 +6,6 @@ tags:
 - ssl
 - ssl method
 test:
-  type: SSLMethodChecker
-  server: myserver.com
+  type: SSLMethodExecutor
+  host: defendtheweb.net
   port: 443
-  sslMethods:
-  - TLS1.1
-  - TLS1.2

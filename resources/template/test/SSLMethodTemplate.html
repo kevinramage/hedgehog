@@ -7,7 +7,7 @@
     </div>
     <div>
         <label>Type: </label>
-        <span>PortListener</span>
+        <span>SSLMethodListener</span>
     </div>
     <div>
         <label>Status:</label>
@@ -35,18 +35,18 @@
     </div>
     <div>
         <label>Execution summary:</label>
-        <span>{{ execution.portsCheckedLength }} ports checked ({{ execution.portsInjectedLength }} ports listening)</span>
+        <span>{{ execution.sslMethodsCheckedLength }} SSL methods checked ({{ execution.sslMethodsListeningLength }} SSL methods listening)</span>
     </div>
 
-    <h3>Ports:</h3>
+    <h3>SSL Methods:</h3>
     <span class="titleBar small"></span>
     <div class="payloadDetail">
         <table>
             <tr>
-                <th>Port</th>
+                <th>SSL Method</th>
                 <th>Status</th>
             </tr>
-            {{LOOP condition=ports content=<tr>
+            {{LOOP condition=sslMethods content=<tr>
                 <td>{{content}}</td>
                 <td class="result {{statusClass}}">{{status}}</td>
             </tr>

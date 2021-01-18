@@ -6,6 +6,7 @@ import { SQLErrorInjector } from "./executor/SQLErrorInjector";
 import { SQLOrInjector } from "./executor/SQLOrInjector";
 import { SQLTimeInjector } from "./executor/SQLTimeInjector";
 import { SQLUnionInjector } from "./executor/SQLUnionInjection";
+import { SSLMethodExecutor } from "./executor/SSLMethodExecutor";
 import { TestExecutor } from "./testExecutor";
 
 export class TestFactory {
@@ -20,6 +21,7 @@ export class TestFactory {
         this.register(SQLUnionInjector.executorName, new SQLUnionInjector());
         this.register(ReflectedXSSInjector.executorName, new ReflectedXSSInjector());
         this.register(PortListenerExecutor.executorName, new PortListenerExecutor());
+        this.register(SSLMethodExecutor.executorName, new SSLMethodExecutor());
     }
 
     public register(name: string, instance: TestExecutor) {

@@ -2,7 +2,8 @@
 import { Report } from "./report";
 import * as winston from "winston";
 import { format } from "util";
-import { SSLMethodChecker, SSL_METHOD } from "../../../checker/sslMethod/sslMethodChecker";
+import { SSLMethodChecker } from "../../../checker/sslMethod/sslMethodChecker";
+import { SSL_METHOD } from "../checker/SSLMethod";
 
 export class SSLReport extends Report{
 

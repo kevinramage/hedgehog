@@ -7,7 +7,7 @@ Executor to check the listening ports on the server.
 | Name         | Required | Description 
 | ------------ | -------- | ------------
 | type         | Yes      | Must equals to value "PortListenerExecutor"
-| server       | Yes      | Server to check
+| host         | Yes      | Host to check
 | portsToCheck | Yes      | An object (min/max) to check a port list
 | validPorts   | Yes      | An integer list of valid ports
 
