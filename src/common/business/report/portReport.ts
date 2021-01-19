@@ -11,7 +11,6 @@ export class PortReport extends Report{
 
         // Pretty print ports
         let ports;
-        console.info("Ports: " + portListener.ports);
         if (portListener.ports.length > 20) {
             const start = portListener.ports.filter((p, i) => { return i < 3; }).join(", ");
             const end = portListener.ports.filter((p, i) => { return i > portListener.ports.length - 4; }).join(", ");

@@ -22,7 +22,6 @@ export class PortListenerChecker implements IChecker {
     constructor(host: string, ports: number[]) {
         this._host = host;
         this._ports = ports;
-        console.info("Ports: " + ports);
         this._results = [];
     }
 
