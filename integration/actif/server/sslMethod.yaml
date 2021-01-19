@@ -6,6 +6,6 @@ tags:
 - ssl
 - ssl method
 test:
-  type: SSLMethodExecutor
+  type: SSLMethodListenerExecutor
   host: defendtheweb.net
   port: 443

@@ -9,17 +9,15 @@ import { SSLMethodListener } from "../../checker/sslMethodListener";
 import { SSL_METHOD } from "../../checker/SSLMethod";
 import { Evaluator } from "../../evaluator";
 
-export class SSLMethodExecutor extends TestExecutor {
+export class SSLMethodListenerExecutor extends TestExecutor {
     private _host : string;
     private _port : number;
-    private _validSSLMethods : string[];
     private _sslMethodResults : SSLMethodResult[];
 
     constructor() {
         super();
         this._host = "";
         this._port = 0;
-        this._validSSLMethods = [];
         this._sslMethodResults = [];
         this._fixComplexity = "simple";
         this._baseScoreMetrics = BASESCOREMETRICS as IBaseScoreMetrics;
@@ -32,7 +30,6 @@ export class SSLMethodExecutor extends TestExecutor {
         const test = this.testDescription.test as ISSLMethodDescription;
         this._host = test.host;
         this._port = test.port;
-        this._validSSLMethods = test.validSSLMethods;
 
         // Read report template
         const buffer = readFileSync(this._templateFileName);
@@ -101,6 +98,6 @@ export class SSLMethodExecutor extends TestExecutor {
     }
 
     public static get executorName() {
-        return "SSLMethodExecutor";
+        return "SSLMethodListenerExecutor";
     }
 }
