@@ -1,5 +1,7 @@
 import * as winston from "winston";
+import { CertificateExecutor } from "./executor/CertificateExecutor";
 import { CipherListenerExecutor } from "./executor/CipherListenerExecutor";
+import { MethodListenerExecutor } from "./executor/MethodListenerExecutor";
 import { PortListenerExecutor } from "./executor/PortListenerExecutor";
 import { ReflectedXSSInjector } from "./executor/ReflectedXSSInjector";
 import { SQLAndInjector } from "./executor/SQLAndInjector";
@@ -24,6 +26,8 @@ export class TestFactory {
         this.register(PortListenerExecutor.executorName, new PortListenerExecutor());
         this.register(SSLMethodListenerExecutor.executorName, new SSLMethodListenerExecutor());
         this.register(CipherListenerExecutor.executorName, new CipherListenerExecutor());
+        this.register(MethodListenerExecutor.executorName, new MethodListenerExecutor());
+        this.register(CertificateExecutor.executorName, new CertificateExecutor());
     }
 
     public register(name: string, instance: TestExecutor) {

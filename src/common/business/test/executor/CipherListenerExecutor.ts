@@ -4,10 +4,10 @@ import { CipherResult } from "../../checker/cipherResult";
 import { readFileSync } from "fs-extra";
 import { CipherListener } from "../../checker/cipherListener";
 import { ICipherListenerDescription } from "../description/cipherListenerDescription"
-
-import BASESCOREMETRICS = require("../../../../config/cvss/baseScoreMetricsPortListener.json");
 import { Evaluator } from "../../evaluator";
 import { IBaseScoreMetrics } from "../baseScoreMetrics";
+
+import BASESCOREMETRICS = require("../../../../config/cvss/baseScoreMetricsPortListener.json");
 
 export class CipherListenerExecutor extends TestExecutor {
     private _host: string;

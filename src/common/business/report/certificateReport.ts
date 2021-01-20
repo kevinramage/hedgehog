@@ -3,10 +3,11 @@ import { Report } from "./report";
 
 import * as winston from "winston";
 import { format } from "util";
+import { CertificateCheckerBusiness } from "../checker/certificateChecker";
 
 export class CertificateReport extends Report {
 
-    writeRequest(certificateChecker: CertificateChecker) {
+    writeRequest(certificateChecker: CertificateCheckerBusiness) {
         super.writeRequest(certificateChecker);
 
         winston.info(Report.SEPARATOR);
@@ -18,7 +19,7 @@ export class CertificateReport extends Report {
         winston.info(Report.SEPARATOR);
     }
 
-    writeSummary(certificateChecker: CertificateChecker) {
+    writeSummary(certificateChecker: CertificateCheckerBusiness) {
         super.writeSummary(certificateChecker);
         const certificateChain = certificateChecker.result.certificateChain.reverse().map((value, index) => {
             return "* " + ("  ").repeat(index) + value;

@@ -1,10 +1,8 @@
 import { IChecker } from "../IChecker";
-import { Request, REQUEST_METHODS } from "../../common/business/request/request";
-import { ICertificate } from "../../common/business/request/certificate";
-import { CertificateResult } from "./certificateResult";
-import { DomainUtils } from "../../common/utils/domainUtils";
+import { CertificateResult } from "../../common/business/checker/certificateResult";
 import { Report } from "../../common/business/report/report";
 import { CertificateReport } from "../../common/business/report/certificateReport";
+import { CertificateCheckerBusiness } from "../../common/business/checker/certificateChecker";
 
 
 /**
@@ -33,82 +31,16 @@ export class CertificateChecker implements IChecker {
      */
     public run(): Promise<void> {
         return new Promise<void>(async (resolve) => {
-            this._report.writeRequest(this);
-            this._result = await this.runQuery();
-            this._report.writeSummary(this);
+
+            const certificateCheckerBusiness = new CertificateCheckerBusiness(this.host, this.port, new CertificateReport());
+            await certificateCheckerBusiness.run();
+
+            this._result = certificateCheckerBusiness.result;
+
             resolve();
         });
     }
 
-    // Manage certication chain simple PKI and multiple PKI
-    private runQuery() {
-        return new Promise<CertificateResult>(async (resolve) => {
-            const request = new Request(this._host, this._port, REQUEST_METHODS.GET, "/");
-            request.ssl = true;
-            const response = await request.send();
-            const certificate = response.certificate as ICertificate;
-            const result = new CertificateResult();
-            result.certificateChain = this.getCertificateChain(certificate);
-            result.isNotExpired = this.checkCertificateExpiration(certificate, "");
-            result.isCommonNameValid = this.checkCommonName(certificate, this._host);
-            resolve(result);
-        });
-
-    }
-
-    private getCertificateChain(certificate : ICertificate) {
-        return [certificate.subject.CN].concat(this.getIssuersChain(certificate));
-    }
-
-    private getIssuersChain(certificate: ICertificate) {
-        const issuers : string[] = [];
-        let currentCN = "";
-        let currentCerificate = certificate;
-        while (currentCerificate && currentCerificate.issuer && currentCerificate.issuer.CN && currentCN !== currentCerificate.issuer.CN) {
-            currentCN = currentCerificate.issuer.CN;
-            currentCerificate = currentCerificate.issuerCertificate;
-            issuers.push(currentCN);
-        }
-        return issuers;
-    }
-
-    private checkCertificateExpiration(certificate: ICertificate, previousCN: string) : boolean {
-
-        if (certificate && certificate.issuer && certificate.issuer.CN && certificate.issuer.CN !== previousCN) {
-            const currentDate = new Date().getTime();
-            const validFrom = new Date(certificate.valid_from).getTime();
-            const validTo = new Date(certificate.valid_to).getTime();
-            const isCertificateValid = currentDate >= validFrom && currentDate <= validTo;
-            const nextCertificate = certificate.issuerCertificate;
-            return isCertificateValid && this.checkCertificateExpiration(nextCertificate, certificate.issuer.CN);
-
-        } else {
-            return true;
-        }
-    }
-
-    private getAlternativeNames(alternativeNameArg: string) {
-        return alternativeNameArg.split(",").map(san => { return san.trim().substr(("DNS:").length) })
-    }
-
-    private checkCommonName(certificate: ICertificate, host: string) {
-        let isValidCommonName = false;
-
-        // Common name
-        if (certificate && certificate.subject && certificate.subject.CN) {
-            isValidCommonName = DomainUtils.isIncludedInCommonName(certificate.subject.CN, host);
-        }
-
-        // Alternative names
-        if (certificate && certificate.subjectaltname) {
-            const alternativesName = this.getAlternativeNames(certificate.subjectaltname);
-            alternativesName.forEach((alternativeName) => {
-                isValidCommonName = isValidCommonName || DomainUtils.isIncludedInCommonName(alternativeName, host);
-            });
-        }
-
-        return isValidCommonName;
-    }
 
     public get host() {
         return this._host;

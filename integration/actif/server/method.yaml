@@ -1,0 +1,11 @@
+name: Method
+goal: Check the method listening
+description: Check the method listening
+tags:
+- server
+- method
+test:
+  type: MethodListenerExecutor
+  host: localhost
+  port: 8081
+  path: "/"

@@ -1,16 +1,8 @@
-import * as https from "https";
-import { IncomingMessage, request, RequestOptions } from "http";
-import { format } from "util";
 import { IChecker } from "../IChecker";
-import { MethodResult } from "./methodResult";
 import { Report } from "../../common/business/report/report";
 import { MethodReport } from "../../common/business/report/methodReport";
-import { REQUEST_METHODS } from "../../common/business/request/request";
-
-import HTTP_METHODS = require("../../config/connection/httpMethod.json");
-import { Proxy } from "../../common/business/request/proxy";
-import { RequestUtil } from "../../common/utils/requestUtil";
-
+import { MethodResult } from "../../common/business/checker/methodResult";
+import { MethodListener } from "../../common/business/checker/methodListener";
 
 /**
  * Checker to test http method allow by the server
@@ -46,95 +38,13 @@ export class MethodChecker implements IChecker {
      */
     public run(): Promise<void> {
         return new Promise<void>(async (resolve) => {
-            this._methodsToCheck = HTTP_METHODS as string[];
-            this._report.writeRequest(this);
-            const promises = this._methodsToCheck.map(m => { return this.runQuery(m.toUpperCase()); });
-            this._results = await Promise.all(promises);
-            this._report.writeSummary(this);
+
+            const methodListener = new MethodListener(this.host, this.port, this.path, this.ssl, new MethodReport());
+            await methodListener.run();
+
+            this._results = methodListener.results;
+
             resolve();
-        });
-    }
-
-    /**
-     * Check the availability of http method for an host, port and path
-     * @param httpMethod http method to check
-     */
-    private runQuery(httpMethod: string) {
-        return new Promise<MethodResult>(async (resolve) => {
-
-            // Prepare request
-            const options : RequestOptions = {
-                hostname: this._host,
-                path: encodeURI(this._path),
-                method: httpMethod
-            };
-
-            // For HTTP request, we must not defined port attribute for port 80
-            if (this._port !== 80) {
-                options.port = this._port;
-            }
-
-            // Update options when proxy defined
-            const proxy = await Proxy.getProxy();
-            Proxy.updateRequestWithProxy(proxy, this.ssl, options);
-
-            // Handler
-            let responseProvided = false;
-            const errorHandler = (err: any) => {
-                if (!responseProvided) {
-                    responseProvided = true;
-                    const errorCode = (err.code) ? err.code : "NO ERROR CODE";
-                    resolve(new MethodResult(httpMethod, false, errorCode));
-                }
-            };
-
-            // Response handler
-            const responseHandler = (response : IncomingMessage) => {
-                response.on("error", errorHandler);
-                response.on("data", () => {
-                    // Listener required else the end listener not trigger, bug ??
-                });
-                response.on("end", () => {
-                    if (!response.statusCode || !response.statusCode.toString().startsWith("4")){
-                        this._report.changeStep(format("%s listening => %d", httpMethod, response.statusCode));
-                        resolve(new MethodResult(httpMethod, true, ""));
-                    } else {
-                        resolve(new MethodResult(httpMethod, false, ""));
-                    }
-                });
-            };
-
-            // Run request
-            try {
-                // Create request
-                const req = this._ssl ? https.request(options, responseHandler) : request(options, responseHandler);
-
-                // Connect
-                req.on("connect", (response) => {
-                    if (httpMethod === REQUEST_METHODS.CONNECT) {
-                        if (!response.statusCode || !response.statusCode.toString().startsWith("4")){
-                            this._report.changeStep(format("%s listening => %d", httpMethod, response.statusCode));
-                            resolve(new MethodResult(httpMethod, true, ""));
-                        } else {
-                            resolve(new MethodResult(httpMethod, false, ""));
-                        }
-                    }
-                });
-
-                // Error handling
-                req.on("error", (errorHandler));
-
-                // Add proxy authorization if required
-                Proxy.addProxyAuthorization(req, proxy);
-
-                // Add additionnal headers
-                RequestUtil.addAdditionalHeaders(req);
-
-                // Send request
-                req.end();
-            } catch (err) {
-                errorHandler(err);
-            }
         });
     }
 

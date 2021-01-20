@@ -6,5 +6,6 @@ tags:
 - ssl
 - certificate
 test:
-  type: CertificateChecker
-  server: myserver.com
+  type: CertificateExecutor
+  host: defendtheweb.net
+  port: 443
